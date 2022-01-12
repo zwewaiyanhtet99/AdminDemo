@@ -1,0 +1,49 @@
+﻿@model ABankAdmin.Models.ACC_Service_Desc
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Account Service Description</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Account_Services_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.acc_service.Acc_Description)
+        </dd>
+
+        <dt style="margin-top:20px;">
+            @Html.DisplayNameFor(model => model.Desc)
+        </dt>
+
+        <dd style="margin-top:20px;">
+            @Html.DisplayFor(model => model.Desc)
+        </dd>
+
+        <dt style="margin-top:20px;">
+            @Html.DisplayNameFor(model => model.OrderNo)
+        </dt>
+
+        <dd style="margin-top:20px;">
+            @Html.DisplayFor(model => model.OrderNo)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <input type="submit" value="Delete" class="btn btn-danger"/>
+    @Html.ActionLink("Cancel", "Index", null, null, new { @*href = Request.UrlReferrer,*@ @class = "btn btn-default" })
+    @*@Html.ActionLink("Back to List", "Index")*@
+</div>
+    }
+</div>

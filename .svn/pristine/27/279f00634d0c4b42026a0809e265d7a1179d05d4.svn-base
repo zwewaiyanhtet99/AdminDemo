@@ -1,0 +1,163 @@
+﻿@model ABankAdmin.ViewModels.PrivilegeUsageCreateVM
+@{
+    ViewBag.Title = "Create Privilege Usage";
+}
+
+<h2>Create Privilege Usage</h2>
+
+@using (Html.BeginForm("CreatePrivilegeUsage", "PrivilegeUsage", FormMethod.Post, new { autocomplete = "off", @id = "create" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Privilege Model</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-2", @style = "width:21%" })
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CustomerNRC, htmlAttributes: new { @class = "control-label col-md-2", @style = "width:21%" })
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.CustomerNRC, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CustomerNRC, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IconicNumber, htmlAttributes: new { @class = "control-label col-md-2", @style = "width:21%" })
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.IconicNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IconicNumber, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-2" style="margin-left: -1px;">
+                <button type="button" class="btn btn-default" onclick="checkInfo()">Fetch</button>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IconicTier, htmlAttributes: new { @class = "control-label col-md-2", @style = "width:21%" })
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.IconicTier, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.IconicTier, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IconicExpireDate, htmlAttributes: new { @class = "control-label col-md-2", @style = "width:21%" })
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.IconicExpireDate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.IconicExpireDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="padding-left: 45px;">
+                <input type="button" value="Create" id="btnNext" class="btn btn-success" />
+                    @Html.ActionLink("Cancel", null, null, null, new { href = Request.UrlReferrer, @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+<div class="modal modal-danger" id="divError">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Getting Retail User</h4>
+            </div>
+            <div class="modal-body">
+                <p id="pMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            $("#DateAndTime").datetimepicker();
+        });
+
+        $('#btnNext').click(function () {
+            $('#create').submit();
+        });
+
+        function checkInfo() {
+            var obj = getInputData();
+            //to check iconic number is null
+            if (obj.IconicNo == "" || obj.IconicNo == undefined) {
+                $("#pMessage").text("Iconic is required.");
+                $("#divError").modal('toggle');
+                return;
+            }
+
+
+            //clear existing searched data
+            $("#IconicTier").val('');
+            $("#IconicNumber").val('');
+            $("#IconicExpireDate").val('');
+            $("#accTbody > tr").remove();
+            //$("#awttbody > tr").remove();
+            //get new by CIFID
+            $.ajax({
+                type: "GET",
+                url: "/PrivilegeUsage/getCIFIDInfo",
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false,
+                data: obj,
+                cache: false,
+                success: function (data) {
+                    if (data.IconicNumber != null && data.IconicTier != null) {
+                        $("#IconicTier").val(data.IconicTier);
+                        $("#IconicNumber").val(data.IconicNumber);
+                        $("#IconicExpireDate").val(data.IconicExpireDate);
+                        $("#NRC").val(data.NRC);
+                        return;
+                    }
+                    else if (data.message != null) {
+                        $("#pMessage").text(data.message);
+                        $("#divError").modal('toggle');
+                    }
+                    else if (data.ResponseCode != null & data.ResponseCode != '000') {
+                        $("#pMessage").text(data.ResponseDesc);
+                        $("#divError").modal('toggle');
+                    }
+                    else {
+                        $("#pMessage").text("This CIFID doesn't exist.");
+                        $("#divError").modal('toggle');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    if (status != null) {
+                        userPermission();
+                    }
+
+                }
+            });
+            return;
+        }
+        function getInputData() {
+            return { IconicNo: $("#IconicNumber").val().trim() };
+        }
+        function userPermission() {
+            $("#errorMessage").text("You don't have permission !");
+            $("#userPermissionError").modal('toggle');
+        }
+
+    </script>
+
+}
+

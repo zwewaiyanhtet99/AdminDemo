@@ -1,0 +1,158 @@
+﻿@model ABankAdmin.ViewModels.ReqApvTranRuleAndDetailVM
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Approved Rule Details</h2>
+<hr style="display:block" />
+<div class="row">
+    <div div class="col-sm-6">
+        <h3>Approve Rule Information</h3>
+        <dl class="dl-horizontal">
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.COMPANY_NAME)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.COMPANY_NAME)
+            </dd>
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.IsForBulkPayment)
+            </dt>
+
+            <dd>
+                @if (Model.IsForBulkPayment)
+                {
+                    <text>Bulk</text>
+                }
+                else
+                {
+                    <text>Normal</text>
+                }
+            </dd>
+
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.FROM_AMT)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FROM_AMT)
+            </dd>
+
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.TO_AMT)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TO_AMT)
+            </dd>
+
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.CURRENCY)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CURRENCY)
+            </dd>
+
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.NO_OF_APPROVERS)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NO_OF_APPROVERS)
+            </dd>
+
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.APPROVERS)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.APPROVERS)
+            </dd>
+
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.POSITIONS)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.POSITIONS)
+            </dd>           
+        </dl>
+    </div>
+    <div class="col-sm-6">
+        <h3>Maker and Checker</h3>
+        <dl class="dl-horizontal">
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.TYPE)
+            </dt>
+
+            <dd>
+                @if (Model.TYPE == 0)
+                {<text>Register</text>}
+            else if (Model.TYPE == 1)
+            { <text>Update</text>}
+        else if (Model.TYPE == 2)
+        { <text>Delete</text>}
+            </dd>
+
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.STATUS)
+            </dt>
+
+            <dd>
+                @if (Model.STATUS == 0)
+                {<text>Requested</text>}
+            else if (Model.STATUS == 1)
+            { <text>Approved</text>}
+        else if (Model.STATUS == 2)
+        { <text>Rejected</text>}
+            </dd>
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.MAKER)
+            </dt>
+
+            <dd>
+                @*@ViewBag.Maker*@
+                @Html.DisplayFor(model => model.MAKER)
+            </dd>
+
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.REQUESTEDDATE)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.REQUESTEDDATE)
+            </dd>
+
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.CHECKER)
+            </dt>
+
+            <dd>
+                @*@ViewBag.Checker*@
+                @Html.DisplayFor(model => model.CHECKER)
+            </dd>
+
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.CHECKEDDATE)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CHECKEDDATE)
+            </dd>
+
+            <dt style="width:170px;text-align:left">
+                @Html.DisplayNameFor(model => model.CHECKERREASON)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CHECKERREASON)
+            </dd>
+        </dl>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "ApprovedIndex")
+</p>

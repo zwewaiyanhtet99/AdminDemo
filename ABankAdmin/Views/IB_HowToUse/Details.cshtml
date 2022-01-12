@@ -1,0 +1,41 @@
+﻿@model ABankAdmin.Models.IB_HowToUse
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>IB_HowToUse</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MenuID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VrIB_Menu.Menu_Name)
+        </dd>
+        <dt style="padding-top:10px;">
+            @Html.DisplayNameFor(model => model.FormName)
+        </dt>
+
+        <dd style="padding-top:10px;">
+            @Html.DisplayFor(model => model.FormName)
+        </dd>
+
+        <dt style="padding-top:10px;">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd style="padding-top:10px;">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new {@class="btn btn-success"})
+    @Html.ActionLink("Cancel", "Index", null, null, new { @*href = Request.UrlReferrer,*@ @class = "btn btn-default" })
+</p>

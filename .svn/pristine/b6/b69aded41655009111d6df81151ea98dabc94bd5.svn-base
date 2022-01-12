@@ -1,0 +1,99 @@
+﻿@model IEnumerable<ABankAdmin.Models.IconicBookingModel>
+
+@{
+    ViewBag.Title = "Booking Info";
+}
+
+<h3>THE ICONIC Reserved Number</h3>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BOOKINGNUMBER)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.InUse)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CREATEDUSERID)
+                </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section Scripts {
+    <script>
+        $(function () {
+
+            /*disable datatable warnings*/
+            $.fn.dataTable.ext.errMode = 'none';
+
+                $("#myTable").dataTable(
+                    {
+                        //"stateSave": true, // to save current state when going to next page
+                        //"processing": true, // for show processing bar
+                        "serverSide": true, // for process on server side
+                        "orderMulti": false, // for disable multi column order
+                        "dom": '<"top"i>rt<"bottom"lp><"clear">', // for hide default global search box // little confusion? don't worry I explained in the tutorial website
+                        "ajax": {
+                            "url": "/IconicBookingModels/Index",
+                            "type": "POST",
+                            "datatype": "json"
+                        },
+                        "columns": [
+                              { "data": "BookingNo", "name": "BookingNo", "autoWidth": true },
+                              { "data": "Description", "name": "Description", "autoWidth": true },
+                            {
+                                "data": "InUse", "name": "InUse", "autoWidth": true,
+                                render: function (data, type, row) {
+                                  
+                                    if (data === true) {
+                                        data = "1";
+                                        return data;
+                                    }
+
+                                    else {
+                                        data = "0";
+                                        return data;
+                                    }
+
+                                }
+                            },
+                            { "data": "Createduserid", "name": "Createduserid", "autoWidth": true },
+                              
+                            {// this is Actions Column
+                                mRender: function (data, type, row) {
+                                    @*var linkEdit = '@Html.ActionLink("Edit", "Edit", new {id= -1 })';
+                                    linkEdit = linkEdit.replace("-1", row.ID);*@
+
+                                    var linkDetails = '@Html.ActionLink("Details", "Details", new {id= -1 })';
+                                    linkDetails = linkDetails.replace("-1", row.ID);
+
+                                    var linkDelete = '@Html.ActionLink("Delete", "Delete", new {id= -1 })';
+                                    linkDelete = linkDelete.replace("-1", row.ID);
+                                    @*var linkTest = '@Html.ActionLink("Test", "PDF", new {id= -1 })';*@
+
+                                    //return linkEdit + " | " + linkDelete + " | " + linkDetails ;
+                                    return  linkDelete + " | " + linkDetails ;
+                             },
+                                width: "100px",
+                                orderable: false
+                            }
+                        ]
+                    });
+            })
+    </script>
+}
+
+
+
+

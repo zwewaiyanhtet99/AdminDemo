@@ -1,0 +1,117 @@
+﻿@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Township List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="row">
+    <div class="form-group col-md-3">
+        City
+        @Html.DropDownList("txtCity",
+    (IEnumerable<SelectListItem>)ViewBag.City,
+    "Select City", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group col-md-3">
+        Code
+        @Html.Editor("txtCode", new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+
+    <div class="form-group col-md-3">
+        Description
+        @Html.Editor("txtDesc", new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+
+    <div class="form-group col-md-3">
+        <br />
+        <input type="button" value="Search" class="btn btn-default" id="btnSearch" />
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    CITY
+                </th>
+                <th>
+                    Code
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section Scripts {
+   
+    <script>
+        $(function () {
+
+            /*disable datatable warnings*/
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $("#myTable").dataTable(
+                {
+                    //"stateSave": true, // to save current state when going to next page
+                    //"processing": true, // for show processing bar
+                    "serverSide": true, // for process on server side
+                    "orderMulti": false, // for disable multi column order
+                    "dom": '<"top"i>rt<"bottom"lp><"clear">', // for hide default global search box // little confusion? don't worry I explained in the tutorial website
+                    "ajax": {
+                        "url": "/Township/Index",
+                        "type": "POST",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "CITY_Code", "name": "CITY_Code", "autoWidth": true ,"width":"200px"},
+                        { "data": "Code", "name": "Code", "autoWidth": true },
+                        { "data": "Description", "name": "Description", "autoWidth": true },
+                        {// this is Actions Column
+                            mRender: function (data, type, row) {
+                                var linkEdit = '@Html.ActionLink("Edit", "Edit", new {id= -1 })';
+                                linkEdit = linkEdit.replace("-1", row.ID);
+
+                                var linkDetails = '@Html.ActionLink("Details", "Details", new {id= -1 })';
+                                linkDetails = linkDetails.replace("-1", row.ID);
+
+                                var linkDelete = '@Html.ActionLink("Delete", "Delete", new {id= -1 })';
+                                linkDelete = linkDelete.replace("-1", row.ID);
+
+                                return linkEdit + " | " + linkDelete + " | " + linkDetails;
+                            },
+                            width: "100px",
+                            orderable: false
+                        }
+                    ]
+                });
+                  //Apply Custom search on jQuery DataTables here
+                  oTable = $('#myTable').DataTable();
+            $('#btnSearch').click(function () {
+                //Apply search for Employee Name // DataTable column index 0
+                oTable.columns(0).search($('#txtCity').val());
+                oTable.columns(1).search($('#txtCode').val().trim());
+                oTable.columns(2).search($('#txtDesc').val().trim());
+                //hit search on server
+                oTable.draw();
+
+                //For textChange
+                //var table = $('#myTable').DataTable();
+                //$('#ddlCode').on('change', function () {
+                //    table.columns(0).search(this.value).draw();
+                //});
+
+            });
+            
+        })
+    </script>
+}

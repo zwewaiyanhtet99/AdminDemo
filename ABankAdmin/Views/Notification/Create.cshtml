@@ -1,0 +1,387 @@
+﻿@model ABankAdmin.Models.Notification
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Notification</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.TITLE, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TITLE, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.TITLE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.CONTENT, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.CONTENT, new { @class = "form-control", autocomplete = "off" })
+                @Html.ValidationMessageFor(model => model.CONTENT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        @*<div class="form-group col-md-12">
+                @Html.Label("NOTIFICATION TYPE", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.RadioButtonFor(model => model.IsAll, true, new { Checked = "checked" }) ALL  &nbsp;&nbsp;&nbsp;
+                    @Html.RadioButtonFor(model => model.IsAll, false) By Name &nbsp;&nbsp;&nbsp;
+                    @Html.RadioButtonFor(model => model.IsAll, false, new { id = "custom" }) Custom
+                </div>
+            </div>*@
+
+        <div class="form-group col-md-12">
+            @Html.Label("NOTIFICATION TYPE", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.Category, "ALL", new { Checked = "checked", id = "all", type = "radio" }) ALL  &nbsp;&nbsp;&nbsp;
+                @Html.RadioButtonFor(model => model.Category, "ByName", new { id = "byname", type = "radio" }) By Name &nbsp;&nbsp;&nbsp;
+                @Html.RadioButtonFor(model => model.Category, "Multiple", new { id = "custom", type = "radio" }) Multiple
+            </div>
+        </div>
+
+
+
+        @Html.TextBoxFor(model => model.CIFIds, new { type = "hidden", id = "userlist", value = "" })
+
+        <div id="customdiv" class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="col-md-3">
+                    <input type="file" id="excelfile" accept=".xls,.xlsx" />
+                </div>
+                <div class="col-md-9">
+                    <input type="button" id="viewfile" value="Upload" onclick="ExportToTable()" />
+                </div>
+                <br />
+            </div>
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" id="exceltable">
+                @*<thead id="tablehead">
+                    </thead>*@
+                <tbody id="tablebody"></tbody>
+            </table>
+        </div>
+
+        <div id="autocomplete">
+
+            <div class="form-group col-md-12">
+                @Html.Label("USERNAME", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TO_USERID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TO_USERID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12">
+                @Html.Label("FULLNAME", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("txtFULLNAME", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessage("txtFULLNAME", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12">
+                @Html.Label("NRC", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("txtNRC", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessage("txtNRC", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group col-md-12">
+                @Html.Label("PHONENO", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("txtPHONENO", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessage("txtPHONENO", "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" id="createnoti" />
+                @Html.ActionLink("Cancel", "Index", null, null, new
+                {@*href = Request.UrlReferrer,*@@class = "btn btn-default"
+})
+            </div>
+        </div>
+    </div>
+}
+
+<link href="~/Content/jquery-ui.css" rel="stylesheet" />
+@section Scripts {
+    <script src="~/Scripts/jquery-1.11.2.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script type="text/javascript">
+
+        var customerId;
+        var customerlist = [];
+
+        function ExportToTable() {
+
+            $("#exceltable tr").remove();
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+            /*Checks whether the file is a valid excel file*/
+            if (regex.test($("#excelfile").val().toLowerCase())) {
+                var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
+                if ($("#excelfile").val().toLowerCase().indexOf(".xlsx") > 0) {
+                    xlsxflag = true;
+                }
+                /*Checks whether the browser supports HTML5*/
+                if (typeof (FileReader) != "undefined") {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = e.target.result;
+                        /*Converts the excel data in to object*/
+                        if (xlsxflag) {
+                            var workbook = XLSX.read(data, { type: 'binary' });
+                        }
+                        else {
+                            var workbook = XLS.read(data, { type: 'binary' });
+                        }
+                        /*Gets all the sheetnames of excel in to a variable*/
+                        var sheet_name_list = workbook.SheetNames;
+
+                        var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/
+                        sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/
+                            /*Convert the cell value to Json*/
+                            if (xlsxflag) {
+                                var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+                            }
+                            else {
+                                var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+                            }
+                            if (exceljson.length > 0 && cnt == 0) {
+                                BindTable(exceljson, '#exceltable');
+                                cnt++;
+                            }
+                        });
+                        var myTable = jQuery("#exceltable");
+                        var thead = myTable.find("thead");
+                        var thRows = myTable.find("tr:has(th)");
+
+                        if (thead.length === 0) {
+                            thead = jQuery("<thead></thead>").appendTo(myTable);
+                        }
+
+                        var copy = thRows.clone(true).appendTo("thead");
+                        thRows.remove();
+
+
+                        //$('#exceltable').dataTable();
+                        //$('#exceltable').show();
+
+                        var table = document.getElementById('exceltable'),
+                            rows = table.getElementsByTagName('tr'),
+                            i, j, cells, customerId;
+                        customerlist = [];
+                        for (i = 0, j = rows.length; i < j; ++i) {
+                            cells = rows[i].getElementsByTagName('td');
+                            if (!cells.length) {
+                                continue;
+                            }
+                            customerId = cells[0].innerHTML;
+                            customerlist.push(customerId);
+                        }
+                        //console.log(customerlist);
+                        $('#userlist').val(customerlist);
+                        $('#exceltable').dataTable();
+                        $('#exceltable').show();
+                    }
+
+                    if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/
+                        reader.readAsArrayBuffer($("#excelfile")[0].files[0]);
+                    }
+                    else {
+                        reader.readAsBinaryString($("#excelfile")[0].files[0]);
+                    }
+                }
+                else {
+                    alert("Sorry! Your browser does not support HTML5!");
+                }
+            }
+            else {
+                alert("Please upload a valid Excel file!");
+            }
+        }
+
+        function BindTable(jsondata, tableid) {/*Function used to convert the JSON array to Html Table*/
+            var columns = BindTableHeader(jsondata, tableid); /*Gets all the column headings of Excel*/
+            for (var i = 0; i < jsondata.length; i++) {
+                var row$ = $('<tr/>');
+                for (var colIndex = 0; colIndex < columns.length; colIndex++) {
+                    var cellValue = jsondata[i][columns[colIndex]];
+                    if (cellValue == null)
+                        cellValue = "";
+                    row$.append($('<td/>').html(cellValue));
+                }
+                $('#tablebody').append(row$);
+            }
+        }
+        function BindTableHeader(jsondata, tableid) {/*Function used to get all column names from JSON and bind the html table header*/
+            var columnSet = [];
+            var headerTr$ = $('<tr/>');
+            for (var i = 0; i < jsondata.length; i++) {
+                var rowHash = jsondata[i];
+                for (var key in rowHash) {
+                    if (rowHash.hasOwnProperty(key)) {
+                        if ($.inArray(key, columnSet) == -1) {/*Adding each unique column names to a variable array*/
+                            columnSet.push(key);
+                            headerTr$.append($('<th/>').html(key));
+                        }
+                    }
+                }
+            }
+            $(tableid).append(headerTr$);
+            return columnSet;
+        }
+        $(document).ready(function () {
+
+            //console.log($("input[name='IsAll']:checked").val());
+            //if ($("input[id='all']:checked").val() == 'True') {
+            if ($("#all").is(":checked")) {
+                $('#autocomplete').hide();
+                $('#customdiv').hide();
+            }
+            else if ($("#byname").is(":checked")) {
+                $('#autocomplete').show();
+                $('#customdiv').hide();
+                //    $('input[type="TEXT"]').val("");
+            }
+            else if ($("#custom").is(":checked")) {
+                $('#autocomplete').hide();
+                $('#customdiv').show();
+            }
+
+            $("#TO_USERID").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Notification/GetUserName",
+                        type: "POST",
+                        dataType: "json",
+                        data: { username: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.name,
+                                    value: item.name
+                                };
+                            }))
+                        }
+                    })
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item.label); // display the selected text
+                    var userid = ui.item.value;
+                    //console.log(userid);
+
+                    $.ajax({
+                        cache: false,
+                        url: '/Notification/GetUserName',
+                        type: 'post',
+                        data: { username: userid },
+                        dataType: 'json',
+                        success: function (response) {
+
+                            var len = response.length;
+
+                            if (len > 0) {
+                                var id = response[0]['id'];
+                                var name = response[0]['name'];
+                                var fullname = response[0]['fullname'];
+                                var nrc = response[0]['nrc'];
+                                var phone = response[0]['phone'];
+
+
+                                //$('input[name=Type]').change(function () {
+                                //    if ($('input[name=Type]:checked').val() == "all") {
+                                //         Set value to textboxes
+                                //         document.getElementById('txtFULLNAME').value = '';
+                                //        document.getElementById('txtNRC').value = '';
+                                //        document.getElementById('txtPHONENO').value = '';
+                                //    } else {
+                                //        document.getElementById('txtFULLNAME').value = fullname;
+                                //        document.getElementById('txtNRC').value = nrc;
+                                //        document.getElementById('txtPHONENO').value = phone;
+                                //    }
+                                //});
+
+
+                                // Set value to textboxes
+                                document.getElementById('txtFULLNAME').value = fullname;
+                                document.getElementById('txtNRC').value = nrc;
+                                document.getElementById('txtPHONENO').value = phone;
+
+                            }
+                        }
+                    });
+
+                    return false;
+                }
+                //messages: {
+                //    noResults: "", results: ""
+                //}
+            });
+
+            $('#createnoti').click(function (e) {
+                if ($("#custom").is(":checked")) {
+                    if ($('#excelfile').get(0).files.length === 0) {
+                        alert("No files selected.");
+                        e.preventDefault();
+                    }
+                }
+            });
+
+        });
+    </script>
+
+    <style>
+        .ui-autocomplete {
+            max-height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+
+        $('input[name=Category]').change(function () {
+            if ($("#all").is(":checked")) {
+                $('#autocomplete').hide();
+                $('#customdiv').hide();
+                $('input[type="TEXT"]').val("");
+                $('#exceltable').parents('div.dataTables_wrapper').first().hide();
+            }
+            else if ($("#byname").is(":checked")) {
+                $('#autocomplete').show();
+                $('#customdiv').hide();
+                $('input[type="TEXT"]').val("");
+                $('#exceltable').parents('div.dataTables_wrapper').first().hide();
+            }
+            else if ($("#custom").is(":checked")) {
+                $('#autocomplete').hide();
+                $('#customdiv').show();
+                $('input[type="TEXT"]').val("");
+                $('#exceltable').parents('div.dataTables_wrapper').first().show();
+            }
+        })
+    </script>
+}

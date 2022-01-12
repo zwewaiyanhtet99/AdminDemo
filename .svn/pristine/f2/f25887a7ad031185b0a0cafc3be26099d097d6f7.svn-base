@@ -1,0 +1,106 @@
+﻿@model ABankAdmin.ViewModels.IconicBlacklistVM
+
+@{
+    ViewBag.Title = "Edit";
+}
+<h3>Edit Blacklist Number</h3>
+
+<style>
+    .table-wrapper {
+        position: relative;
+        max-height: 450px;
+        overflow: auto;
+    }
+
+    thead tr th {
+        text-align: center;
+    }
+</style>
+
+@using (Html.BeginForm("Edit", "BlacklistNumber", FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="width: 65%">
+        <hr />
+        <div class="form-group">
+            @Html.Label("Tier", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.USERTYPECODE,
+                (IEnumerable<SelectListItem>)ViewBag.UserType,
+                "Select Tier", new { @class = "form-control", @id = "usertypelist", onchange = "changeValue(this)" })
+                @Html.HiddenFor(model => model.USERTYPE, new { @id = "usertype" })
+                @Html.ValidationMessageFor(model => model.USERTYPECODE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+
+        <div class="form-group">
+            @Html.Label("Blacklist Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BlacklistNo, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumberKey(this, event);", @maxlength = "10", id = "blacklist" } })
+                @Html.HiddenFor(model => model.PrefixBooking, new { @id = "prefixbooking" })
+                @Html.ValidationMessageFor(model => model.BlacklistNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" style="padding-left:130px;">
+            <input type="submit" value="Save" class="btn btn-success" />
+            @Html.ActionLink("Cancel", null, null, new
+       {
+           @class = "btn btn-default"
+       })
+
+        </div>
+    </div>
+}
+
+
+<!--Sucess Box-->
+<div class="modal" id="divSuccess">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Black Lists</h4>
+            </div>
+            <div class="modal-body">
+                <p>Successfully updated!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success pull-right" data-dismiss="modal" onclick="window.location = '/BlacklistNumber/Index';">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/iconicblacklist")
+    @if (ViewBag.EditBlacklist != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                var $confirm = $("#divSuccess");
+                $confirm.show();
+            }
+        </script>
+    }
+    <script type="text/javascript">
+        var prefix = $("#prefixbooking").val().replace('-', '');
+        var totallen = $("#blacklist").val();
+        var maxlengthval = totallen.length;
+        $("#blacklist").prop('maxlength', maxlengthval);
+        $("#blacklist").attr('readonly', false);
+    </script>
+}

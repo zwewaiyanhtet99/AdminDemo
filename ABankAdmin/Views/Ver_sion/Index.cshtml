@@ -1,0 +1,82 @@
+﻿@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Version List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    Version No.
+                </th>
+                <th>
+                    Platform
+                </th>
+                <th>
+                    User Type
+                </th>
+                <th>
+                    Version Name
+                </th>
+                <th>
+                    Updated Status
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section Scripts {
+
+    <script>
+        $(function () {
+
+            /*disable datatable warnings*/
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $("#myTable").dataTable(
+                {
+                    //"stateSave": true, // to save current state when going to next page
+                    //"processing": true, // for show processing bar
+                    "serverSide": true, // for process on server side
+                    "orderMulti": false, // for disable multi column order
+                    "dom": '<"top"i>rt<"bottom"lp><"clear">', // for hide default global search box // little confusion? don't worry I explained in the tutorial website
+                    "ajax": {
+                        "url": "/Ver_sion/Index",
+                        "type": "POST",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "VersionNo", "name": "VersionNo", "autoWidth": true },
+                        { "data": "PlatForm", "name": "PlatForm", "autoWidth": true },
+                        { "data": "UserType", "name": "UserType", "autoWidth": true },
+                        { "data": "VersionName", "name": "VersionName", "autoWidth": true },
+                        { "data": "UpdatedStatus", "name": "UpdatedStatus", "autoWidth": true },
+                        {// this is Actions Column
+                            mRender: function (data, type, row) {
+                                var linkEdit = '@Html.ActionLink("Edit", "Edit", new {id= -1 })';
+                                linkEdit = linkEdit.replace("-1", row.ID);
+
+                                var linkDetails = '@Html.ActionLink("Details", "Details", new {id= -1 })';
+                                linkDetails = linkDetails.replace("-1", row.ID);
+
+                                var linkDelete = '@Html.ActionLink("Delete", "Delete", new {id= -1 })';
+                                linkDelete = linkDelete.replace("-1", row.ID);
+
+                                return linkEdit + " | " + linkDelete + " | " + linkDetails;
+                            },
+                            width: "100px",
+                            orderable: false
+                        }
+                    ]
+             });        
+        })
+    </script>
+}

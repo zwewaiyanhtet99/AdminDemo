@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Title = "Request Changes List";
+}
+
+<h2>Request Changes List</h2>
+
+<p>
+    @Html.ActionLink("Register User", "RequestCorporateUser")
+</p>
+@using (Html.BeginForm("RequestChangesList", "CorporateUserRequest", FormMethod.Get, new { id = "RequestChangesList" }))
+{
+    @Html.AntiForgeryToken();
+    <input type="hidden" id="regId" name="regId" />
+    <div class="row">
+        @*Company Name*@
+        <div class="form-group col-md-2">
+            <label>Company Name</label>
+            <input type="text" name="companyName" id="companyName" class="form-control" />
+        </div>
+
+        @*Corporate ID*@
+        <div class="form-group col-md-2">
+            <label>Corporate ID</label>
+            <input type="text" name="corporateID" id="corporateID" class="form-control" />
+        </div>
+
+        @*User Name*@
+        <div class="form-group col-md-2">
+            <label>User Name</label>
+            <input type="text" name="userName" id="userName" class="form-control" />
+        </div>
+
+        @*Type*@
+        <div class="form-group col-md-2">
+            <label>Type</label>
+            @Html.DropDownList("userType", null, "-- Select One --", htmlAttributes: new { @class = "form-control" })
+        </div>
+
+        @*FromDate*@
+        <div class="form-group col-md-2">
+            <label>From Date</label>
+            <div class="input-group date" id="FromDate">
+                @Html.TextBox("fromDate", null, new { @class = "form-control inputField", placeholder = "From Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+
+        @*ToDate*@
+        <div class="form-group col-md-2">
+            <label>To Date</label>
+            <div class="input-group date" id="ToDate">
+                @Html.TextBox("toDate", null, new { @class = "form-control inputField", placeholder = "To Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @*Status*@
+        <div class="form-group col-md-2">
+            <label>Status</label>
+            @Html.DropDownList("status", null, null, htmlAttributes: new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-2">
+            <br />
+            <input type="submit" value="Search" class="btn" id="btnSearch" />
+        </div>
+    </div>
+}
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover nowrap" id="myTable">
+        <thead>
+            <tr class="active">
+                <th>
+                    COMPANY NAME
+                </th>
+                <th>
+                    CORPORATE ID
+                </th>
+                <th>
+                    USERNAME
+                </th>
+                <th>
+                    TYPE
+                </th>
+                <th>
+                    MAKER
+                </th>
+                <th>
+                    REQUESTED DATE
+                </th>
+                <th>
+                    STATUS
+                </th>
+                <th>
+                    ACTION
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    @Scripts.Render("~/bundles/reqchangelst")
+}

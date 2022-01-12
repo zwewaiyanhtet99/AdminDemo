@@ -1,0 +1,57 @@
+﻿@model ABankAdmin.Models.ADS
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+
+@using (Html.BeginForm("Delete", "ADS", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <h4>ADS</h4>
+        <hr />
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ImageName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ImageName)
+            </dd>
+
+            <dt style="margin-top:20px;">
+                @Html.DisplayNameFor(model => model.ImageRedirectLink)
+            </dt>
+
+            <dd style="margin-top:20px;">
+                @Html.DisplayFor(model => model.ImageRedirectLink)
+            </dd>
+
+            <dt style="margin-top:20px;">
+                @Html.DisplayNameFor(model => model.OrderNo)
+            </dt>
+
+            <dd style="margin-top:20px;">
+                @Html.DisplayFor(model => model.OrderNo)
+            </dd>
+
+            <dt style="margin-top:20px;">
+                @Html.DisplayName("Image")
+            </dt>
+
+            <dd style="margin-top:20px;">
+                <img id="image" src="@(Model.ImageUrl)" width="320" height="100" />
+            </dd>
+        </dl>
+    </div>
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        @Html.ActionLink("Cancel", "Index", null, null, new { @*href = Request.UrlReferrer*@ @class = "btn btn-default" })
+        @*@Html.ActionLink("Back to List", "Index")*@
+    </div>
+}

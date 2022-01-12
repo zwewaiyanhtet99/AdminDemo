@@ -1,0 +1,1633 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{92146902-B269-499C-BF74-7B5BCE12970E}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ABankAdmin</RootNamespace>
+    <AssemblyName>ABankAdmin</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44344</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AbankAdminAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>AbankAdminAPI\AbankAdminAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Cron">
+      <HintPath>..\..\..\..\..\Corporate\APIBranches\Main\ABankEBankingAPI\ABankEBanking\bin\Cron.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPPlus, Version=5.4.2.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.5.4.2\lib\net45\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.0.3.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.0.3\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="FoolproofValidation, Version=0.9.5851.39121, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Foolproof.0.9.4518\lib\net45\FoolproofValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.2\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebDesign, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.WebDesign.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.WebForms.140.1000.523\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.6.7\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp-gdi, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp-gdi.1.50.5147\lib\net20\PdfSharp-gdi.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting-gdi, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp-gdi.1.50.5147\lib\net20\PdfSharp.Charting-gdi.dll</HintPath>
+    </Reference>
+    <Reference Include="Polly, Version=7.0.0.0, Culture=neutral, PublicKeyToken=c8a3ffc3f8f825cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.7.2.1\lib\net461\Polly.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="ReportViewerForMvc, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReportViewerForMvc14.140.1000.523\lib\net45\ReportViewerForMvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Data.SQLite, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SQLite.Core.1.0.112.0\lib\net46\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Dynamic.Core, Version=1.1.1.0, Culture=neutral, PublicKeyToken=0f07ec44de6ac832, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.Core.1.1.1\lib\net46\System.Linq.Dynamic.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\ACC_ServiceController.cs" />
+    <Compile Include="Controllers\ACC_Service_DescController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ADSController.cs" />
+    <Compile Include="Controllers\Api_LogController.cs" />
+    <Compile Include="Controllers\ApproveController.cs" />
+    <Compile Include="Controllers\BillerController.cs" />
+    <Compile Include="Controllers\BlacklistNumberController.cs" />
+    <Compile Include="Controllers\CifInfoDeactivateController.cs" />
+    <Compile Include="Controllers\CIFInfoForApproverController.cs" />
+    <Compile Include="Controllers\CIFInfoForViewAndEditController.cs" />
+    <Compile Include="Controllers\CIFInfoModelsController.cs" />
+    <Compile Include="Controllers\CIFInfoReportController.cs" />
+    <Compile Include="Controllers\CorporateController.cs" />
+    <Compile Include="Controllers\CorporateUserReportController.cs" />
+    <Compile Include="Controllers\C_ApproveRuleController.cs" />
+    <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\BulkFileRecordController.cs" />
+    <Compile Include="Controllers\CCTController.cs" />
+    <Compile Include="Controllers\CityController.cs" />
+    <Compile Include="Controllers\ContactUsController.cs" />
+    <Compile Include="Controllers\CorporateUserController.cs" />
+    <Compile Include="Controllers\CorporateUserRequestController.cs" />
+    <Compile Include="Controllers\CountryController.cs" />
+    <Compile Include="Controllers\CurrencyController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\EmailTemplateController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\EventLogController.cs" />
+    <Compile Include="Controllers\FeedBackController.cs" />
+    <Compile Include="Controllers\FinacleLoginController.cs" />
+    <Compile Include="Controllers\HolidayController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IB_HowToUseController.cs" />
+    <Compile Include="Controllers\IconicBlacklistModelsController.cs" />
+    <Compile Include="Controllers\IconicBookingModelsController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\Number_ManagementController.cs" />
+    <Compile Include="Controllers\Office_AccountController.cs" />
+    <Compile Include="Controllers\OtherBanksController.cs" />
+    <Compile Include="Controllers\OtherBranchController.cs" />
+    <Compile Include="Controllers\PositionController.cs" />
+    <Compile Include="Controllers\PrivilegeController.cs" />
+    <Compile Include="Controllers\PrivilegeUsageController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\RequestController.cs" />
+    <Compile Include="Controllers\RM_InfoController.cs" />
+    <Compile Include="Controllers\RM_TL_InfoController.cs" />
+    <Compile Include="Controllers\RoleMenuController.cs" />
+    <Compile Include="Controllers\RuleController.cs" />
+    <Compile Include="Controllers\ServiceManagementController.cs" />
+    <Compile Include="Controllers\SMS_AllowController.cs" />
+    <Compile Include="Controllers\SMS_BodyController.cs" />
+    <Compile Include="Controllers\StateController.cs" />
+    <Compile Include="Controllers\Tier_ManagementController.cs" />
+    <Compile Include="Controllers\TownshipController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserTypeModelsController.cs" />
+    <Compile Include="Controllers\UtilitiesController.cs" />
+    <Compile Include="Controllers\UtilitiesDetailController.cs" />
+    <Compile Include="Controllers\Ver_sionController.cs" />
+    <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Account_Info.cs" />
+    <Compile Include="Models\ACC_Service.cs" />
+    <Compile Include="Models\ACC_Service_Desc.cs" />
+    <Compile Include="Models\AdminDBContext.cs" />
+    <Compile Include="Models\AdminLog.cs" />
+    <Compile Include="Models\AdminUser.cs" />
+    <Compile Include="Models\ADS.cs" />
+    <Compile Include="Models\Api_Log.cs" />
+    <Compile Include="Models\Biller.cs" />
+    <Compile Include="Models\CIFInfoModel.cs" />
+    <Compile Include="Models\C_ApproverTranRule.cs" />
+    <Compile Include="Models\C_ApproverTranRuleDetail.cs" />
+    <Compile Include="Models\City.cs" />
+    <Compile Include="Models\COMMENT.cs" />
+    <Compile Include="Models\ContactUs.cs" />
+    <Compile Include="Models\Credential.cs" />
+    <Compile Include="Models\CronLog.cs" />
+    <Compile Include="Models\Currency.cs" />
+    <Compile Include="Models\C_Approve_Rule.cs" />
+    <Compile Include="Models\C_BulkPaymentFileUpload.cs" />
+    <Compile Include="Models\C_Bulk_File_Record.cs" />
+    <Compile Include="Models\C_Corporate.cs" />
+    <Compile Include="Models\C_CorporateTranRule.cs" />
+    <Compile Include="Models\C_Country.cs" />
+    <Compile Include="Models\C_Department.cs" />
+    <Compile Include="Models\C_MakerTranLog.cs" />
+    <Compile Include="Models\C_Menu.cs" />
+    <Compile Include="Models\C_MenuInRole.cs" />
+    <Compile Include="Models\C_MenuPermission.cs" />
+    <Compile Include="Models\C_Position.cs" />
+    <Compile Include="Models\C_Req_ApproverTranRule.cs" />
+    <Compile Include="Models\C_Req_ApproverTranRuleDetail.cs" />
+    <Compile Include="Models\C_Req_Corporate.cs" />
+    <Compile Include="Models\C_Req_Menu.cs" />
+    <Compile Include="Models\C_Req_MenuInRole.cs" />
+    <Compile Include="Models\C_Req_MenuPermission.cs" />
+    <Compile Include="Models\C_Req_User.cs" />
+    <Compile Include="Models\C_Req_UserInAccount.cs" />
+    <Compile Include="Models\C_Req_UserInRole.cs" />
+    <Compile Include="Models\C_Req_UserTranLimit.cs" />
+    <Compile Include="Models\C_Req_Role.cs" />
+    <Compile Include="Models\C_Role.cs" />
+    <Compile Include="Models\C_State.cs" />
+    <Compile Include="Models\C_UserInAccount.cs" />
+    <Compile Include="Models\C_UserInRole.cs" />
+    <Compile Include="Models\C_UserTranLimit.cs" />
+    <Compile Include="Models\EmailTemplate.cs" />
+    <Compile Include="Models\ExchangeRate.cs" />
+    <Compile Include="Models\FeedBack.cs" />
+    <Compile Include="Models\FinacleLogin.cs" />
+    <Compile Include="Models\Fingerprint.cs" />
+    <Compile Include="Models\FireBase.cs" />
+    <Compile Include="Models\Holiday.cs" />
+    <Compile Include="Models\IB_HowToUse.cs" />
+    <Compile Include="Models\IB_Menu.cs" />
+    <Compile Include="Models\IconicBlacklistModel.cs" />
+    <Compile Include="Models\IconicBookingModel.cs" />
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\Menu.cs" />
+    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\Office_Account.cs" />
+    <Compile Include="Models\OtherBank.cs" />
+    <Compile Include="Models\OtherBankBeneficiary.cs" />
+    <Compile Include="Models\OtherBankTranLog.cs" />
+    <Compile Include="Models\OtherBranch.cs" />
+    <Compile Include="Models\Other_Bank_Recon.cs" />
+    <Compile Include="Models\Privilege.cs" />
+    <Compile Include="Models\PrivilegeUsage.cs" />
+    <Compile Include="Models\ReqAcc.cs" />
+    <Compile Include="Models\ReqChange.cs" />
+    <Compile Include="Models\ReqUser.cs" />
+    <Compile Include="Models\C_Req_Changes.cs" />
+    <Compile Include="Models\RM_TL_Info.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\RoleMenu.cs" />
+    <Compile Include="Models\ScheduleTransferLog.cs" />
+    <Compile Include="Models\Schedule_Transfer.cs" />
+    <Compile Include="Models\ServiceManagement.cs" />
+    <Compile Include="Models\SMS_Allow.cs" />
+    <Compile Include="Models\SMS_Body.cs" />
+    <Compile Include="Models\TBL_Biller.cs" />
+    <Compile Include="Models\TBL_Biller_Field.cs" />
+    <Compile Include="Models\Township.cs" />
+    <Compile Include="Models\TreeViewNode.cs" />
+    <Compile Include="Models\UltType.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Branch.cs" />
+    <Compile Include="Models\Rule_.cs" />
+    <Compile Include="Models\UserTypeModel.cs" />
+    <Compile Include="Models\Utilities.cs" />
+    <Compile Include="Models\UtilitiesDetail.cs" />
+    <Compile Include="Models\Ver_sion.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RDLCReports\Aspx\AdminLogReport.aspx.cs">
+      <DependentUpon>AdminLogReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\AdminLogReport.aspx.designer.cs">
+      <DependentUpon>AdminLogReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\ApiLogReport.aspx.cs">
+      <DependentUpon>ApiLogReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\ApiLogReport.aspx.designer.cs">
+      <DependentUpon>ApiLogReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\BulkPaymentDetail.aspx.cs">
+      <DependentUpon>BulkPaymentDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\BulkPaymentDetail.aspx.designer.cs">
+      <DependentUpon>BulkPaymentDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\BulkPaymentReport.aspx.cs">
+      <DependentUpon>BulkPaymentReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\BulkPaymentReport.aspx.designer.cs">
+      <DependentUpon>BulkPaymentReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\CIFIDAccountInfoReport.aspx.cs">
+      <DependentUpon>CIFIDAccountInfoReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\CIFIDAccountInfoReport.aspx.designer.cs">
+      <DependentUpon>CIFIDAccountInfoReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\CIFIDInfoReport.aspx.cs">
+      <DependentUpon>CIFIDInfoReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\CIFIDInfoReport.aspx.designer.cs">
+      <DependentUpon>CIFIDInfoReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\CorporateReport.aspx.cs">
+      <DependentUpon>CorporateReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\CorporateReport.aspx.designer.cs">
+      <DependentUpon>CorporateReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\CorporateUserReport.aspx.cs">
+      <DependentUpon>CorporateUserReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\CorporateUserReport.aspx.designer.cs">
+      <DependentUpon>CorporateUserReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\CronLogReport.aspx.cs">
+      <DependentUpon>CronLogReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\CronLogReport.aspx.designer.cs">
+      <DependentUpon>CronLogReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_DomesticInterbankTransferReport.aspx.cs">
+      <DependentUpon>C_DomesticInterbankTransferReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_DomesticInterbankTransferReport.aspx.designer.cs">
+      <DependentUpon>C_DomesticInterbankTransferReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_RemittanceReport.aspx.cs">
+      <DependentUpon>C_RemittanceReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_RemittanceReport.aspx.designer.cs">
+      <DependentUpon>C_RemittanceReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_SchedulePaymentDetail.aspx.cs">
+      <DependentUpon>C_SchedulePaymentDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_SchedulePaymentDetail.aspx.designer.cs">
+      <DependentUpon>C_SchedulePaymentDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_ScheduleTransferReport.aspx.cs">
+      <DependentUpon>C_ScheduleTransferReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_ScheduleTransferReport.aspx.designer.cs">
+      <DependentUpon>C_ScheduleTransferReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_TopUpReport.aspx.cs">
+      <DependentUpon>C_TopUpReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_TopUpReport.aspx.designer.cs">
+      <DependentUpon>C_TopUpReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_TransactionReport.aspx.cs">
+      <DependentUpon>C_TransactionReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_TransactionReport.aspx.designer.cs">
+      <DependentUpon>C_TransactionReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_UtilityReport.aspx.cs">
+      <DependentUpon>C_UtilityReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\C_UtilityReport.aspx.designer.cs">
+      <DependentUpon>C_UtilityReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\DomesticInterbankTransferReport.aspx.cs">
+      <DependentUpon>DomesticInterbankTransferReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\DomesticInterbankTransferReport.aspx.designer.cs">
+      <DependentUpon>DomesticInterbankTransferReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\FeedbackReport.aspx.cs">
+      <DependentUpon>FeedbackReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\FeedbackReport.aspx.designer.cs">
+      <DependentUpon>FeedbackReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\RemittanceReport.aspx.cs">
+      <DependentUpon>RemittanceReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\RemittanceReport.aspx.designer.cs">
+      <DependentUpon>RemittanceReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\SchedulePaymentDetailReport.aspx.cs">
+      <DependentUpon>SchedulePaymentDetailReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\SchedulePaymentDetailReport.aspx.designer.cs">
+      <DependentUpon>SchedulePaymentDetailReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\ScheduleTransferLogReport.aspx.cs">
+      <DependentUpon>ScheduleTransferLogReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\ScheduleTransferLogReport.aspx.designer.cs">
+      <DependentUpon>ScheduleTransferLogReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\ScheduleTransferReport.aspx.cs">
+      <DependentUpon>ScheduleTransferReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\ScheduleTransferReport.aspx.designer.cs">
+      <DependentUpon>ScheduleTransferReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\TopUpReport.aspx.cs">
+      <DependentUpon>TopUpReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\TopUpReport.aspx.designer.cs">
+      <DependentUpon>TopUpReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\TransactionReport.aspx.cs">
+      <DependentUpon>TransactionReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\TransactionReport.aspx.designer.cs">
+      <DependentUpon>TransactionReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\TransactionSummaryReport.aspx.cs">
+      <DependentUpon>TransactionSummaryReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\TransactionSummaryReport.aspx.designer.cs">
+      <DependentUpon>TransactionSummaryReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\UserReport.aspx.cs">
+      <DependentUpon>UserReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\UserReport.aspx.designer.cs">
+      <DependentUpon>UserReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\UtilityReport.aspx.cs">
+      <DependentUpon>UtilityReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\UtilityReport.aspx.designer.cs">
+      <DependentUpon>UtilityReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\UtilitySummaryReport.aspx.cs">
+      <DependentUpon>UtilitySummaryReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDLCReports\Aspx\UtilitySummaryReport.aspx.designer.cs">
+      <DependentUpon>UtilitySummaryReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\DataSet\CorporateUserDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CorporateUserDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="RDLCReports\DataSet\UserDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="Utils\BillerRequest.cs" />
+    <Compile Include="Utils\CorporateUserRequest.cs" />
+    <Compile Include="Utils\JsonErrorResult.cs" />
+    <Compile Include="ViewModels\AccountInfoVM.cs" />
+    <Compile Include="ViewModels\AccountNoCheckResult.cs" />
+    <Compile Include="ViewModels\AccountVM.cs" />
+    <Compile Include="ViewModels\AdminViewModels.cs" />
+    <Compile Include="ViewModels\ApvTranRuleAndDetailVM.cs" />
+    <Compile Include="ViewModels\BillerListVM.cs" />
+    <Compile Include="ViewModels\BillerSearchVM.cs" />
+    <Compile Include="ViewModels\BillerVM.cs" />
+    <Compile Include="ViewModels\Biller_FieldVM.cs" />
+    <Compile Include="ViewModels\CIFInfoVM.cs" />
+    <Compile Include="ViewModels\CopUserRegListVM.cs" />
+    <Compile Include="ViewModels\CopUserRegVM.cs" />
+    <Compile Include="ViewModels\CorporateUserSearchVM.cs" />
+    <Compile Include="ViewModels\CorporateUserSummaryVM.cs" />
+    <Compile Include="ViewModels\CorporateVM.cs" />
+    <Compile Include="ViewModels\CReqChangesVM.cs" />
+    <Compile Include="ViewModels\C_BulkFileUploadVM.cs" />
+    <Compile Include="ViewModels\C_ReqUserVM.cs" />
+    <Compile Include="ViewModels\DataTableAjaxPostModel.cs" />
+    <Compile Include="ViewModels\HolidayVM.cs" />
+    <Compile Include="ViewModels\IconicBookingVM.cs" />
+    <Compile Include="ViewModels\ImageModel.cs" />
+    <Compile Include="ViewModels\MenuInfoVM.cs" />
+    <Compile Include="ViewModels\MenuVM.cs" />
+    <Compile Include="ViewModels\OtherBankReconSearchVM.cs" />
+    <Compile Include="ViewModels\Other_Bank_ReconVM.cs" />
+    <Compile Include="ViewModels\PrivilegeUsageCreateVM.cs" />
+    <Compile Include="ViewModels\PrivilegeUsageVM.cs" />
+    <Compile Include="ViewModels\PrivilegeVM.cs" />
+    <Compile Include="ViewModels\ReportViewModels.cs" />
+    <Compile Include="ViewModels\ReqApvTranRuleAndDetailVM.cs" />
+    <Compile Include="ViewModels\ReqCorporateVM.cs" />
+    <Compile Include="ViewModels\RequestChangesDetailVM.cs" />
+    <Compile Include="ViewModels\RequestChangesListVM.cs" />
+    <Compile Include="ViewModels\RequestChangesSearchVM.cs" />
+    <Compile Include="ViewModels\RequestCorporateChangesSummaryVM.cs" />
+    <Compile Include="ViewModels\RequestCorporateUserSummaryVM.cs" />
+    <Compile Include="ViewModels\RequestUserListVM.cs" />
+    <Compile Include="ViewModels\RequestUserSearchVM.cs" />
+    <Compile Include="ViewModels\ReqUserAndAccVM.cs" />
+    <Compile Include="ViewModels\ReqUserVM.cs" />
+    <Compile Include="ViewModels\RoleInfoVM.cs" />
+    <Compile Include="ViewModels\RuleVM.cs" />
+    <Compile Include="ViewModels\UserAndAccVM.cs" />
+    <Compile Include="ViewModels\UserVM.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ABankAdminAPI\AbankAdminAPI.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ABankAdminAPI\AbankAdminAPI.pdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ABankAdminAPI\Newtonsoft.Json.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ABankAdminAPI\Newtonsoft.Json.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ABankAdminAPI\System.Configuration.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ABankAdminAPI\System.Net.Http.Formatting.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ABankAdminAPI\System.Net.Http.Formatting.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Client Scripts\mvcfoolproof.unobtrusive.js" />
+    <Content Include="Client Scripts\mvcfoolproof.unobtrusive.min.js" />
+    <Content Include="Client Scripts\MvcFoolproofJQueryValidation.js" />
+    <Content Include="Client Scripts\MvcFoolproofJQueryValidation.min.js" />
+    <Content Include="Client Scripts\MvcFoolproofValidation.js" />
+    <Content Include="Client Scripts\MvcFoolproofValidation.min.js" />
+    <Content Include="Content\billerregistration.css" />
+    <Content Include="Content\boostrap-datepicker\bootstrap-datepicker.min.css" />
+    <Content Include="Content\boostrap-datepicker\bootstrap-datepicker.min.js" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\bootstrap\css\dynamic-skin.css" />
+    <Content Include="Content\bootstrap\css\style.css" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\bootstrap\js\npm.js" />
+    <Content Include="Content\DataTables-1.10.20\images\sort_asc.png" />
+    <Content Include="Content\DataTables-1.10.20\images\sort_asc_disabled.png" />
+    <Content Include="Content\DataTables-1.10.20\images\sort_both.png" />
+    <Content Include="Content\DataTables-1.10.20\images\sort_desc.png" />
+    <Content Include="Content\DataTables-1.10.20\images\sort_desc_disabled.png" />
+    <Content Include="Content\dataTables.bootstrap.min.css" />
+    <Content Include="Content\dataTables.checkboxes.css" />
+    <Content Include="Content\datatables.min.css" />
+    <Content Include="Content\daterangepicker.css" />
+    <Content Include="Content\dist\css\AdminLTE.css" />
+    <Content Include="Content\dist\css\AdminLTE.min.css" />
+    <Content Include="Content\dist\css\alt\AdminLTE-bootstrap-social.css" />
+    <Content Include="Content\dist\css\alt\AdminLTE-bootstrap-social.min.css" />
+    <Content Include="Content\dist\css\alt\AdminLTE-fullcalendar.css" />
+    <Content Include="Content\dist\css\alt\AdminLTE-fullcalendar.min.css" />
+    <Content Include="Content\dist\css\alt\AdminLTE-select2.css" />
+    <Content Include="Content\dist\css\alt\AdminLTE-select2.min.css" />
+    <Content Include="Content\dist\css\alt\AdminLTE-without-plugins.css" />
+    <Content Include="Content\dist\css\alt\AdminLTE-without-plugins.min.css" />
+    <Content Include="Content\dist\css\skins\skin-black-light.css" />
+    <Content Include="Content\dist\css\skins\skin-black-light.min.css" />
+    <Content Include="Content\dist\css\skins\skin-black.css" />
+    <Content Include="Content\dist\css\skins\skin-black.min.css" />
+    <Content Include="Content\dist\css\skins\skin-blue-light.css" />
+    <Content Include="Content\dist\css\skins\skin-blue-light.min.css" />
+    <Content Include="Content\dist\css\skins\skin-blue.css" />
+    <Content Include="Content\dist\css\skins\skin-blue.min.css" />
+    <Content Include="Content\dist\css\skins\skin-green-light.css" />
+    <Content Include="Content\dist\css\skins\skin-green-light.min.css" />
+    <Content Include="Content\dist\css\skins\skin-green.css" />
+    <Content Include="Content\dist\css\skins\skin-green.min.css" />
+    <Content Include="Content\dist\css\skins\skin-purple-light.css" />
+    <Content Include="Content\dist\css\skins\skin-purple-light.min.css" />
+    <Content Include="Content\dist\css\skins\skin-purple.css" />
+    <Content Include="Content\dist\css\skins\skin-purple.min.css" />
+    <Content Include="Content\dist\css\skins\skin-red-light.css" />
+    <Content Include="Content\dist\css\skins\skin-red-light.min.css" />
+    <Content Include="Content\dist\css\skins\skin-red.css" />
+    <Content Include="Content\dist\css\skins\skin-red.min.css" />
+    <Content Include="Content\dist\css\skins\skin-yellow-light.css" />
+    <Content Include="Content\dist\css\skins\skin-yellow-light.min.css" />
+    <Content Include="Content\dist\css\skins\skin-yellow.css" />
+    <Content Include="Content\dist\css\skins\skin-yellow.min.css" />
+    <Content Include="Content\dist\css\skins\_all-skins.css" />
+    <Content Include="Content\dist\css\skins\_all-skins.min.css" />
+    <Content Include="Content\dist\js\adminlte.js" />
+    <Content Include="Content\dist\js\adminlte.min.js" />
+    <Content Include="Content\dist\js\app.js" />
+    <Content Include="Content\dist\js\app.min.js" />
+    <Content Include="Content\dist\js\demo.js" />
+    <Content Include="Content\dist\js\fastclick.js" />
+    <Content Include="Content\dist\js\pages\dashboard.js" />
+    <Content Include="Content\dist\js\pages\dashboard2.js" />
+    <Content Include="Content\font-awesome-4.7.0\css\font-awesome.css" />
+    <Content Include="Content\font-awesome-4.7.0\css\font-awesome.min.css" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\FullCalendar\lib\locales-all.js" />
+    <Content Include="Content\FullCalendar\lib\locales-all.min.js" />
+    <Content Include="Content\FullCalendar\lib\locales\af.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ar-dz.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ar-kw.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ar-ly.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ar-ma.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ar-sa.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ar-tn.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ar.js" />
+    <Content Include="Content\FullCalendar\lib\locales\az.js" />
+    <Content Include="Content\FullCalendar\lib\locales\bg.js" />
+    <Content Include="Content\FullCalendar\lib\locales\bs.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ca.js" />
+    <Content Include="Content\FullCalendar\lib\locales\cs.js" />
+    <Content Include="Content\FullCalendar\lib\locales\da.js" />
+    <Content Include="Content\FullCalendar\lib\locales\de.js" />
+    <Content Include="Content\FullCalendar\lib\locales\el.js" />
+    <Content Include="Content\FullCalendar\lib\locales\en-au.js" />
+    <Content Include="Content\FullCalendar\lib\locales\en-gb.js" />
+    <Content Include="Content\FullCalendar\lib\locales\en-nz.js" />
+    <Content Include="Content\FullCalendar\lib\locales\es-us.js" />
+    <Content Include="Content\FullCalendar\lib\locales\es.js" />
+    <Content Include="Content\FullCalendar\lib\locales\et.js" />
+    <Content Include="Content\FullCalendar\lib\locales\eu.js" />
+    <Content Include="Content\FullCalendar\lib\locales\fa.js" />
+    <Content Include="Content\FullCalendar\lib\locales\fi.js" />
+    <Content Include="Content\FullCalendar\lib\locales\fr-ca.js" />
+    <Content Include="Content\FullCalendar\lib\locales\fr-ch.js" />
+    <Content Include="Content\FullCalendar\lib\locales\fr.js" />
+    <Content Include="Content\FullCalendar\lib\locales\gl.js" />
+    <Content Include="Content\FullCalendar\lib\locales\he.js" />
+    <Content Include="Content\FullCalendar\lib\locales\hi.js" />
+    <Content Include="Content\FullCalendar\lib\locales\hr.js" />
+    <Content Include="Content\FullCalendar\lib\locales\hu.js" />
+    <Content Include="Content\FullCalendar\lib\locales\id.js" />
+    <Content Include="Content\FullCalendar\lib\locales\is.js" />
+    <Content Include="Content\FullCalendar\lib\locales\it.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ja.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ka.js" />
+    <Content Include="Content\FullCalendar\lib\locales\kk.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ko.js" />
+    <Content Include="Content\FullCalendar\lib\locales\lb.js" />
+    <Content Include="Content\FullCalendar\lib\locales\lt.js" />
+    <Content Include="Content\FullCalendar\lib\locales\lv.js" />
+    <Content Include="Content\FullCalendar\lib\locales\mk.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ms.js" />
+    <Content Include="Content\FullCalendar\lib\locales\nb.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ne.js" />
+    <Content Include="Content\FullCalendar\lib\locales\nl.js" />
+    <Content Include="Content\FullCalendar\lib\locales\nn.js" />
+    <Content Include="Content\FullCalendar\lib\locales\pl.js" />
+    <Content Include="Content\FullCalendar\lib\locales\pt-br.js" />
+    <Content Include="Content\FullCalendar\lib\locales\pt.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ro.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ru.js" />
+    <Content Include="Content\FullCalendar\lib\locales\sk.js" />
+    <Content Include="Content\FullCalendar\lib\locales\sl.js" />
+    <Content Include="Content\FullCalendar\lib\locales\sq.js" />
+    <Content Include="Content\FullCalendar\lib\locales\sr-cyrl.js" />
+    <Content Include="Content\FullCalendar\lib\locales\sr.js" />
+    <Content Include="Content\FullCalendar\lib\locales\sv.js" />
+    <Content Include="Content\FullCalendar\lib\locales\th.js" />
+    <Content Include="Content\FullCalendar\lib\locales\tr.js" />
+    <Content Include="Content\FullCalendar\lib\locales\ug.js" />
+    <Content Include="Content\FullCalendar\lib\locales\uk.js" />
+    <Content Include="Content\FullCalendar\lib\locales\uz.js" />
+    <Content Include="Content\FullCalendar\lib\locales\vi.js" />
+    <Content Include="Content\FullCalendar\lib\locales\zh-cn.js" />
+    <Content Include="Content\FullCalendar\lib\locales\zh-tw.js" />
+    <Content Include="Content\FullCalendar\lib\main.css" />
+    <Content Include="Content\FullCalendar\lib\main.js" />
+    <Content Include="Content\FullCalendar\lib\main.min.css" />
+    <Content Include="Content\FullCalendar\lib\main.min.js" />
+    <Content Include="Content\images\whiteLogolarge.png" />
+    <Content Include="Content\images\whiteLogoSmall.png" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\ladda-master\css\ladda.css" />
+    <Content Include="Content\ladda-master\css\ladda.min.css" />
+    <Content Include="Content\ladda-master\css\prism.css" />
+    <Content Include="Content\ladda-master\dist\ladda-themeless.css" />
+    <Content Include="Content\ladda-master\dist\ladda-themeless.min.css" />
+    <Content Include="Content\ladda-master\dist\ladda.css" />
+    <Content Include="Content\ladda-master\dist\ladda.jquery.min.js" />
+    <Content Include="Content\ladda-master\dist\ladda.js" />
+    <Content Include="Content\ladda-master\dist\ladda.min.css" />
+    <Content Include="Content\ladda-master\dist\ladda.min.js" />
+    <Content Include="Content\ladda-master\dist\spin.js" />
+    <Content Include="Content\ladda-master\dist\spin.min.js" />
+    <Content Include="Content\ladda-master\js\ladda.jquery.js" />
+    <Content Include="Content\ladda-master\js\ladda.js" />
+    <Content Include="Content\ladda-master\js\prism.js" />
+    <Content Include="Content\ladda-master\js\spin.js" />
+    <Content Include="Content\ladda-master\scripts-init\ladda-loading.js" />
+    <Content Include="Content\ladda-master\scripts-init\ladda-loading.min.js" />
+    <Content Include="Content\ladda-master\vendors\ladda-loading.js" />
+    <Content Include="Content\ladda-master\vendors\ladda-loading.min.js" />
+    <Content Include="Content\ladda-master\vendors\spin.js" />
+    <Content Include="Content\ladda-master\vendors\spin.min.js" />
+    <Content Include="Content\plugins\jquery_mask_plugin\jquery.mask.min.js" />
+    <Content Include="Content\plugins\jstree_style\32px.png" />
+    <Content Include="Content\images\abank-language-english.png" />
+    <Content Include="Content\images\abank-language-myanmar.png" />
+    <Content Include="Content\images\lan-english.png" />
+    <Content Include="Content\images\lan-myanmar.png" />
+    <Content Include="Content\images\Login-Logo.png" />
+    <Content Include="Content\images\logo-abank-large.png" />
+    <Content Include="Content\images\logo-abank-small.png" />
+    <Content Include="Content\images\mini-side-bar-logo.png" />
+    <Content Include="Content\images\mobile\mobile-mpt.png" />
+    <Content Include="Content\images\mobile\mobile-mytel.png" />
+    <Content Include="Content\images\mobile\mobile-ooredoo.png" />
+    <Content Include="Content\images\mobile\mobile-telenor.png" />
+    <Content Include="Content\images\my-profile.jpg" />
+    <Content Include="Content\images\side-bar-logo-landscape.png" />
+    <Content Include="Content\plugins\jstree_style\throbber.gif" />
+    <Content Include="Content\images\user2-160x160.jpg" />
+    <Content Include="Content\Ionicons\css\ionicons.css" />
+    <Content Include="Content\Ionicons\css\ionicons.min.css" />
+    <Content Include="Content\Ionicons\fonts\ionicons.svg" />
+    <Content Include="Content\newstyle.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\plugins\bootstrap-slider\bootstrap-slider.js" />
+    <Content Include="Content\plugins\bootstrap-slider\slider.css" />
+    <Content Include="Content\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.js" />
+    <Content Include="Content\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.min.js" />
+    <Content Include="Content\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.css" />
+    <Content Include="Content\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.min.css" />
+    <Content Include="Content\plugins\iCheck\all.css" />
+    <Content Include="Content\plugins\iCheck\flat\aero%402x.png" />
+    <Content Include="Content\plugins\iCheck\flat\aero.css" />
+    <Content Include="Content\plugins\iCheck\flat\aero.png" />
+    <Content Include="Content\plugins\iCheck\flat\blue%402x.png" />
+    <Content Include="Content\plugins\iCheck\flat\blue.css" />
+    <Content Include="Content\plugins\iCheck\flat\blue.png" />
+    <Content Include="Content\plugins\iCheck\flat\flat%402x.png" />
+    <Content Include="Content\plugins\iCheck\flat\flat.css" />
+    <Content Include="Content\plugins\iCheck\flat\flat.png" />
+    <Content Include="Content\plugins\iCheck\flat\green%402x.png" />
+    <Content Include="Content\plugins\iCheck\flat\green.css" />
+    <Content Include="Content\plugins\iCheck\flat\green.png" />
+    <Content Include="Content\plugins\iCheck\flat\grey%402x.png" />
+    <Content Include="Content\plugins\iCheck\flat\grey.css" />
+    <Content Include="Content\plugins\iCheck\flat\grey.png" />
+    <Content Include="Content\plugins\iCheck\flat\orange%402x.png" />
+    <Content Include="Content\plugins\iCheck\flat\orange.css" />
+    <Content Include="Content\plugins\iCheck\flat\orange.png" />
+    <Content Include="Content\plugins\iCheck\flat\pink%402x.png" />
+    <Content Include="Content\plugins\iCheck\flat\pink.css" />
+    <Content Include="Content\plugins\iCheck\flat\pink.png" />
+    <Content Include="Content\plugins\iCheck\flat\purple%402x.png" />
+    <Content Include="Content\plugins\iCheck\flat\purple.css" />
+    <Content Include="Content\plugins\iCheck\flat\purple.png" />
+    <Content Include="Content\plugins\iCheck\flat\red%402x.png" />
+    <Content Include="Content\plugins\iCheck\flat\red.css" />
+    <Content Include="Content\plugins\iCheck\flat\red.png" />
+    <Content Include="Content\plugins\iCheck\flat\yellow%402x.png" />
+    <Content Include="Content\plugins\iCheck\flat\yellow.css" />
+    <Content Include="Content\plugins\iCheck\flat\yellow.png" />
+    <Content Include="Content\plugins\iCheck\flat\_all.css" />
+    <Content Include="Content\plugins\iCheck\futurico\futurico%402x.png" />
+    <Content Include="Content\plugins\iCheck\futurico\futurico.css" />
+    <Content Include="Content\plugins\iCheck\futurico\futurico.png" />
+    <Content Include="Content\plugins\iCheck\icheck.js" />
+    <Content Include="Content\plugins\iCheck\icheck.min.js" />
+    <Content Include="Content\plugins\iCheck\line\aero.css" />
+    <Content Include="Content\plugins\iCheck\line\blue.css" />
+    <Content Include="Content\plugins\iCheck\line\green.css" />
+    <Content Include="Content\plugins\iCheck\line\grey.css" />
+    <Content Include="Content\plugins\iCheck\line\line%402x.png" />
+    <Content Include="Content\plugins\iCheck\line\line.css" />
+    <Content Include="Content\plugins\iCheck\line\line.png" />
+    <Content Include="Content\plugins\iCheck\line\orange.css" />
+    <Content Include="Content\plugins\iCheck\line\pink.css" />
+    <Content Include="Content\plugins\iCheck\line\purple.css" />
+    <Content Include="Content\plugins\iCheck\line\red.css" />
+    <Content Include="Content\plugins\iCheck\line\yellow.css" />
+    <Content Include="Content\plugins\iCheck\line\_all.css" />
+    <Content Include="Content\plugins\iCheck\minimal\aero%402x.png" />
+    <Content Include="Content\plugins\iCheck\minimal\aero.css" />
+    <Content Include="Content\plugins\iCheck\minimal\aero.png" />
+    <Content Include="Content\plugins\iCheck\minimal\blue%402x.png" />
+    <Content Include="Content\plugins\iCheck\minimal\blue.css" />
+    <Content Include="Content\plugins\iCheck\minimal\blue.png" />
+    <Content Include="Content\plugins\iCheck\minimal\green%402x.png" />
+    <Content Include="Content\plugins\iCheck\minimal\green.css" />
+    <Content Include="Content\plugins\iCheck\minimal\green.png" />
+    <Content Include="Content\plugins\iCheck\minimal\grey%402x.png" />
+    <Content Include="Content\plugins\iCheck\minimal\grey.css" />
+    <Content Include="Content\plugins\iCheck\minimal\grey.png" />
+    <Content Include="Content\plugins\iCheck\minimal\minimal%402x.png" />
+    <Content Include="Content\plugins\iCheck\minimal\minimal.css" />
+    <Content Include="Content\plugins\iCheck\minimal\minimal.png" />
+    <Content Include="Content\plugins\iCheck\minimal\orange%402x.png" />
+    <Content Include="Content\plugins\iCheck\minimal\orange.css" />
+    <Content Include="Content\plugins\iCheck\minimal\orange.png" />
+    <Content Include="Content\plugins\iCheck\minimal\pink%402x.png" />
+    <Content Include="Content\plugins\iCheck\minimal\pink.css" />
+    <Content Include="Content\plugins\iCheck\minimal\pink.png" />
+    <Content Include="Content\plugins\iCheck\minimal\purple%402x.png" />
+    <Content Include="Content\plugins\iCheck\minimal\purple.css" />
+    <Content Include="Content\plugins\iCheck\minimal\purple.png" />
+    <Content Include="Content\plugins\iCheck\minimal\red%402x.png" />
+    <Content Include="Content\plugins\iCheck\minimal\red.css" />
+    <Content Include="Content\plugins\iCheck\minimal\red.png" />
+    <Content Include="Content\plugins\iCheck\minimal\yellow%402x.png" />
+    <Content Include="Content\plugins\iCheck\minimal\yellow.css" />
+    <Content Include="Content\plugins\iCheck\minimal\yellow.png" />
+    <Content Include="Content\plugins\iCheck\minimal\_all.css" />
+    <Content Include="Content\plugins\iCheck\polaris\polaris%402x.png" />
+    <Content Include="Content\plugins\iCheck\polaris\polaris.css" />
+    <Content Include="Content\plugins\iCheck\polaris\polaris.png" />
+    <Content Include="Content\plugins\iCheck\square\aero%402x.png" />
+    <Content Include="Content\plugins\iCheck\square\aero.css" />
+    <Content Include="Content\plugins\iCheck\square\aero.png" />
+    <Content Include="Content\plugins\iCheck\square\blue%402x.png" />
+    <Content Include="Content\plugins\iCheck\square\blue.css" />
+    <Content Include="Content\plugins\iCheck\square\blue.png" />
+    <Content Include="Content\plugins\iCheck\square\green%402x.png" />
+    <Content Include="Content\plugins\iCheck\square\green.css" />
+    <Content Include="Content\plugins\iCheck\square\green.png" />
+    <Content Include="Content\plugins\iCheck\square\grey%402x.png" />
+    <Content Include="Content\plugins\iCheck\square\grey.css" />
+    <Content Include="Content\plugins\iCheck\square\grey.png" />
+    <Content Include="Content\plugins\iCheck\square\orange%402x.png" />
+    <Content Include="Content\plugins\iCheck\square\orange.css" />
+    <Content Include="Content\plugins\iCheck\square\orange.png" />
+    <Content Include="Content\plugins\iCheck\square\pink%402x.png" />
+    <Content Include="Content\plugins\iCheck\square\pink.css" />
+    <Content Include="Content\plugins\iCheck\square\pink.png" />
+    <Content Include="Content\plugins\iCheck\square\purple%402x.png" />
+    <Content Include="Content\plugins\iCheck\square\purple.css" />
+    <Content Include="Content\plugins\iCheck\square\purple.png" />
+    <Content Include="Content\plugins\iCheck\square\red%402x.png" />
+    <Content Include="Content\plugins\iCheck\square\red.css" />
+    <Content Include="Content\plugins\iCheck\square\red.png" />
+    <Content Include="Content\plugins\iCheck\square\square%402x.png" />
+    <Content Include="Content\plugins\iCheck\square\square.css" />
+    <Content Include="Content\plugins\iCheck\square\square.png" />
+    <Content Include="Content\plugins\iCheck\square\yellow%402x.png" />
+    <Content Include="Content\plugins\iCheck\square\yellow.css" />
+    <Content Include="Content\plugins\iCheck\square\yellow.png" />
+    <Content Include="Content\plugins\iCheck\square\_all.css" />
+    <Content Include="Content\plugins\input-mask\jquery.inputmask.date.extensions.js" />
+    <Content Include="Content\plugins\input-mask\jquery.inputmask.extensions.js" />
+    <Content Include="Content\plugins\input-mask\jquery.inputmask.js" />
+    <Content Include="Content\plugins\input-mask\jquery.inputmask.numeric.extensions.js" />
+    <Content Include="Content\plugins\input-mask\jquery.inputmask.phone.extensions.js" />
+    <Content Include="Content\plugins\input-mask\jquery.inputmask.regex.extensions.js" />
+    <Content Include="Content\plugins\input-mask\phone-codes\readme.txt" />
+    <Content Include="Content\plugins\jQueryUI\jquery-ui.js" />
+    <Content Include="Content\plugins\jQueryUI\jquery-ui.min.js" />
+    <Content Include="Content\plugins\jstree_style\style.min.css" />
+    <Content Include="Content\plugins\jvectormap\jquery-jvectormap-1.2.2.css" />
+    <Content Include="Content\plugins\jvectormap\jquery-jvectormap-1.2.2.min.js" />
+    <Content Include="Content\plugins\jvectormap\jquery-jvectormap-usa-en.js" />
+    <Content Include="Content\plugins\jvectormap\jquery-jvectormap-world-mill-en.js" />
+    <Content Include="Content\plugins\pace\pace.css" />
+    <Content Include="Content\plugins\pace\pace.js" />
+    <Content Include="Content\plugins\pace\pace.min.css" />
+    <Content Include="Content\plugins\pace\pace.min.js" />
+    <Content Include="Content\plugins\seiyria-bootstrap-slider\bootstrap-slider.js" />
+    <Content Include="Content\plugins\seiyria-bootstrap-slider\bootstrap-slider.min.js" />
+    <Content Include="Content\plugins\seiyria-bootstrap-slider\css\bootstrap-slider.css" />
+    <Content Include="Content\plugins\seiyria-bootstrap-slider\css\bootstrap-slider.min.css" />
+    <Content Include="Content\sweetalert2\sweetalert2.all.js" />
+    <Content Include="Content\sweetalert2\sweetalert2.all.min.js" />
+    <Content Include="Content\sweetalert2\sweetalert2.common.js" />
+    <Content Include="Content\sweetalert2\sweetalert2.css" />
+    <Content Include="Content\sweetalert2\sweetalert2.js" />
+    <Content Include="Content\sweetalert2\sweetalert2.min.css" />
+    <Content Include="Content\sweetalert2\sweetalert2.min.js" />
+    <Content Include="Content\tokenize2.min.css" />
+    <Content Include="Content\userregistration.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Images\changePassword.png" />
+    <Content Include="Images\Login-Logo.png" />
+    <Content Include="Images\mini-side-bar-logo.png" />
+    <Content Include="Images\new_pdf_bg.jpg" />
+    <Content Include="Images\pdftitle.jpg" />
+    <Content Include="Images\side-bar-logo-landscape.png" />
+    <Content Include="RDLCReports\Aspx\AdminLogReport.aspx" />
+    <Content Include="RDLCReports\Aspx\ApiLogReport.aspx" />
+    <Content Include="RDLCReports\Aspx\BulkPaymentDetail.aspx" />
+    <Content Include="RDLCReports\Aspx\BulkPaymentReport.aspx" />
+    <Content Include="RDLCReports\Aspx\CIFIDAccountInfoReport.aspx" />
+    <Content Include="RDLCReports\Aspx\CIFIDInfoReport.aspx" />
+    <Content Include="RDLCReports\Aspx\CorporateReport.aspx" />
+    <Content Include="RDLCReports\Aspx\CorporateUserReport.aspx" />
+    <Content Include="RDLCReports\Aspx\CronLogReport.aspx" />
+    <Content Include="RDLCReports\Aspx\C_DomesticInterbankTransferReport.aspx" />
+    <Content Include="RDLCReports\Aspx\C_RemittanceReport.aspx" />
+    <Content Include="RDLCReports\Aspx\C_SchedulePaymentDetail.aspx" />
+    <Content Include="RDLCReports\Aspx\C_ScheduleTransferReport.aspx" />
+    <Content Include="RDLCReports\Aspx\C_TopUpReport.aspx" />
+    <Content Include="RDLCReports\Aspx\C_TransactionReport.aspx" />
+    <Content Include="RDLCReports\Aspx\C_UtilityReport.aspx" />
+    <Content Include="RDLCReports\Aspx\DomesticInterbankTransferReport.aspx" />
+    <Content Include="RDLCReports\Aspx\FeedbackReport.aspx" />
+    <Content Include="RDLCReports\Aspx\RemittanceReport.aspx" />
+    <Content Include="RDLCReports\Aspx\SchedulePaymentDetailReport.aspx" />
+    <Content Include="RDLCReports\Aspx\ScheduleTransferLogReport.aspx" />
+    <Content Include="RDLCReports\Aspx\ScheduleTransferReport.aspx" />
+    <Content Include="RDLCReports\Aspx\TopUpReport.aspx" />
+    <Content Include="RDLCReports\Aspx\TransactionReport.aspx" />
+    <Content Include="RDLCReports\Aspx\TransactionSummaryReport.aspx" />
+    <Content Include="RDLCReports\Aspx\UserReport.aspx" />
+    <Content Include="RDLCReports\Aspx\UtilityReport.aspx" />
+    <Content Include="RDLCReports\Aspx\UtilitySummaryReport.aspx" />
+    <Content Include="ReportViewerWebForm.aspx" />
+    <Content Include="Scripts\additional-methods.js" />
+    <Content Include="Scripts\additional-methods.min.js" />
+    <Content Include="Scripts\adminlte.min.js" />
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap\css\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Content\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\font-awesome-4.7.0\fonts\FontAwesome.otf" />
+    <Content Include="Content\Ionicons\fonts\ionicons.eot" />
+    <Content Include="Content\Ionicons\fonts\ionicons.ttf" />
+    <Content Include="Content\Ionicons\fonts\ionicons.woff" />
+    <Content Include="Content\plugins\input-mask\phone-codes\phone-be.json" />
+    <Content Include="Content\plugins\input-mask\phone-codes\phone-codes.json" />
+    <None Include="ABankAdminAPI\AbankAdminAPI.config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ABankAdminAPI\AbankAdminAPI.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ABankAdminAPI\app.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="RDLCReports\DataSet\CorporateUserDS.xsc">
+      <DependentUpon>CorporateUserDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="Content\ladda-master\css\ladda-theme.scss" />
+    <Content Include="Content\ladda-master\css\ladda.scss" />
+    <None Include="RDLCReports\DataSet\CorporateUserDS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>CorporateUserDS.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="RDLCReports\DataSet\CorporateUserDS.xss">
+      <DependentUpon>CorporateUserDS.xsd</DependentUpon>
+    </Content>
+    <Content Include="RDLCReports\DataSet\UserDataSet.xsc">
+      <DependentUpon>UserDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="RDLCReports\DataSet\UserDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>UserDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="RDLCReports\DataSet\UserDataSet.xss">
+      <DependentUpon>UserDataSet.xsd</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\dataTables.checkboxes.js" />
+    <Content Include="Scripts\dataTables.checkboxes.min.js" />
+    <Content Include="Scripts\datatables.min.js" />
+    <Content Include="Scripts\daterangepicker.min.js" />
+    <Content Include="Scripts\jquery-1.11.2.min.js" />
+    <Content Include="Scripts\jquery-1.12.1.jquery.min.js" />
+    <None Include="Scripts\jquery-3.3.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\jquery.number.min.js.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jquery.number.js" />
+    <Content Include="Scripts\jquery.number.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jstree-3.2.1.min.js" />
+    <Content Include="Scripts\mine\admin.js" />
+    <Content Include="Scripts\mine\approve.js" />
+    <Content Include="Scripts\mine\approveCorporate.js" />
+    <Content Include="Scripts\mine\billerregistration.js" />
+    <Content Include="Scripts\mine\billerregistrationlist.js" />
+    <Content Include="Scripts\mine\CApproveRule.js" />
+    <Content Include="Scripts\mine\CIFInfo.js" />
+    <Content Include="Scripts\mine\CIFInfoForDeactivate.js" />
+    <Content Include="Scripts\mine\corporate.js" />
+    <Content Include="Scripts\mine\CUserApprove.js" />
+    <Content Include="Scripts\mine\c_req_approverule.js" />
+    <Content Include="Scripts\mine\iconicblacklist.js" />
+    <Content Include="Scripts\mine\iconicbooking.js" />
+    <Content Include="Scripts\mine\otherbanktranlog.js" />
+    <Content Include="Scripts\mine\reqCorporate.js" />
+    <Content Include="Scripts\mine\request.js" />
+    <Content Include="Scripts\mine\requestchangelist.js" />
+    <Content Include="Scripts\mine\retail.js" />
+    <Content Include="Scripts\mine\requestuserlist.js" />
+    <Content Include="Scripts\mine\RM_Info.js" />
+    <Content Include="Scripts\mine\userregistrationlist.js" />
+    <Content Include="Scripts\mine\userregistration.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\tokenize2.min.js" />
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Ver_sion\Create.cshtml" />
+    <Content Include="Views\Ver_sion\Delete.cshtml" />
+    <Content Include="Views\Ver_sion\Details.cshtml" />
+    <Content Include="Views\Ver_sion\Edit.cshtml" />
+    <Content Include="Views\Ver_sion\Index.cshtml" />
+    <Content Include="Views\Branch\Create.cshtml" />
+    <Content Include="Views\Branch\Delete.cshtml" />
+    <Content Include="Views\Branch\Details.cshtml" />
+    <Content Include="Views\Branch\Edit.cshtml" />
+    <Content Include="Views\Branch\Index.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\retail.cshtml" />
+    <Content Include="Views\Rule\Edit.cshtml" />
+    <Content Include="Views\Rule\Index.cshtml" />
+    <Content Include="Views\Currency\Create.cshtml" />
+    <Content Include="Views\Currency\Delete.cshtml" />
+    <Content Include="Views\Currency\Details.cshtml" />
+    <Content Include="Views\Currency\Edit.cshtml" />
+    <Content Include="Views\Currency\Index.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Delete.cshtml" />
+    <Content Include="Views\User\Details.cshtml" />
+    <Content Include="Views\City\Create.cshtml" />
+    <Content Include="Views\City\Delete.cshtml" />
+    <Content Include="Views\City\Details.cshtml" />
+    <Content Include="Views\City\Edit.cshtml" />
+    <Content Include="Views\City\Index.cshtml" />
+    <Content Include="Views\Township\Create.cshtml" />
+    <Content Include="Views\Township\Delete.cshtml" />
+    <Content Include="Views\Township\Details.cshtml" />
+    <Content Include="Views\Township\Edit.cshtml" />
+    <Content Include="Views\Township\Index.cshtml" />
+    <Content Include="Views\FinacleLogin\Index.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Admin\Register.cshtml" />
+    <Content Include="Views\Admin\Login.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Edit.cshtml" />
+    <Content Include="Views\ADS\Create.cshtml" />
+    <Content Include="Views\ADS\Delete.cshtml" />
+    <Content Include="Views\ADS\Details.cshtml" />
+    <Content Include="Views\ADS\Edit.cshtml" />
+    <Content Include="Views\ADS\Index.cshtml" />
+    <Content Include="Views\Shared\_SidebarPartial.cshtml" />
+    <Content Include="Views\ACC_Service\Create.cshtml" />
+    <Content Include="Views\ACC_Service\Delete.cshtml" />
+    <Content Include="Views\ACC_Service\Edit.cshtml" />
+    <Content Include="Views\ACC_Service\Index.cshtml" />
+    <Content Include="Views\Admin\Delete.cshtml" />
+    <Content Include="Views\ACC_Service_Desc\Create.cshtml" />
+    <Content Include="Views\ACC_Service_Desc\Delete.cshtml" />
+    <Content Include="Views\ACC_Service_Desc\Details.cshtml" />
+    <Content Include="Views\ACC_Service_Desc\Edit.cshtml" />
+    <Content Include="Views\ACC_Service_Desc\Index.cshtml" />
+    <Content Include="Views\Admin\ChangePassword.cshtml" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\RoleMenu\Index.cshtml" />
+    <Content Include="Views\RoleMenu\Tree.cshtml" />
+    <Content Include="Views\Error\General.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\PageNotFound.cshtml" />
+    <Content Include="Views\Error\Unauthorize.cshtml" />
+    <Content Include="Views\Request\Index.cshtml" />
+    <Content Include="Views\Request\register.cshtml" />
+    <Content Include="Views\Request\Edit.cshtml" />
+    <Content Include="Views\ACC_Service\Details.cshtml" />
+    <Content Include="Views\Approve\Index.cshtml" />
+    <Content Include="Views\EventLog\Index.cshtml" />
+    <Content Include="Views\Request\Delete.cshtml" />
+    <Content Include="Views\Request\Detail.cshtml" />
+    <Content Include="Views\Request\UserEdit.cshtml" />
+    <Content Include="Views\Request\UserList.cshtml" />
+    <Content Include="Views\EventLog\Details.cshtml" />
+    <Content Include="Views\Request\Changes.cshtml" />
+    <Content Include="Views\Approve\Changes.cshtml" />
+    <Content Include="Views\Request\UserDetails.cshtml" />
+    <Content Include="Views\Approve\Details.cshtml" />
+    <Content Include="Views\Request\UserDelete.cshtml" />
+    <Content Include="Views\Request\ChangesDelete.cshtml" />
+    <Content Include="Views\Request\ChangesDetails.cshtml" />
+    <Content Include="Views\Office_Account\Edit.cshtml" />
+    <Content Include="Views\Office_Account\Index.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Approve\ChangesDetails.cshtml" />
+    <Content Include="Views\FeedBack\Index.cshtml" />
+    <Content Include="Views\FeedBack\Create.cshtml" />
+    <Content Include="Views\FeedBack\Edit.cshtml" />
+    <Content Include="Views\FeedBack\Delete.cshtml" />
+    <Content Include="Views\UtilitiesDetail\Create.cshtml" />
+    <Content Include="Views\UtilitiesDetail\Delete.cshtml" />
+    <Content Include="Views\UtilitiesDetail\Details.cshtml" />
+    <Content Include="Views\UtilitiesDetail\Edit.cshtml" />
+    <Content Include="Views\UtilitiesDetail\Index.cshtml" />
+    <Content Include="Views\Utilities\Create.cshtml" />
+    <Content Include="Views\Utilities\Delete.cshtml" />
+    <Content Include="Views\Utilities\Edit.cshtml" />
+    <Content Include="Views\Utilities\Index.cshtml" />
+    <Content Include="Views\Notification\Create.cshtml" />
+    <Content Include="Views\Notification\Index.cshtml" />
+    <Content Include="Views\Report\Transaction.cshtml" />
+    <Content Include="Views\Report\Topup.cshtml" />
+    <Content Include="Views\Report\Utility.cshtml" />
+    <Content Include="Views\Report\Remittance.cshtml" />
+    <Content Include="Views\Report\Feedback.cshtml" />
+    <Content Include="Views\Notification\Delete.cshtml" />
+    <Content Include="Views\ContactUs\Index.cshtml" />
+    <Content Include="Views\SMS_Allow\Edit.cshtml" />
+    <Content Include="Views\SMS_Allow\Index.cshtml" />
+    <Content Include="Views\SMS_Body\Edit.cshtml" />
+    <Content Include="Views\SMS_Body\Index.cshtml" />
+    <Content Include="Views\IB_HowToUse\Create.cshtml" />
+    <Content Include="Views\IB_HowToUse\Delete.cshtml" />
+    <Content Include="Views\IB_HowToUse\Details.cshtml" />
+    <Content Include="Views\IB_HowToUse\Edit.cshtml" />
+    <Content Include="Views\IB_HowToUse\Index.cshtml" />
+    <Content Include="Views\OtherBanks\Create.cshtml" />
+    <Content Include="Views\OtherBanks\Delete.cshtml" />
+    <Content Include="Views\OtherBanks\Edit.cshtml" />
+    <Content Include="Views\OtherBanks\Index.cshtml" />
+    <Content Include="Views\OtherBranch\Create.cshtml" />
+    <Content Include="Views\OtherBranch\Delete.cshtml" />
+    <Content Include="Views\OtherBranch\Details.cshtml" />
+    <Content Include="Views\OtherBranch\Edit.cshtml" />
+    <Content Include="Views\OtherBranch\Index.cshtml" />
+    <Content Include="Views\Api_Log\Details.cshtml" />
+    <Content Include="Views\Api_Log\Index.cshtml" />
+    <Content Include="Views\Report\TransactionSummary.cshtml" />
+    <Content Include="Views\Report\UtilitySummary.cshtml" />
+    <Content Include="Views\Report\ApiLog.cshtml" />
+    <Content Include="Views\Report\AdminLog.cshtml" />
+    <Content Include="Views\Report\CronLog.cshtml" />
+    <Content Include="Views\ServiceManagement\Edit.cshtml" />
+    <Content Include="Views\ServiceManagement\Index.cshtml" />
+    <Content Include="Views\Report\ScheduleTransfer.cshtml" />
+    <Content Include="Views\Report\ScheduleTransferLog.cshtml" />
+    <Content Include="Views\Report\SchedulePaymentDetail.cshtml" />
+    <Content Include="Views\User\corporate.cshtml" />
+    <Content Include="Views\Request\Corporate.cshtml" />
+    <Content Include="Views\Report\DomesticInterbankTransfer.cshtml" />
+    <Content Include="Views\CCT\PendingList.cshtml" />
+    <Content Include="Views\CCT\OtherBankRecon.cshtml" />
+    <Content Include="Views\CCT\Details.cshtml" />
+    <Content Include="Views\SMS_Body\Details.cshtml" />
+    <Content Include="Views\State\Create.cshtml" />
+    <Content Include="Views\State\Delete.cshtml" />
+    <Content Include="Views\State\Edit.cshtml" />
+    <Content Include="Views\State\Index.cshtml" />
+    <Content Include="Views\Corporate\Delete.cshtml" />
+    <Content Include="Views\Corporate\Details.cshtml" />
+    <Content Include="Views\Corporate\Edit.cshtml" />
+    <Content Include="Views\Corporate\Index.cshtml" />
+    <Content Include="Views\Country\Create.cshtml" />
+    <Content Include="Views\Country\Delete.cshtml" />
+    <Content Include="Views\Country\Edit.cshtml" />
+    <Content Include="Views\Country\Index.cshtml" />
+    <Content Include="Views\EmailTemplate\Edit.cshtml" />
+    <Content Include="Views\EmailTemplate\Index.cshtml" />
+    <Content Include="Views\EmailTemplate\Details.cshtml" />
+    <Content Include="Views\Corporate\Register.cshtml" />
+    <Content Include="Views\Corporate\ApproveIndex.cshtml" />
+    <Content Include="Views\Corporate\Detail.cshtml" />
+    <Content Include="Views\Corporate\CorporateLists.cshtml" />
+    <Content Include="Views\Corporate\CorporateDetail.cshtml" />
+    <Content Include="Views\Corporate\CorporateDelete.cshtml" />
+    <Content Include="Views\Corporate\CorporateEdit.cshtml" />
+    <Content Include="Views\Position\Create.cshtml" />
+    <Content Include="Views\Position\Delete.cshtml" />
+    <Content Include="Views\Position\Edit.cshtml" />
+    <Content Include="Views\Position\Index.cshtml" />
+    <Content Include="Views\Department\Create.cshtml" />
+    <Content Include="Views\Department\Delete.cshtml" />
+    <Content Include="Views\Department\Edit.cshtml" />
+    <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\CorporateUserRequest\RequestCorporateUser.cshtml" />
+    <Content Include="Views\CorporateUserRequest\CorporateUserList.cshtml" />
+    <Content Include="Views\CorporateUserRequest\RequestUserList.cshtml" />
+    <Content Include="Views\CorporateUserRequest\RequestChangesList.cshtml" />
+    <Content Include="Views\CorporateUser\Changes.cshtml" />
+    <Content Include="Views\CorporateUser\ChangesDetails.cshtml" />
+    <Content Include="Views\CorporateUser\Details.cshtml" />
+    <Content Include="Views\CorporateUser\Index.cshtml" />
+    <Content Include="Views\BulkFileRecord\Edit.cshtml" />
+    <Content Include="Views\BulkFileRecord\Index.cshtml" />
+    <Content Include="Views\C_ApproveRule\Index.cshtml" />
+    <Content Include="Views\C_ApproveRule\Create.cshtml" />
+    <Content Include="Views\C_ApproveRule\Delete.cshtml" />
+    <Content Include="Views\C_ApproveRule\Details.cshtml" />
+    <Content Include="Views\C_ApproveRule\Edit.cshtml" />
+    <Content Include="Views\CorporateUser\DetailsCorporateUser.cshtml" />
+    <Content Include="Views\CorporateUserReport\CorporateUserSummary.cshtml" />
+    <Content Include="Views\CorporateUserReport\RequestCorporateUserSummary.cshtml" />
+    <Content Include="Views\CorporateUserReport\RequestCorporateChangesSummary.cshtml" />
+    <Content Include="Views\Report\BulkPayment.cshtml" />
+    <Content Include="Views\Report\Corporate.cshtml" />
+    <Content Include="Views\Report\CorporateUser.cshtml" />
+    <Content Include="Views\CCT\BulkDetail.cshtml" />
+    <Content Include="Views\C_ApproveRule\ApprovedIndex.cshtml" />
+    <Content Include="Views\C_ApproveRule\Register.cshtml" />
+    <Content Include="Views\C_ApproveRule\ReqApproveRuleList.cshtml" />
+    <Content Include="Views\C_ApproveRule\DetailsReqApproveRule.cshtml" />
+    <Content Include="Views\C_ApproveRule\EditReqApproveRule.cshtml" />
+    <Content Include="Views\C_ApproveRule\DeleteReqApproveRule.cshtml" />
+    <Content Include="Views\C_ApproveRule\ApprovedDetails.cshtml" />
+    <Content Include="Views\CIFInfoModels\CIF_ConfirmPage.cshtml" />
+    <Content Include="Views\CIFInfoModels\Create.cshtml" />
+    <Content Include="Views\CIFInfoModels\CreateCIFInfo.cshtml" />
+    <Content Include="Views\CIFInfoModels\Delete.cshtml" />
+    <Content Include="Views\CIFInfoModels\Details.cshtml" />
+    <Content Include="Views\CIFInfoModels\Edit.cshtml" />
+    <Content Include="Views\CIFInfoModels\Index.cshtml" />
+    <Content Include="Views\Report\CIFAccountInformation.cshtml" />
+    <Content Include="Views\Report\CIFInformation.cshtml" />
+    <Content Include="Views\UserTypeModels\Create.cshtml" />
+    <Content Include="Views\UserTypeModels\Delete.cshtml" />
+    <Content Include="Views\UserTypeModels\Details.cshtml" />
+    <Content Include="Views\UserTypeModels\Edit.cshtml" />
+    <Content Include="Views\UserTypeModels\Index.cshtml" />
+    <Content Include="Views\IconicBookingModels\Create.cshtml" />
+    <Content Include="Views\IconicBookingModels\Delete.cshtml" />
+    <Content Include="Views\IconicBookingModels\Details.cshtml" />
+    <Content Include="Views\IconicBookingModels\Edit.cshtml" />
+    <Content Include="Views\IconicBookingModels\Index.cshtml" />
+    <Content Include="Views\IconicBlacklistModels\Create.cshtml" />
+    <Content Include="Views\IconicBlacklistModels\Delete.cshtml" />
+    <Content Include="Views\IconicBlacklistModels\Details.cshtml" />
+    <Content Include="Views\IconicBlacklistModels\Edit.cshtml" />
+    <Content Include="Views\IconicBlacklistModels\Index.cshtml" />
+    <Content Include="Views\Report\BulkPaymentDetail.cshtml" />
+    <Content Include="Views\Biller\BillerList.cshtml" />
+    <Content Include="Views\Biller\BillerRegistration.cshtml" />
+    <Content Include="Views\IconicBookingModels\BulkIconicBooking.cshtml" />
+    <Content Include="Views\IconicBookingModels\BulkIconicBookingValidation.cshtml" />
+    <Content Include="Views\IconicBookingModels\BulkIconicBookingConfirm.cshtml" />
+    <Content Include="Views\Tier_Management\Create.cshtml" />
+    <Content Include="Views\Tier_Management\Delete.cshtml" />
+    <Content Include="Views\Tier_Management\Details.cshtml" />
+    <Content Include="Views\Tier_Management\Edit.cshtml" />
+    <Content Include="Views\Tier_Management\Index.cshtml" />
+    <Content Include="Views\Number_Management\Create.cshtml" />
+    <Content Include="Views\Number_Management\Delete.cshtml" />
+    <Content Include="Views\Number_Management\Details.cshtml" />
+    <Content Include="Views\Number_Management\Edit.cshtml" />
+    <Content Include="Views\Number_Management\Index.cshtml" />
+    <Content Include="Views\BlacklistNumber\Create.cshtml" />
+    <Content Include="Views\BlacklistNumber\Delete.cshtml" />
+    <Content Include="Views\BlacklistNumber\Details.cshtml" />
+    <Content Include="Views\BlacklistNumber\Edit.cshtml" />
+    <Content Include="Views\BlacklistNumber\Index.cshtml" />
+    <Content Include="Views\RM_TL_Info\Create.cshtml" />
+    <Content Include="Views\RM_TL_Info\Delete.cshtml" />
+    <Content Include="Views\RM_TL_Info\Details.cshtml" />
+    <Content Include="Views\RM_TL_Info\Edit.cshtml" />
+    <Content Include="Views\RM_TL_Info\Index.cshtml" />
+    <Content Include="Views\RM_Info\Create.cshtml" />
+    <Content Include="Views\RM_Info\Delete.cshtml" />
+    <Content Include="Views\RM_Info\Details.cshtml" />
+    <Content Include="Views\RM_Info\Edit.cshtml" />
+    <Content Include="Views\RM_Info\Index.cshtml" />
+    <Content Include="Views\CIFInfoForApprover\Create.cshtml" />
+    <Content Include="Views\CIFInfoForApprover\Delete.cshtml" />
+    <Content Include="Views\CIFInfoForApprover\Details.cshtml" />
+    <Content Include="Views\CIFInfoForApprover\Edit.cshtml" />
+    <Content Include="Views\CIFInfoForApprover\Index.cshtml" />
+    <Content Include="Views\CIFInfoForViewAndEdit\Create.cshtml" />
+    <Content Include="Views\CIFInfoForViewAndEdit\Delete.cshtml" />
+    <Content Include="Views\CIFInfoForViewAndEdit\Details.cshtml" />
+    <Content Include="Views\CIFInfoForViewAndEdit\Edit.cshtml" />
+    <Content Include="Views\CIFInfoForViewAndEdit\Index.cshtml" />
+    <Content Include="Views\CIFInfoForViewAndEdit\CIF_ConfirmPageForEdit.cshtml" />
+    <Content Include="Views\CifInfoDeactivate\Index.cshtml" />
+    <Content Include="Views\CifInfoDeactivate\Edit.cshtml" />
+    <Content Include="Views\CifInfoDeactivate\CreateDeactivate.cshtml" />
+    <Content Include="Views\CifInfoDeactivate\CIF_ConfirmPageForDeactivate.cshtml" />
+    <Content Include="Views\CIFInfoModels\GetCifInfoList.cshtml" />
+    <Content Include="Views\CIFInfoReport\NewRegisterationReport.cshtml" />
+    <Content Include="Views\CIFInfoReport\InfoForReport.cshtml" />
+    <Content Include="Views\CIFInfoModels\EditCifInfoForUpgrade.cshtml" />
+    <Content Include="Views\CIFInfoModels\InconicApprover.cshtml" />
+    <Content Include="Views\CIFInfoModels\IconicApproverEdit.cshtml" />
+    <Content Include="Views\Privilege\CreatePrivilege.cshtml" />
+    <Content Include="Views\PrivilegeUsage\CreatePrivilegeUsage.cshtml" />
+    <Content Include="Views\CIFInfoModels\CreateCifInfoForUpgrade.cshtml" />
+    <Content Include="Views\CIFInfoModels\ConfirmCifInfoForUpgrade.cshtml" />
+    <Content Include="Views\PrivilegeUsage\ConfirmPrivilegeUsage.cshtml" />
+    <Content Include="Views\Holiday\Create.cshtml" />
+    <Content Include="Views\Holiday\Delete.cshtml" />
+    <Content Include="Views\Holiday\Detail.cshtml" />
+    <Content Include="Views\Holiday\Edit.cshtml" />
+    <Content Include="Views\Holiday\HolidayDataTableList.cshtml" />
+    <Content Include="Views\Holiday\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutDataTable.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Content\plugins\bootstrap-datepicker\" />
+    <Folder Include="Content\plugins\bower_components\" />
+    <Folder Include="Content\plugins\jQuery\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ABankAdmin.Core\ABankAdmin.Core.csproj">
+      <Project>{9b1dc18a-3dc4-4d83-bcfa-f2e5f3ac1f3b}</Project>
+      <Name>ABankAdmin.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RDLCReports\RDLC\C_rpSchedulePaymentDetail.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpAdminLog.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpApiLog.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpBulkPayment.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpBulkPaymentDetail.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpCIFIDAccountInfo.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpCIFIDInfo.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpCorporate.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpCorporateUser.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpCronLog.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpC_DomesticInterbankTransfer.rdlc" />
+    <None Include="RDLCReports\RDLC\rpC_Remittance.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="RDLCReports\RDLC\rpC_ScheduleTransfer.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpC_Transaction.rdlc" />
+    <None Include="RDLCReports\RDLC\rpC_Utility.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="RDLCReports\RDLC\rpDomesticInterbankTransfer.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpFeedback.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpScheduleTransfer.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpScheduleTransferDetail.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpScheduleTransferLog.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rptCorporateUserSummary.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rpRemittance.rdlc" />
+    <None Include="RDLCReports\RDLC\rpTopUp.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="RDLCReports\RDLC\rpTransaction.rdlc" />
+    <None Include="RDLCReports\RDLC\rpTransactionSummary.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="RDLCReports\RDLC\rptRequestCorporateChangesSummary.rdlc" />
+    <EmbeddedResource Include="RDLCReports\RDLC\rptRequestCorporateUserSummary.rdlc" />
+    <None Include="RDLCReports\RDLC\rpUser.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="RDLCReports\RDLC\rpUtility.rdlc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="RDLCReports\RDLC\rpUtilitySummary.rdlc" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

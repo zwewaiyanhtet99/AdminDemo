@@ -1,0 +1,33 @@
+﻿@model ABankAdmin.Models.RM_InfoVM
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details RM Info</h2>
+
+<div>
+ <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RM_TL_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RM_TL_Name)
+        </dd>
+
+        </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

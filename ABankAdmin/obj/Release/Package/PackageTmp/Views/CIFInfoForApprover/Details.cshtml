@@ -1,0 +1,186 @@
+﻿@model ABankAdmin.Models.CIFInfoModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CIFInfoModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CIFID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CIFID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PHONENO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PHONENO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USERTYPE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USERTYPE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USERTYPECODE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USERTYPECODE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NRC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NRC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ADDRESS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADDRESS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.REMARK)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.REMARK)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EXPIREDATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EXPIREDATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CREATEDDATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREATEDDATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CREATEDUSERID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREATEDUSERID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UPDATEDUSERID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UPDATEDUSERID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DELFLAG)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DELFLAG)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EFFECTIVEDATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EFFECTIVEDATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BRANCHNAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BRANCHNAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RMName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RMName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RMID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RMID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApproverEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApproverEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserEmail)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,35 @@
+﻿@model ABankAdmin.Models.Holiday
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>Detail</h2>
+
+<div>
+    <h4>Holiday</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => Model.HolidayName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.HolidayName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.HolidayDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.HolidayDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-success" })
+    @Html.ActionLink("Delete", "Delete", new { id = Model.ID }, new { @class = "btn btn-danger" })
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

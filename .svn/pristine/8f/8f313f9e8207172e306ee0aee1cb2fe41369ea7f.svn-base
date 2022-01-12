@@ -1,0 +1,35 @@
+﻿@model ABankAdmin.Models.IconicBookingModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Reserved NumberDetails</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt style="width: 200px">
+            @Html.DisplayName("Reserved Number")
+        </dt>
+
+        <dd style="margin-left: 250px;">
+            @Html.DisplayFor(model => model.BOOKINGNUMBER)
+        </dd>
+
+        <dt style="width: 200px">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd style="margin-left: 250px;">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>

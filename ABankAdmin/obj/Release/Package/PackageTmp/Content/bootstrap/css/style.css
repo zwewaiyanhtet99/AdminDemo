@@ -1,0 +1,103 @@
+.stafflist-table .pagination-left-text{
+  margin: 20px 0;
+}
+
+/*.main-header .logo .logo-lg img {
+    width: 200px;
+    height: 50px;Original image size
+    width: 180px;
+    height: 45px;
+}*/
+
+.collapse-link.btn.btn-box-tool {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+    font-size: 18px;
+    color: #444;
+    padding: 0;
+}
+
+button#removestpbtn {
+    margin: 25px 0;
+    color: red;
+}
+
+button#addstpMore,button#addMore{
+  margin: 25px 0;
+  color: green;
+}
+
+.login-border{
+  border: 1px solid #ebebeb;
+  padding: 20px 35px;
+  border-radius: 10px;
+}
+
+.dynamic-skin .navbar-custom-menu .dropdown-menu{
+  padding: 7px;
+}
+
+.dynamic-skin .language img{
+  padding-right: 10px;
+}
+
+.dynamic-skin .inno-user{
+  background: #363636;
+  color: #fff;
+  padding: 15px !important;
+}
+
+/*lll*/
+.custom-option-box label{
+  padding: 0 10px;
+}
+
+
+.chkbox h5{
+  font-weight: bold!important;
+}
+
+.history-panel{
+  background-color: #CCC;
+  height: 200px;
+  padding-left: 0;
+}
+
+.history-table{
+  background-color: #fff;
+}
+
+/*lll*/
+
+.custom-option-box .custom-topbottom-padding{
+  padding: 5px 0;
+}
+
+.main-sidebar,.main-header .logo{
+  width: 320px !important;
+}
+
+@media (min-width: 768px){
+  .sidebar-mini.sidebar-collapse .main-header .logo {
+      width: 50px !important;
+  }
+}
+
+@media (min-width: 768px){
+  .sidebar-mini.sidebar-collapse .main-header .navbar {
+      margin-left: 50px !important;
+  }
+}
+
+.content-wrapper,.main-footer,.main-header .navbar{
+  margin-left: 320px !important;
+}
+
+/*.sidebar-menu > li.treeview > ul.treeview-menu li > ul{
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  width: 230px;
+    background:#068;
+}*/

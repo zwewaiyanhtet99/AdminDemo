@@ -1,0 +1,106 @@
+﻿@model IEnumerable<ABankAdmin.Models.Role>
+@{
+    ViewBag.Title = "Role Menu";
+}
+
+<h2>@ViewBag.rolename</h2>
+<table class="table">
+    <tr>
+        @*<th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>*@
+        @foreach (var item in Model)
+        {
+            <td>
+                @Html.RadioButton("Role", item.ID, new { id = item.Name.ToString() })
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+        }
+    </tr>
+
+</table>
+
+<div id="jstree">
+</div>
+@using (Html.BeginForm("Tree", "RoleMenu", FormMethod.Post))
+{
+    <input type="hidden" name="selectedItems" id="selectedItems" />
+    <input type="hidden" name="role" id="role" value='@ViewBag.role' />
+    <input type="submit" value="Update" class="btn btn-default" />
+    @Html.ActionLink("Cancel", null, null, null, new { href = Request.UrlReferrer, @class = "btn btn-default" })
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/retail")
+    <link rel="stylesheet" href="~/Content/plugins/jstree_style/style.min.css" />
+    <script type="text/javascript" src="~/Scripts/jstree-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#jstree').on('changed.jstree', function (e, data) {
+                var i, j;
+                var selectedItems = [];
+                for(i = 0, j = data.selected.length; i < j; i++) {
+
+                    //Fetch the Id.
+                    var id = data.selected[i];
+
+                    //Add the Node to the JSON Array.
+                    selectedItems.push({
+                        text: data.instance.get_node(data.selected[i]).text,
+                        id: id,
+                        parent: '0'
+                    });
+                }
+
+                //Serialize the JSON Array and save in HiddenField.
+                $('#selectedItems').val(JSON.stringify(selectedItems));
+            }).jstree({
+                "core": {
+                    "themes": {
+                        "variant": "large",
+                        "icons": false
+                    },
+                    "data": @Html.Raw(ViewBag.Json)
+                    },
+                "checkbox": {
+                    "keep_selected_style": false,
+                    "checkbox":{ "tie_selection": false }
+                },
+                "plugins": ["wholerow", "checkbox"],
+            });
+        });
+
+        $(document).ready(function () {
+            var roleID = parseInt(@ViewBag.role);
+            var roleName = '@ViewBag.rolename';
+            var genrolename = '#' + roleName;
+
+            if ($("input[name='Role']:checked").val() == null) {
+                    jQuery(genrolename).attr('checked', true);
+            }
+
+            if (roleID != 0)
+            {
+                jQuery(genrolename).attr('checked', true);
+            }
+
+            $('input:radio').click(function () {
+                var id = $("input[name='Role']:checked").val();
+                var clickchanges= '#'+$("input[name='Role']:checked").attr('id');
+                    //if ($(genrolename).is(':checked')) {
+                        window.location.href = "/RoleMenu/Tree/" + roleID;
+                        //jQuery("#create").attr('checked', true);
+                        //jQuery("#approve").attr('checked', false);
+
+                    //}
+                    //else if($(clickchanges).is(':checked')) {
+                    //    window.location.href = "/RoleMenu/Tree/" +id;
+                    //    //jQuery("#approve").attr('checked', true);
+                    //    //jQuery("#create").attr('checked', false);
+
+                    //}
+                });
+            });
+    </script>
+}

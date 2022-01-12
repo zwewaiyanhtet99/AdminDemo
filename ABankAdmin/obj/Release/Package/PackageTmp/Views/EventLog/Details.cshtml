@@ -1,0 +1,90 @@
+﻿@model ABankAdmin.Models.AdminLog
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Admin Log</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserID)
+        </dd>
+
+        <dt style="margin-top:2em;">
+            @Html.DisplayNameFor(model => model.LogDateTime)
+        </dt>
+
+        <dd style="margin-top:2em;">
+            @Html.DisplayFor(model => model.LogDateTime)
+        </dd>
+
+        <dt style="margin-top:2em;">
+            @Html.DisplayNameFor(model => model.Controller)
+        </dt>
+
+        <dd style="margin-top:2em;">
+            @Html.DisplayFor(model => model.Controller)
+        </dd>
+
+        <dt style="margin-top:2em;">
+            @Html.DisplayNameFor(model => model.Action)
+        </dt>
+
+        <dd style="margin-top:2em;">
+            @Html.DisplayFor(model => model.Action)
+        </dd>
+
+        <dt style="margin-top:2em;">
+            @Html.DisplayNameFor(model => model.LogType)
+        </dt>
+
+        <dd style="margin-top:2em;">
+            @Html.DisplayFor(model => model.LogType)
+        </dd>
+
+        <dt style="margin-top:2em;">
+            @Html.DisplayNameFor(model => model.Desc)
+        </dt>
+
+        <dd style="margin-top:2em;">
+            @Html.DisplayFor(model => model.Desc)
+        </dd>
+
+        <dt style="margin-top:2em;">
+            @Html.DisplayNameFor(model => model.Detail)
+        </dt>
+
+        <dd style="margin-top:2em;">
+            @Html.DisplayFor(model => model.Detail)
+        </dd>
+
+        <dt style="margin-top:2em;">
+            @Html.DisplayNameFor(model => model.LineNo)
+        </dt>
+
+        <dd style="margin-top:2em;">
+            @Html.DisplayFor(model => model.LineNo)
+        </dd>
+
+        <dt style="margin-top:2em;">
+            @Html.DisplayNameFor(model => model.RequestData)
+        </dt>
+
+        <dd style="margin-top:2em;">
+            @Html.DisplayFor(model => model.RequestData)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

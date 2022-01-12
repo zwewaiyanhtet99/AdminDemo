@@ -1,0 +1,121 @@
+﻿@model ABankAdmin.ViewModels.IconicBookingBulkViewModel
+
+@{
+    ViewBag.Title = "BulkIconicBooking";
+}
+
+<h2>Bulk THE ICONIC Reserved Number</h2>
+@Scripts.Render("~/bundles/jquery")
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Styles.Render("~/Content/newstyle.css")
+}
+
+@using (Html.BeginForm("BulkIconicBookingValidation", "IconicBookingModels", FormMethod.Post, new { autocomplete = "off",id = "bulkForm", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+    <div class="row">
+        <div class="form-group">
+            @Html.LabelFor(model => model.USERTYPECODE, htmlAttributes: new {@class = "control-label col-md-2"})
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.USERTYPECODE,
+                    (IEnumerable<SelectListItem>) ViewBag.UserType,
+                    "Select THE ICONIC Type", new {@class = "form-control", @id = "usertypelist", onchange = "changeValue(this)"})
+                @Html.HiddenFor(model => model.USERTYPE, new {@id = "usertype"})
+                @Html.ValidationMessageFor(model => model.USERTYPECODE, "", new {@class = "text-danger"})
+            </div>
+        </div>
+    </div><div class="row">
+              <div class="col-md-6">
+                  <div class="form-group" style="margin-left: 172px;margin-top: 10px;">
+                      <div class="upload-btn-wrapper">
+                          <button class="btn btn-choosefile"><i class="fa fa-paperclip nav-icon"></i>Choose your File</button>
+                          @Html.TextBoxFor(model => model.File, new {@type = "file", @name = "myfile", @id = "myFile", @accept = ".xlsx, .xls, .csv", @required = "required"})
+                          <p id="text">No file chosen...</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+                <div class="form-group" style="margin-left: 172px;margin-top: 15px;">
+                    <div class="pull-left">
+                        <input type="button" value="Upload File" class="btn btn-success" id="btnUpload" />
+
+                    </div>
+                </div></div>
+        </div>
+    </div>
+}
+
+<script>
+    function changeValue(dropdown) {
+        var option = dropdown.options[dropdown.selectedIndex].text;
+        var obj = new Object;
+        obj.usertype = option;
+        if (option != null) {
+
+            $('#usertype').val(option);
+        }
+
+    }
+
+    $(document).ready(function() {
+
+        $("#myFile").change(function(e) {
+            $("#text").text(e.target.files[0].name);
+        });
+        $("#myFile").on("change", function() {
+            $('#errorfile').remove();
+            var file = $('#myFile').val();
+
+            if (file == null || file.length < 1) {
+                $('#myFile').parent().append('<span class="field-validation-error" id="errorfile">Please choose File</span>');
+            } else {
+                $('#errorfile').remove(); // remove it
+            }
+        });
+        $("#usertypelist").on("change", function() {
+            $('#errortrantype').remove();
+            var tran_type = $('#usertypelist').val();
+
+            if (tran_type == null || tran_type == "Select" || tran_type.length < 1) {
+                $('#usertypelist').parent().append('<span class="field-validation-error" id="errortrantype">THE ICONIC Type Field is required</span>');
+            } else {
+                $('#errortrantype').remove(); // remove it
+            }
+        });
+        $("#btnUpload").on("click", function() {
+            $('#errorfile').remove();
+            $('#errortrantype').remove();
+            var typelist = $('#usertypelist').val();
+            var validation = true;
+            var file = $('#myFile').val();
+            if (typelist == null || typelist == "Select" || typelist.length < 1) {
+                $('#usertypelist').parent().append('<span class="field-validation-error" id="errortrantype">THE ICONIC Type Field is required</span>');
+                validation = false;
+            } else {
+                $('#errortrantype').remove(); // remove it
+            }
+            if (file == null || file.length < 1) {
+                $('#myFile').parent().append('<span class="field-validation-error" id="errorfile">Please choose File</span>');
+                validation = false;
+            } else {
+                $('#errorfile').remove(); // remove it
+            }
+            if (validation) {
+                $("#bulkForm").submit();
+            }
+        });
+    });
+</script>
+@if (ViewBag.ErrorMessage != null)
+{
+    <script type="text/javascript">
+     $('#myFile').parent().append('<span class="field-validation-error" id="errorfile">Your uploaded file is not valid.</span>');
+
+    </script>
+
+}

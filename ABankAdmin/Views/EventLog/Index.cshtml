@@ -1,0 +1,125 @@
+﻿@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "ErrorList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Error List</h2>
+  <div class="row">
+        <div class="form-group col-md-2">
+            Log Type
+            @Html.DropDownList("LogType", new SelectList(ViewBag.LogList, "Text", "Value"), "All", new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-2">
+            Controller
+            @Html.TextBox("txtController", null, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-2">
+            Action
+            @Html.TextBox("txtAction", null, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-2">
+            Desc
+            @Html.TextBox("txtDesc", null, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-2">
+             <br/>   
+            <input type="submit" class="btn btn-default" id="btnSearch" value="Search" />
+        </div>
+  </div>
+
+  <div class="table-responsive">
+      <table class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" id="myTable">
+          <thead>
+              <tr>
+                  <th>
+                      UserID
+                  </th>
+                  <th>
+                      LogDateTime
+                  </th>
+                  <th>
+                      Controller
+                  </th>
+                  <th>
+                      Action
+                  </th>
+                  <th>
+                      LogType
+                  </th>
+                  <th>
+                      Desc
+                  </th>
+                  @*<th>
+                      Detail
+                  </th>*@
+                  @*<th>
+                      LineNo
+                  </th>*@
+                  <th>
+                      RequestData
+                  </th>
+                  <th>
+                      Actions
+                  </th>
+              </tr>
+          </thead>
+      </table>
+  </div>
+@section Scripts {
+    <script type="text/javascript">
+         $(function () {
+            $("#myTable").dataTable(
+                {
+                    //"stateSave": true, // to save current state when going to next page
+                    //processing": true, // for show processing bar
+                    "serverSide": true, // for process on server side
+                    "orderMulti": false, // for disable multi column order
+                    "dom": '<"top"i>rt<"bottom"lp><"clear">', // for hide default global search box // little confusion? don't worry I explained in the tutorial website
+                    "ajax": {
+                        "url": "/EventLog/Index",
+                        "type": "POST",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "UserID", "name": "UserID", "autoWidth": true, "width": "100px" },
+                        {
+                            "data": "LogDateTime", "name": "LogDateTime", "autoWidth": true,
+                            render: function (data, type, row) {
+                                var date = new Date(parseInt(data.substr(6)));
+                                return date.toLocaleDateString('en-GB');
+                            }
+                        },
+
+                        { "data": "Controller", "name": "Controller", "autoWidth": true },
+                        { "data": "Action", "name": "Action", "autoWidth": true },
+                        { "data": "LogType", "name": "LogType", "autoWidth": true },
+                        { "data": "Desc", "name": "Desc", "autoWidth": true },
+                        //{ "data": "Detail", "name": "Detail", "autoWidth": true },
+                        //{ "data": "LineNo", "name": "LineNo", "autoWidth": true },
+                        { "data": "RequestData", "name": "RequestData", "autoWidth": true },
+                    {// this is Actions Column
+                         mRender: function (data, type, row) {
+                         var linkDetails = '@Html.ActionLink("Details", "Details", new {id= -1 })';
+                         linkDetails = linkDetails.replace("-1", row.ID);
+                         return   linkDetails;
+                        },
+                        orderable: false,
+                        width: "40px"
+                    }
+                ]                   
+                });
+            //Apply Custom search on jQuery DataTables here
+            oTable = $('#myTable').DataTable();
+            $('#btnSearch').click(function () {
+                //Apply search for Employee Name // DataTable column index 0
+                oTable.columns(0).search($('#LogType').val().trim());
+                oTable.columns(1).search($('#txtController').val().trim());
+                oTable.columns(2).search($('#txtAction').val().trim());
+                oTable.columns(3).search($('#txtDesc').val().trim());
+                //hit search on server
+                oTable.draw();               
+            });
+        })
+    </script>
+}

@@ -1,0 +1,268 @@
+﻿@model ABankAdmin.ViewModels.UserAndAccVM
+
+@{
+    ViewBag.Title = "Corporate";
+}
+
+<h2>Corporate User Registration</h2>
+<Style>
+    .table-wapper{
+        position:relative;
+        max-height:450px;
+        overflow:auto;
+    }
+    thead tr th{
+        text-align:center;
+    }
+    /*table {
+        width: 1025px;
+        display: block;
+        margin-left: 35px;
+    }
+
+    tbody {
+        height: 300px;
+        display: block;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    thead {
+        background-color: darkgray;
+        height: 50px;
+        line-height: 20px;
+    }
+
+    tr {
+        border: solid 2px;
+        border-color: lightgray;
+    }
+
+    td {
+        border: solid 2px;
+        border-color: lightgray;
+        text-align: left;
+    }
+
+    thead, tbody tr {
+        text-align: center;
+        display: normal;
+        width: 1050px;
+        height: 50px;
+    }
+
+    h4 {
+        padding-left: 35px;
+    }*/
+</Style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="">
+        <hr />
+        @if (!ViewContext.ViewData.ModelState.IsValid)
+        {
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        }
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.CIFID, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @*@Html.TextBoxFor(model=>model.CIFID, new { @class = "form-control" })*@
+                @Html.EditorFor(model => model.uservm.CIFID, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                @Html.ValidationMessageFor(model => model.uservm.CIFID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-offset-3 col-md-8">
+                <button type="button" class="btn btn-default" onclick="check()">Fetch</button>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.USERNAME, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.uservm.USERNAME, new { htmlAttributes = new { @class = "form-control col-md-4" } })
+                @Html.ValidationMessageFor(model => model.uservm.USERNAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.MOBILENO, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.uservm.MOBILENO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.uservm.MOBILENO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.EMAIL, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.uservm.EMAIL, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.uservm.EMAIL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.ADDRESS, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.TextAreaFor(model => model.uservm.ADDRESS, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.uservm.ADDRESS, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.FULLNAME, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.uservm.FULLNAME, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.uservm.FULLNAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+                @Html.LabelFor(model => model.uservm.USER_TYPE, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.uservm.NRC, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.uservm.NRC, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.IsVIP, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.CheckBoxFor(model => model.uservm.IsVIP)
+                @Html.ValidationMessageFor(model => model.uservm.IsVIP, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12 OnlyVIP">
+            @Html.LabelFor(model => model.uservm.ALLOW_TRAN_COUNT, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.uservm.ALLOW_TRAN_COUNT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.uservm.ALLOW_TRAN_COUNT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12 OnlyVIP">
+            @Html.LabelFor(model => model.uservm.DAILY_MAX_AMT, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.uservm.DAILY_MAX_AMT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.uservm.DAILY_MAX_AMT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <hr style="display:block" />
+        <div id="acc" class="row">
+            <div style="width:auto" class="container">
+                <div class="form-group col-md-12">
+                    <h4><b>Accounts</b></h4>
+                    <div class="table-wapper table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="bg-gray">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Account No</th>  @*style="width:250px;"*@
+                                    <th>Account Type</th>
+                                    <th>Schema Code</th>
+                                    <th>Branch</th>
+                                    <th>Currency</th> @*style="width:150px;"*@
+                                    <th>Allowed Account</th>
+                                    <th>QR allow</th>
+                                </tr>
+                            </thead>
+                            <tbody id="accTbody">
+                                @if (Model.accountvms != null)
+                                {
+                                    for (int i = 0; i < Model.accountvms.Count(); i++)
+                                    {
+                                        <tr>
+                                            <td width="50" style="text-align:center">@(i + 1)</td>
+                                            <td width="180">
+                                                @Html.EditorFor(x => Model.accountvms[i].ACCOUNTNO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            </td>
+                                            <td width="160">
+                                                @Html.EditorFor(x => Model.accountvms[i].ACC_TYPE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            </td>
+                                            <td width="180">
+                                                @Html.EditorFor(x => Model.accountvms[i].SCHM_CODE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            </td>
+                                            <td width="180">
+                                                @Html.EditorFor(x => Model.accountvms[i].BRANCHCODE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            </td>
+                                            <td width="130">
+                                                @Html.EditorFor(x => Model.accountvms[i].CURRENCY, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            </td>
+                                            <td width="90" style="text-align:center">
+                                                @Html.EditorFor(x => Model.accountvms[i].Active, new
+                                                {
+                                                    htmlAttributes = new
+                                                    { onclick = "checkChange(" + i + ")" }
+                                                })
+                                            </td>
+                                            <td width="95" style="text-align:center">
+                                                @Html.CheckBoxFor(x => Model.accountvms[i].QR_ALLOW, new { @disabled = "disabled" })
+                                                @Html.HiddenFor(x => Model.accountvms[i].ACC_DESC)
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="form-group col-md-12">
+            <div style="padding-left:35px;">
+                <input type="submit" id="btnSubmit" value="Register" class="btn btn-success" />
+                @Html.ActionLink("Cancel", null, null, null, new { href = Request.UrlReferrer, @class = "btn btn-default" })
+                <br />
+            </div>
+        </div>
+    </div>
+}
+
+<div class="modal modal-danger" id="divError">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Getting Retail User</h4>
+            </div>
+            <div class="modal-body">
+                <p id="pMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div>
+    <br /><br />
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/corporate")
+    <script>
+        //show or hide at initially and after validation error
+        if ($("#uservm_IsVIP")[0].checked) {
+            $(".OnlyVIP").show();
+        } else {
+            $(".OnlyVIP").hide();
+        }
+        //VIP check change
+        $("#uservm_IsVIP").change(function () {
+            if ($("#uservm_IsVIP")[0].checked) {
+                $(".OnlyVIP").show();
+            } else {
+                $(".OnlyVIP").hide();
+            }
+        });
+    </script>
+}

@@ -1,0 +1,142 @@
+﻿@model ABankAdmin.Models.Branch
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Branch</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.code)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PHONE_NO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PHONE_NO)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RateCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RateCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RemitRateCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RateCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RateDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RateDesc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CITY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CITY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TOWNSHIP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TOWNSHIP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LATITUDE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LATITUDE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LONGITUDE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LONGITUDE)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.createdUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createdUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.createdDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.createdDateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.updatedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.updatedUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.updatedDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.updatedDateTime)
+        </dd>*@
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <input type="submit" value="Delete" class="btn btn-danger" />
+    @Html.ActionLink("Cancel", "Index", null, null, new { @*href = Request.UrlReferrer,*@ @class = "btn btn-default" })
+    @*@Html.ActionLink("Back to List", "Index")*@
+</div>
+    }
+</div>

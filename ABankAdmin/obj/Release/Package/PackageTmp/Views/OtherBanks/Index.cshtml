@@ -1,0 +1,129 @@
+﻿@model IEnumerable<ABankAdmin.Models.OtherBank>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Other Bank List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    BANK NAME
+                </th>
+                <th>
+                    SHORT NAME
+                </th>
+                <th>
+                    BANK CODE
+                </th>
+                <th>
+                    Is ACH
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.CreatedDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreatedUserId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UpdatedDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UpdatedUserId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Active)
+                    </th>*@
+                <th>
+                    ACTION
+                </th>
+            </tr>
+        </thead>
+
+        @*@foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BANK_NAME)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SHORT_NAME)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BANK_CODE)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedUserId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdatedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdatedUserId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.OTHER_BANK_ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.OTHER_BANK_ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.OTHER_BANK_ID })
+                    </td>
+                </tr>
+            }*@
+
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>
+    <script>
+        $(function () {
+
+            /*disable datatable warnings*/
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $("#myTable").dataTable(
+                {
+                    //"stateSave": true, // to save current state when going to next page
+                    //processing": true, // for show processing bar
+                    "serverSide": true, // for process on server side
+                    "orderMulti": false, // for disable multi column order
+                    "dom": '<"top"i>rt<"bottom"lp><"clear">', // for hide default global search box // little confusion? don't worry I explained in the tutorial website
+                    "ajax": {
+                        "url": "/OtherBanks/Index",
+                        "type": "POST",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "BANK_NAME", "name": "BANK_NAME", "autoWidth": true },
+                        { "data": "SHORT_NAME", "name": "SHORT_NAME", "autoWidth": true },
+                        { "data": "BANK_CODE", "name": "BANK_CODE", "autoWidth": true },
+                        { "data": "IsACH", "name": "IsACH", "autoWidth": true },
+                        {// this is Actions Column
+                            "width": "100px", 'targets': [3],
+                            'orderable': false, 'targets': 3,
+                            "mRender": function (data, type, row) {
+                            var linkEdit = '@Html.ActionLink("Edit", "Edit", new {id= -1 })';
+                            linkEdit = linkEdit.replace("-1", row.OTHER_BANK_ID);
+
+                            var linkDelete = '@Html.ActionLink("Delete", "Delete", new {id= -1 })';
+                            linkDelete = linkDelete.replace("-1", row.OTHER_BANK_ID);
+
+                            return  linkEdit + " | " + linkDelete;
+                            }
+                        }
+                    ],
+                });
+        })
+    </script>
+}

@@ -1,0 +1,50 @@
+﻿function changeValue(dropdown) {
+    var option = dropdown.options[dropdown.selectedIndex].text;
+    var obj = new Object;
+    obj.usertype = option;
+    if (option != null) {
+
+        $('#usertype').val(option);
+    }
+    if (obj.usertype == "" || obj.usertype == undefined) {
+        $("#pMessage").text("UserType is required.");
+        $("#divError").modal('toggle');
+        return;
+    }
+    $("#blacklist").val("");
+    $(".field-validation-error").empty();
+    $.ajax({
+        type: "GET",
+        url: "/BlacklistNumber/GetUserTypeLimit",
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        data: obj,
+        cache: false,
+        success: function (response) {
+            if (response.USERTYPE_CODE_LIMIT != null) {
+                $("#prefixbooking").val(response.USERTYPE_CODE_LIMIT); // before reducing the maxlength, make sure it contains at most two characters; you could also reset the value altogether
+                var prefix = $("#prefixbooking").val().replace('-', '');
+                var maxlengthval = response.GENERATED_LIMIT - prefix.length;
+                $("#blacklist").prop('maxlength', maxlengthval);
+                $("#blacklist").prop('minlength', maxlengthval);
+                $("#blacklist").attr('readonly', false);
+
+            }
+        },
+        error: function (xhr, status, error) {
+            if (status != null) {
+                userPermission();
+            }
+
+        }
+    });
+    return;
+}
+
+
+function userPermission() {
+    $("#errorMessage").text("You don't have permission !");
+    $("#userPermissionError").modal('toggle');
+}
+

@@ -1,0 +1,156 @@
+﻿@model ABankAdmin.Models.Branch
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm("Create","Branch",FormMethod.Post,new { autocomplete="off"}))
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <h4>Branch</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.code, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.code, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.code, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.address, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.address, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.address, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PHONE_NO, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.TextAreaFor(model => model.PHONE_NO, new { @class = "form-control" })*@
+            @Html.TextBoxFor(model => model.PHONE_NO, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PHONE_NO, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.RateCode, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.RateCode, ViewBag.RateCode as List<SelectListItem>, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.RateCode, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.RemitRateCode, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.RemitRateCode, ViewBag.RemittanceRateCode as List<SelectListItem>, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.RemitRateCode, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.RateDesc, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.RateDesc, ViewBag.RateDesc as List<SelectListItem>, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.RateDesc, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CITY, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.DropDownList("CITY_Code",
+                (IEnumerable<SelectListItem>)ViewBag.City,
+                "Select City", new { @class = "form-control" })*@
+            @Html.DropDownListFor(model => model.CITY, ViewBag.City as List<SelectListItem>, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CITY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TOWNSHIP, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.DropDownListFor(model => mode.TOWNSHIP, ViewBag.TOWNSHIP as List<SelectListItem>, new { style = "width: 200px;" })*@
+            @Html.DropDownListFor(model => model.TOWNSHIP, ViewBag.Township as List<SelectListItem>,@*"--Select Township--",*@ new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.TOWNSHIP, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LATITUDE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LATITUDE, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LATITUDE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LONGITUDE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LONGITUDE, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.LONGITUDE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-success" />
+            @Html.ActionLink("Cancel", "Index", null, null, new
+            {@*href = Request.UrlReferrer,*@ @class = "btn btn-default"
+        })
+        </div>
+    </div>
+</div>
+}
+
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#CITY").change(function () {
+            $("#TOWNSHIP").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getTownship")',
+                dataType: 'json',
+                data: { code : $("#CITY").val() },
+                success: function (township) {
+
+                    $.each(township, function (i, township) {
+                        $("#TOWNSHIP").append('<option value="'
+                                                   + township.Value + '">'
+                                             + township.Text + '</option>');
+                    });
+                },
+                error: function (xhr, ajaxError, thrown) {
+                    if (xhr.status == 302) {
+                        window.location.href = "/Admin/Login";
+                    }
+                }
+            });
+            return false;
+        })
+    });
+    </script>
+}

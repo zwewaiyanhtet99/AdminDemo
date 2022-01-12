@@ -1,0 +1,121 @@
+﻿@model IEnumerable<ABankAdmin.Models.OtherBranch>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Other Branch List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="row">
+    <div class="col-md-3">
+        BANK
+        @Html.DropDownList("OtherBank", ViewBag.OtherBank as List<SelectListItem>, new { @class = "form-control" })  
+    </div>
+
+    <div class="form-group col-md-3">
+        <br />
+        <input type="button" value="Search" class="btn btn-default" id="btnSearch" />
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.OtherBank.BANK_NAME)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BR_CODE)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BR_SHORT_NAME)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BR_NAME)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FI_CODE)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CR_BR_CODE)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CHARGES_CODE)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BR_CITY_CODE)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BR_STATE_CODE)
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>
+    @section Scripts {
+        <script>
+            $(function () {
+
+                /*disable datatable warnings*/
+                $.fn.dataTable.ext.errMode = 'none';
+
+            $("#myTable").dataTable(
+                {
+                    //"stateSave": true, // to save current state when going to next page
+                    //"processing": true, // for show processing bar
+                    "serverSide": true, // for process on server side
+                    "orderMulti": false, // for disable multi column order
+                    "dom": '<"top"i>rt<"bottom"lp><"clear">', // for hide default global search box // little confusion? don't worry I explained in the tutorial website
+                    "ajax": {
+                        "url": "/OtherBranch/Index",
+                        "type": "POST",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                    { "data": "OtherBank.BANK_NAME", "name": "OtherBank.BANK_NAME", "autoWidth": true },
+                    { "data": "BR_CODE", "name": "BR_CODE", "autoWidth": true },
+                    { "data": "BR_SHORT_NAME", "name": "BR_SHORT_NAME", "autoWidth": true },
+                    { "data": "BR_NAME", "name": "BR_NAME", "autoWidth": true },
+                    { "data": "FI_CODE", "name": "FI_CODE", "autoWidth": true },
+                    { "data": "CR_BR_CODE", "name": "CR_BR_CODE", "autoWidth": true },
+                    { "data": "CHARGES_CODE", "name": "CHARGES_CODE", "autoWidth": true },
+                    { "data": "BR_CITY_CODE", "name": "BR_CITY_CODE", "autoWidth": true },
+                    { "data": "BR_STATE_CODE", "name": "BR_STATE_CODE", "autoWidth": true },
+                    {// this is Actions Column
+                            mRender: function (data, type, row) {
+                            var linkEdit = '@Html.ActionLink("Edit", "Edit", new {id= -1 })';
+                            linkEdit = linkEdit.replace("-1", row.OTHER_BRANCH_ID);
+
+                                var linkDetails = '@Html.ActionLink("Details", "Details", new {id= -1 })';
+                                linkDetails = linkDetails.replace("-1", row.OTHER_BRANCH_ID);
+
+                                var linkDelete = '@Html.ActionLink("Delete", "Delete", new {id= -1 })';
+                                linkDelete = linkDelete.replace("-1", row.OTHER_BRANCH_ID);
+
+                                return linkEdit + " | " + linkDelete + " | " + linkDetails;
+                        },
+                            width: "100px",
+                            orderable: false
+                    }
+                ]
+            });
+              //Apply Custom search on jQuery DataTables here
+                  oTable = $('#myTable').DataTable();
+            $('#btnSearch').click(function () {
+                //Apply search for Employee Name // DataTable column index 0
+                oTable.columns(0).search($('#OtherBank').val());
+                //hit search on server
+                oTable.draw();
+
+            });
+
+        })
+        </script>
+
+    }

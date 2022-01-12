@@ -1,0 +1,52 @@
+﻿@model ABankAdmin.Models.Holiday
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete Holiday</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div  style="width:65%;">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.HolidayName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HolidayName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HolidayDate)
+        </dt>
+
+        <dd>
+            @{
+                var dateformat = Convert.ToDateTime(Model.HolidayDate).ToString("dd-MM-yyyy");
+            }
+            @Html.DisplayFor(model => dateformat)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <button type="button" class="btn btn-default" onclick="btn_Cancle(this)" data-val="@Model.ID">Cancle</button>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function btn_Cancle(x) {
+            var item = $(x).data('val');
+            postForm('/Holiday/Detail', { ID: item });
+        }
+     </script>
+}
+        
+

@@ -1,0 +1,128 @@
+﻿@model ABankAdmin.Models.ReqChange
+@{
+    ViewBag.Title = "ChangesDetails";
+}
+
+<h2>Changes Details</h2>
+
+<div>
+    <h4>Requested Change</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt style="width:170px;">
+            @Html.DisplayNameFor(model => model.USERID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.USERNAME)
+        </dd>
+
+        <dt style="width:170px;">
+            @Html.DisplayNameFor(model => model.TYPE)
+        </dt>
+
+        <dd>
+            @if (Model.TYPE == 2)
+            {<text>Reset Password</text>}
+        else if (Model.TYPE == 3)
+        { <text>Lock</text>}
+    else if (Model.TYPE == 4)
+    { <text>Unlock</text>}
+else if (Model.TYPE == 5)
+{ <text>Tran Lock</text>}
+else if (Model.TYPE == 6)
+{ <text>Tran Unlock</text>}
+else if (Model.TYPE == 7)
+{<text>Delete</text>}
+        </dd>
+        <dt style="width:170px;">
+            @Html.DisplayNameFor(model => model.STATUS)
+        </dt>
+
+        <dd>
+            @if (Model.STATUS == 0)
+            {<text>Requested</text>}
+        else if (Model.STATUS == 1)
+        { <text>Approved</text>}
+    else if (Model.STATUS == 2)
+    { <text>Rejected</text>}
+        </dd>
+        <dt style="width:170px;">
+            @Html.DisplayNameFor(model => model.BranchID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VrBranch.name)
+        </dd>
+
+        <dt style="width:170px;">
+            @Html.DisplayNameFor(model => model.MAKER)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VrReqMaker.UserName)
+        </dd>
+        <dt style="width:170px;">
+            @Html.DisplayNameFor(model => model.REQUESTEDDATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.REQUESTEDDATE)
+        </dd>
+
+        <dt style="width:170px;">
+            @Html.DisplayNameFor(model => model.CHECKER)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VrReqChecker.UserName@*(model.Checker == null? null : model.Checker.UserName)*@)
+        </dd>
+        <dt style="width:170px;">
+            @Html.DisplayNameFor(model => model.CHECKEDDATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CHECKEDDATE)
+        </dd>
+
+        <dt style="width:170px;">
+            @Html.DisplayNameFor(model => model.CHECKERREASON)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CHECKERREASON)
+        </dd>
+
+        @*<dt style="width:170px;">
+            @Html.DisplayNameFor(model => model.reqUservm.GENDER)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reqUservm.GENDER)
+        </dd>
+
+        <dt style="width:170px;">
+            @Html.DisplayNameFor(model => model.reqUservm.ALLOW_TRAN_COUNT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reqUservm.ALLOW_TRAN_COUNT)
+        </dd>
+
+        <dt style="width:170px;">
+            @Html.DisplayNameFor(model => model.reqUservm.DAILY_MAX_AMT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.reqUservm.DAILY_MAX_AMT)
+        </dd>
+
+        <dt style="width:170px;">
+            @Html.DisplayNameFor(model => model.reqUservm.ISNEW)
+        </dt>*@
+    </dl>
+</div>
+<br />
+<p>
+    @Html.ActionLink("Back to List", "Changes")
+</p>

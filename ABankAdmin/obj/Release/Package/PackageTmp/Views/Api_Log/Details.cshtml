@@ -1,0 +1,105 @@
+﻿@model ABankAdmin.Models.Api_Log
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>User Activity Log </h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestMethod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequestMethod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestPath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequestPath)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestData)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequestData)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestCardID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequestCardID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequestDateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestFilePath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequestFilePath)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LogMessage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LogMessage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResponseData)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResponseData)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResponseDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResponseDateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResponseCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResponseCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResponseDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResponseDescription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+     @Html.ActionLink("Back to List", "Index")
+</p>

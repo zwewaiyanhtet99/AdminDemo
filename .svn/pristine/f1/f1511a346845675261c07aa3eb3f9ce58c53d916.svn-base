@@ -1,0 +1,123 @@
+﻿@model ABankAdmin.ViewModels.IconicBookingVM
+
+@{
+    ViewBag.Title = "Edit";
+}
+<h3>Edit Reserved Number</h3>
+
+<style>
+    .table-wrapper {
+        position: relative;
+        max-height: 450px;
+        overflow: auto;
+    }
+
+    thead tr th {
+        text-align: center;
+    }
+</style>
+
+@using (Html.BeginForm("Edit", "Number_Management", FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal" style="width: 65%">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+        <div class="form-group">
+            @Html.Label("Tier", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.USERTYPECODE,
+                    (IEnumerable<SelectListItem>)ViewBag.UserType,
+                    "Select Tier", new { @class = "form-control", @id = "usertypelist", onchange = "changeValue(this)" })
+                @Html.HiddenFor(model => model.USERTYPE, new { @id = "usertype" })
+                @Html.ValidationMessageFor(model => model.USERTYPECODE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Reserved Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BookingNo, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumberKey(this, event);", id = "booking" } })
+                @Html.HiddenFor(model => model.PrefixBooking, new { @id = "prefixbooking" })
+                @Html.ValidationMessageFor(model => model.BookingNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
+            </div>
+        </div>
+        <div class="form-group" style="padding-left:130px;">
+            <input type="submit" value="Save" class="btn btn-success" />
+            @Html.ActionLink("Cancel", "Index", null, new
+       {
+           @class = "btn btn-default"
+       })
+
+        </div>
+    </div>
+}
+
+
+<!--Sucess Box-->
+<div class="modal" id="divSuccess">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Reserved Number Lists</h4>
+            </div>
+            <div class="modal-body">
+                <p>Successfully updated!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success pull-right" data-dismiss="modal" onclick="window.location = '/Number_Management/Index';">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Error Box-->
+@*<div class="modal" id="diverror">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Booking Lists</h4>
+            </div>
+            <div class="modal-body">
+                <p>This Reserved Number can't allow to update!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success pull-right" data-dismiss="modal" onclick="window.location = '/Number_Management/Index';">OK</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/iconicbooking")
+    @if (ViewBag.EditBooking != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                var $confirm = $("#divSuccess");
+                $confirm.show();
+            }
+
+        </script>
+    }
+    <script type="text/javascript">
+        var prefix = $("#prefixbooking").val().replace('-', '');
+        var totallen = $("#booking").val();
+        var maxlengthval = totallen.length;
+        $("#booking").prop('maxlength', maxlengthval);
+        $("#booking").attr('readonly', false);
+    </script>
+}

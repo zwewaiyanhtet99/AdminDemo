@@ -1,0 +1,510 @@
+﻿using ABankAdmin.Models;
+using ABankAdmin.ViewModels;
+using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.Linq;
+using System.Web.Mvc;
+
+namespace ABankAdmin.Controllers
+{
+    public class CIFInfoDowngradeController : Controller
+    {
+        private AdminDBContext db = new AdminDBContext();
+        string controllerName = "CIFInfoDowngrade";
+        string connectionString = ConfigurationManager.ConnectionStrings["AdminDBContext"].ConnectionString;
+        EventLogController log = new EventLogController();
+        // GET: CIFInfoDowngrade
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult CifInfoForDowngrade()
+        {
+            try
+            {
+                CIFInfoVMForDowngrade infoVm = new CIFInfoVMForDowngrade();
+                if (TempData["createReturn"] == "1")
+                {
+                    if (Session["CIFVMForUpgradeReturn"] != null)
+                    {
+                        if (!string.IsNullOrEmpty(Session["CIFVMForUpgradeReturn"].ToString()))
+                        {
+                            infoVm = JsonConvert.DeserializeObject<CIFInfoVMForDowngrade>(Session["CIFVMForUpgradeReturn"].ToString());
+
+
+                        }
+                    }
+                }
+
+
+                DateTime today = DateTime.Now;
+                DateTime addDate1 = today.AddDays(30);
+                infoVm.NewEffectiveDate = addDate1;
+                infoVm.strNewEffectiveDate = addDate1.ToString("MM/yy");
+                infoVm.strNewExpireDate = infoVm.NewEffectiveDate.AddDays(365).ToString("MM/yy");
+                ViewBag.Booking = GetBookingList();
+
+
+                return View(infoVm);
+            }
+            catch (Exception ex)
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+
+                log.Error(User.Identity.GetUserId(), controllerName, actionName, ex);
+                return View("Error");
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CifInfoForDowngrade(CIFInfoVMForDowngrade infoVm)
+        {
+            TempData["createD"] = "1";
+            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (string.IsNullOrEmpty(infoVm.USERTYPECODE))
+                    {
+                        string usertypecode = (from s in db.CIFInfoModels where s.USERTYPE == infoVm.USERTYPECODE && s.DELFLAG == false select s.USERTYPECODE).SingleOrDefault();
+                        if (!usertypecode.Equals(infoVm.USERTYPECODE))
+                        {
+                            ModelState.AddModelError("USERTYPECODE", "THE ICONIC Number is Invalid");
+                            return View(infoVm);
+                        }
+
+
+                    }
+                    if (string.IsNullOrEmpty(infoVm.CIFID))
+                    {
+                        string cif = (from s in db.CIFInfoModels where s.CIFID == infoVm.CIFID && s.DELFLAG == false select s.USERTYPECODE).SingleOrDefault();
+                        if (!cif.Equals(infoVm.CIFID))
+                        {
+                            ModelState.AddModelError("CIFID", "The CIFID is Invalid");
+                            return View(infoVm);
+                        }
+
+                    }
+                    string new_usertype = String.Empty;
+                    var getInfo =
+                        (from s in db.UserTypeModels where s.USERTYPE == infoVm.USERTYPE && s.DEL_FLAG == false select s.Type)
+                            .SingleOrDefault();
+                    if (getInfo == "Tier 2")
+                    {
+                        new_usertype = (from s in db.UserTypeModels where s.Type == "Tier 1" && s.DEL_FLAG == false select s.USERTYPE).SingleOrDefault();
+
+                    }
+                    if (getInfo == "Tier 2.1")
+                    {
+                        new_usertype = (from s in db.UserTypeModels where s.Type == "Tier 1.1" && s.DEL_FLAG == false select s.USERTYPE).SingleOrDefault();
+
+                    }
+                    infoVm.USERTYPE = new_usertype;
+                    if (infoVm.IconicReservedNo == false)
+                    {
+                        if (!string.IsNullOrEmpty(new_usertype))
+                        {
+                            infoVm.NewIconicNo = GenereateCodeForIconic(new_usertype);
+                            if (infoVm.NewIconicNo == "0")
+                            {
+                                ViewBag.GetCode = "Generated Iconic Number is over exceeded current Usertype Code";
+                                DateTime today = DateTime.Now;
+                                DateTime addDate1 = today.AddDays(30);
+                                infoVm.NewEffectiveDate = addDate1;
+                                infoVm.strNewEffectiveDate = addDate1.ToString("MM/yy");
+                                infoVm.strNewExpireDate = infoVm.NewEffectiveDate.AddDays(365).ToString("MM/yy");
+                                ViewBag.Booking = GetBookingList();
+                                return View();
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        infoVm.NewIconicNo = infoVm.IconicReservedlist;
+                    }
+                    //save log
+                    Session["CIFVMForUpgrade"] = string.Empty;//To genereate PDF
+                    Session["CIFVMForUpgrade"] = JsonConvert.SerializeObject(infoVm);
+                    Session["CIFVMForUpgradeReturn"] = JsonConvert.SerializeObject(infoVm);
+                    return RedirectToAction("ConfirmCifInfoForDegrade");
+                }
+
+                return View();
+
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(User.Identity.GetUserId(), controllerName, actionName, ex);
+                return View("Error");
+            }
+        }
+
+        public ActionResult ConfirmCifInfoForDegrade()
+        {
+            TempData["createReturn"] = "1";
+            CIFInfoVMForDeactivator reqmodel = new CIFInfoVMForDeactivator();
+            try
+            {
+                if (TempData["createD"] == "1")
+                {
+                    if (Session["CIFVMForUpgrade"] != null)
+                    {
+                        if (!string.IsNullOrEmpty(Session["CIFVMForUpgrade"].ToString()))
+                        {
+                            reqmodel = JsonConvert.DeserializeObject<CIFInfoVMForDeactivator>(Session["CIFVMForUpgrade"].ToString());
+                        }
+                    }
+                }
+
+
+                string userID = User.Identity.GetUserId();
+                ViewBag.Emaillist = CIFInfoModelsController.GetApproverEmailList(userID);
+                reqmodel.UserEmail = (from s in db.Users where s.Id == userID && s.DEL_FLAG == false select s.Email).SingleOrDefault();
+
+
+
+            }
+            catch (Exception ex)
+            { throw ex; }
+            return View(reqmodel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ConfirmCifInfoForDegrade(CIFInfoVMForDeactivator reqVM)
+        {
+            try
+            {
+                Session["CIFVMForUpgrade"] = string.Empty;
+                if (ModelState.IsValid)
+                {
+                    #region Data preparation
+                    var DbInfo = (from s in db.CIFInfoModels where s.ID == reqVM.ID && s.DELFLAG == false select s).SingleOrDefault();
+                    DbInfo.EFFECTIVEDATE = Convert.ToDateTime(reqVM.strNewEffectiveDate);
+                    DbInfo.EXPIREDATE = Convert.ToDateTime(reqVM.strEXPIREDATE);
+                    DbInfo.USERTYPE = reqVM.USERTYPE;
+                    DbInfo.USERTYPECODE = reqVM.NewIconicNo;
+                    DbInfo.UPDATEDUSERID = User.Identity.GetUserId();
+                    DbInfo.UpdatedDate = DateTime.Now;
+                    //update approve status
+                    DbInfo.ApproverEmail = reqVM.ApproverEmail;
+                    DbInfo.UserEmail = reqVM.UserEmail;
+                    DbInfo.UpgradeStatus = 1;
+                    #endregion
+
+                    var localEntity = db.Set<CIFInfoModel>().Local.FirstOrDefault(f => f.ID == DbInfo.ID);
+                    if (localEntity != null)
+                    {
+                        db.Entry(localEntity).State = EntityState.Detached;
+                    }
+                    // save log
+                    string controllerName = "CIFInfoModels";
+                    string getuserid = User.Identity.GetUserId();
+                    db.Entry(DbInfo).State = EntityState.Modified;
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (DbEntityValidationException ex)
+                    {
+                        foreach (var eve in ex.EntityValidationErrors)
+                        {
+                            log.Info(getuserid, controllerName, "ConfirmCifInfoForUpgrade", 2, eve.Entry.Entity.GetType().Name);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                log.Info(getuserid, controllerName, "ConfirmCifInfoForUpgrade", 2, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
+                    if (reqVM.IconicReservedNo == true)
+                    {
+                        #region DataPreparationToupdateBooking
+
+                        IconicBookingModel dbModel = new IconicBookingModel();
+                        var dataFromDB = from s in db.IconicBookingModels
+                                         where s.DEL_FLAG == false
+                                         select s;
+                        dbModel = dataFromDB.SingleOrDefault(m => m.BOOKINGNUMBER == reqVM.NewIconicNo);
+                        dbModel.UpdatedDate = DateTime.Now;
+                        dbModel.UPDATEDUSERID = User.Identity.GetUserId();
+                        dbModel.InUse = true;
+
+                        #endregion
+
+                        db.Entry(dbModel).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    //save log
+                    ViewBag.CifCreateInfo = "\"" + reqVM.CIFID + "\"";
+                    var getBranch = (from s in db.Users where s.Id == getuserid && s.DEL_FLAG == false select s).SingleOrDefault();
+                    int branchid = getBranch.BranchID;
+                    IEnumerable<SelectListItem> items2 = db.Users.Where(b => b.DEL_FLAG == false && b.BranchID == branchid && b.Email != null && b.Role == 3)
+                                    .Select(c => new SelectListItem
+                                    {
+                                        Selected = (c.Email == reqVM.ApproverEmail),
+                                        Value = c.Email.ToString(),
+                                        Text = c.Email
+                                    }).ToList();
+
+                    ViewBag.Emaillist = items2;
+                    List<string> mailList = new List<string>();
+                    mailList.Add(reqVM.UserEmail);
+                    mailList.Add(reqVM.ApproverEmail);
+                    #region sendEmail
+                    bool sendEmail = CIFInfoModelsController.SendEmailForIconic(mailList, reqVM.CIFID, getuserid, controllerName, "ConfirmCifInfoForUpgrade");
+                    #endregion
+                    return View(reqVM);
+                }
+
+            }
+            catch (Exception ex)
+            { throw ex; }
+            return View();
+        }
+
+
+        //Fetch with CIFID
+        public JsonResult getCIFIDInfoForDowngrade(string CIFID, string iconicno)
+        {
+            CIFInfoVMForDowngrade rri = new CIFInfoVMForDowngrade();
+            CIFInfoModel info = new CIFInfoModel();
+            try
+            {
+                if (CIFID != "" || iconicno != "")
+                {
+                    if (CIFID != "")
+                    {
+                        info =
+                            (from s in db.CIFInfoModels where s.CIFID == CIFID && s.DELFLAG == false && s.Status == 1 && (s.UpgradeStatus == 0 || s.UpgradeStatus == 2) && s.DeactivateStatus == 0 select s)
+                                .SingleOrDefault();
+
+                    }
+                    else
+                    {
+                        info =
+                           (from s in db.CIFInfoModels where s.USERTYPECODE == iconicno && s.DELFLAG == false && s.Status == 1 && (s.UpgradeStatus == 0 || s.UpgradeStatus == 2) && s.DeactivateStatus == 0 select s)
+                               .SingleOrDefault();
+                    }
+                    if (info == null)
+                    {
+                        return Json(new { message = "This CIFID is not registered" }, JsonRequestBehavior.AllowGet);
+
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(info.USERTYPE))
+                        {
+                            var getType =
+                                (from s in db.UserTypeModels
+                                 where s.USERTYPE == info.USERTYPE && s.DEL_FLAG == false && (s.Type == "Tier 1" || s.Type == "Tier 1.1")
+                                 select s)
+                                    .SingleOrDefault();
+                            if (getType == null)
+                            {
+                                return Json(new { message = "This CIFID can't degrade from Tier 1 to Tier 2" }, JsonRequestBehavior.AllowGet);
+
+                            }
+                            else
+                            {
+                                rri.PHONENO = info.PHONENO;
+                                rri.NAME = info.NAME;
+                                rri.USERTYPE = info.USERTYPE;
+                                rri.USERTYPECODE = info.USERTYPECODE;
+                                rri.EXPIREDATE = info.EXPIREDATE;
+                                rri.EffectiveDate = info.EFFECTIVEDATE;
+                                rri.strEXPIREDATE = String.Format("{0:MM/yy}", info.EXPIREDATE);
+                                rri.strEffectiveDate = String.Format("{0:MM/yy}", info.EFFECTIVEDATE);
+                                rri.NRC = info.NRC;
+                                rri.Address = info.ADDRESS;
+                                rri.CIFID = info.CIFID;
+                                rri.ID = info.ID;
+                                rri.RMName = info.RMName;
+                                rri.RMID = info.RMID;
+                                rri.BranchName = info.BRANCHNAME;
+
+                            }
+                        }
+                    }
+
+
+                    return Json(rri, JsonRequestBehavior.AllowGet);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+
+                log.Error(User.Identity.GetUserId(), controllerName, actionName, ex);
+            }
+            return Json(rri, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetBookingListByIconicTypeForDegrade(string iconic)
+        {
+            try
+            {
+                var new_usertypeInfo = (from s in db.UserTypeModels where s.USERTYPE != iconic && s.DEL_FLAG == false && s.Type == "Tier 2" select s).SingleOrDefault();
+
+                List<SelectListItem> item = new List<SelectListItem>();
+                List<IconicBookingModel> lstlist =
+                    db.IconicBookingModels.Where(
+                        b => b.DEL_FLAG == false && b.InUse == false && b.BOOKINGNUMBER.StartsWith(new_usertypeInfo.USERTYPE_CODE_LIMIT.ToString()) && b.UserTypeID == new_usertypeInfo.ID).ToList();
+
+                item.Add(new SelectListItem { Text = "Select Reserved Number", Value = "" });
+                if (lstlist.Count > 0)
+                {
+                    foreach (var x in lstlist)
+                    {
+                        item.Add(new SelectListItem { Text = x.BOOKINGNUMBER, Value = x.BOOKINGNUMBER.ToString() });
+                    }
+                }
+                return Json(new SelectList(item, "Value", "Text", JsonRequestBehavior.AllowGet));
+
+
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(User.Identity.GetUserId(), controllerName, "GetBranchSelectList", ex);
+                return null;
+            }
+        }
+
+        //getting Booking list
+        private IEnumerable<SelectListItem> GetBookingList()
+        {
+            try
+            {
+                List<IconicBookingModel> lstlist =
+                    db.IconicBookingModels.Where(b => b.DEL_FLAG == false && b.InUse == false).ToList();
+                IEnumerable<SelectListItem> bookinglist = lstlist.Select(b => new SelectListItem
+                {
+                    Value = b.BOOKINGNUMBER.ToString(),
+                    Text = b.BOOKINGNUMBER
+
+                });
+                return bookinglist;
+            }
+            catch (Exception ex)
+            {
+                log.Error(User.Identity.GetUserId(), controllerName, "GetBookingList", ex);
+                return null;
+            }
+        }
+
+        #region GenerateCode
+
+        public string GenereateCodeForIconic(string usertype)
+        {
+            string code = string.Empty;
+            if (!string.IsNullOrEmpty(usertype))
+            {
+                bool IsContinue = true;
+                int increasecount = 1;
+                while (IsContinue)
+                {
+                    //prepare for UserTypeCode 
+                    var prefix = string.Empty;
+                    var Codelength = db.UserTypeModels.Where(a => a.USERTYPE == usertype).ToList();
+                    int length = Codelength[0].GENERATED_LIMIT;
+                    var count =
+                        db.CIFInfoModels.Where(x => x.USERTYPE == usertype && x.DELFLAG == false)
+                            .OrderByDescending(y => y.ID)
+                            .Select(x => x.USERTYPECODE)
+                            .ToList();
+                    int existno = 0;
+                    int check = 0;
+                    string takecount = string.Empty;
+                    string UserTypecode = Codelength[0].USERTYPE_CODE_LIMIT.ToString();
+                    int Usertypecodelength = UserTypecode.Length;
+                    if (count.Count > 0)
+                    {
+                        takecount = count[0].Substring(count[0].LastIndexOf("-") + 1);
+                        char[] ch = { takecount[0], takecount[1] };
+                        String str = takecount.Substring(Usertypecodelength, takecount.Length - Usertypecodelength);
+                        existno = Convert.ToInt32(str);
+                        check = existno.ToString().Length;
+
+                    }
+                    else
+                    {
+                        check = 1;
+                        existno = 0;
+                    }
+                    var newString = string.Empty;
+                    var generatedCode = string.Empty;
+                    int getLength = (length - Usertypecodelength - (existno.ToString().Length) - check);
+                    if (getLength >= 1)
+                    {
+                        newString = prefix.PadLeft((length - Usertypecodelength - (existno.ToString().Length) - 1), '0');
+                        generatedCode = UserTypecode + newString + (existno + increasecount);
+                    }
+                    else if (getLength <= 0)
+                    {
+                        int getspace = Convert.ToInt32(takecount.ToString().Substring(Usertypecodelength, 1));
+                        if (getspace == 9)
+                        {
+                            generatedCode = (Convert.ToInt32(UserTypecode + existno) + increasecount).ToString();
+
+                        }
+                        else
+                        {
+                            generatedCode = UserTypecode + (existno + increasecount).ToString();
+
+                        }
+
+
+                    }
+                    if (generatedCode.Length == length)
+                    {
+                        if (generatedCode.StartsWith(UserTypecode))
+                        {
+                            code = generatedCode;
+
+                            #region checkSamebooking
+                            var checkbooking =
+                               db.IconicBookingModels.Where(x => x.BOOKINGNUMBER == UserTypecode).ToList();
+                            var checkblacklist =
+                                db.IconicBlacklistModels.Where(x => x.BlackListNumber == UserTypecode).ToList();
+                            if (checkbooking.Count > 0 || checkblacklist.Count > 0)
+                            {
+                                increasecount += 1;
+                                continue;
+                            }
+                            else
+                            {
+                                IsContinue = false;
+                            }
+                            #endregion
+
+                        }
+                        else
+                        {
+                            IsContinue = false;
+                            code = "0";
+
+                        }
+
+                    }
+                    else
+                    {
+                        increasecount += 1;
+                        continue;
+                    }
+
+                }
+            }
+            return code;
+        }
+        #endregion
+    }
+}

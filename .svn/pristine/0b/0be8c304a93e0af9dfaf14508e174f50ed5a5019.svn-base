@@ -1,0 +1,354 @@
+﻿@{
+    ViewBag.Title = "Corporate User Registration";
+}
+
+<h2>@ViewBag.PageTitle</h2>
+
+@*@Styles.Render("~/Content/userreg")*@
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "UserReg" }))
+{
+    <div class="form-horizontal">
+        <h4>Corporate User</h4>
+        <hr />
+        <input type="hidden" value="@ViewBag.CopRegId" id="CopRegId" />
+        <input type="hidden" id="GetMenuId" />
+        <input type="hidden" value="@ViewBag.CopRegStatus" id="CopRegStatus" />
+        @Html.AntiForgeryToken()
+        <div class="wizard">
+            <div class="wizard-inner">
+                <div class="connecting-line"></div>
+                <ul class="nav nav-tabs" role="tablist">
+                    @*User Info Tab*@
+                    <li role="presentation" class="active">
+                        <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="User Info">
+                            User Info
+                            @*<span class="round-tab">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                </span>*@
+                        </a>
+                    </li>
+
+                    @*Role Info Tab*@
+                    <li role="presentation" class="disabled">
+                        <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Role Info">
+                            Role Info
+                            @*<span class="round-tab">
+                                    <i class="glyphicon glyphicon-registration-mark"></i>
+                                </span>*@
+                        </a>
+                    </li>
+
+                    @*Menu Info Tab*@
+                    <li role="presentation" class="disabled">
+                        <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Menu Info">
+                            Menu Info
+                            @*<span class="round-tab">
+                                    <i class="glyphicon glyphicon-menu-hamburger"></i>
+                                </span>*@
+                        </a>
+                    </li>
+
+                    @*Transaction Info Tab*@
+                    <li role="presentation" class="disabled">
+                        <a href="#step4" data-toggle="tab" aria-controls="step4" role="tab" title="Transaction Info">
+                            Transaction Info
+                            @*<span class="round-tab">
+                                    <i class="glyphicon glyphicon-list"></i>
+                                </span>*@
+                        </a>
+                    </li>
+
+                    @*Account Info Tab*@
+                    <li role="presentation" class="disabled">
+                        <a href="#step5" data-toggle="tab" aria-controls="step5" role="tab" title="Account Info">
+                            Account Info
+                            @*<span class="round-tab">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                </span>*@
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tab-content">
+                <div class="tab-pane active" role="tabpanel" id="step1">
+                    <div class="container-fluid">
+                        <div class="form-horizontal">
+                            @*CorporateUserId*@
+                            <div class="form-group">
+                                <label for="CorporateUserId" class="control-label col-md-2">Company Name</label>
+                                <div class="col-md-10">
+                                    <input id="CorporateUserId" name="CorporateUserId" class="form-control">
+                                    <input type="hidden" id="CorpID">
+                                    <input type="hidden" id="CorporateID">
+                                    <input type="hidden" id="CIFID">
+                                    @*@Html.DropDownList("CorporateUserId", null, "-- Select One --", htmlAttributes: new { @class = "form-control" })*@
+                                </div>
+                            </div>
+
+                            @*UserName*@
+                            <div class="form-group">
+                                <label for="UserName" class="control-label col-md-2">Username</label>
+                                <div class="col-md-10">
+                                    <input type="text" id="UserName" name="UserName" class="form-control" value="" />
+                                </div>
+                            </div>
+
+                            @*Full Name*@
+                            <div class="form-group">
+                                <label for="FullName" class="control-label col-md-2">Full Name</label>
+                                <div class="col-md-10">
+                                    <input type="text" id="FullName" name="FullName" class="form-control" value="" />
+                                </div>
+                            </div>
+
+                            @*Email*@
+                            <div class="form-group">
+                                <label for="Email" class="control-label col-md-2">Email</label>
+                                <div class="col-md-10">
+                                    <input type="email" id="Email" name="Email" class="form-control" value="" />
+                                </div>
+                            </div>
+
+                            @*Phone No.*@
+                            <div class="form-group">
+                                <label for="PhoneNo" class="control-label col-md-2">Phone No.</label>
+                                <div class="col-md-10">
+                                    <input type="tel" id="PhoneNo" name="PhoneNo" class="form-control" value="" />
+                                </div>
+                            </div>
+
+                            @*Address*@
+                            <div class="form-group">
+                                <label for="Address" class="control-label col-md-2">Address</label>
+                                <div class="col-md-10">
+                                    <input type="text" id="Address" name="Address" class="form-control" value="" />
+                                </div>
+                            </div>
+
+                            @*Department*@
+                            <div class="form-group">
+                                <label for="DepartmentId" class="control-label col-md-2">Department</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("DepartmentId", null, "-- Select One --", htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            @*Position*@
+                            <div class="form-group">
+                                <label for="PositionId" class="control-label col-md-2">Position</label>
+                                <div class="col-md-10">
+                                    @Html.DropDownList("PositionId", null, "-- Select One --", htmlAttributes: new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-inline pull-right">
+                            @Html.ActionLink("Back To List", "Index", new { id = "" }, new { @class = "btn btn-primary" })
+                            <li><button type="button" class="btn btn-primary next-step" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Processing...">Next</button></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tab-pane" role="tabpanel" id="step2">
+
+                    <div class="container-fluid">
+                        <div class="form-horizontal">
+                            @*User Type*@
+                            <div class="col-lg-12">
+                                <label class="form-group">
+                                    <label class="radio-inline"><input type="radio" name="IsAdmin" value="Admin" checked>Admin User</label>
+                                    <label class="radio-inline"><input type="radio" name="IsAdmin" value="Transaction">Transaction User</label>
+                                </label>
+                            </div>
+
+                            @*Role*@
+                            <div class="col-lg-12">
+                                <br />
+                                <label>Role</label>
+                            </div>
+
+                            <div id="admin">
+                                @*AdminMaker*@
+                                <div class="col-lg-12">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" id="IsAdminMaker" name="IsAdminMaker" value="">AdminMaker</label>
+                                    </div>
+                                </div>
+
+                                @*AdminApprover*@
+                                <div class="col-lg-12">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" id="IsAdminApprover" name="IsAdminApprover" value="">AdminApprover</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="trasaction">
+                                @*Maker*@
+                                <div class="col-lg-12">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" id="IsMaker" name="IsMaker" value="">Maker</label>
+                                    </div>
+                                </div>
+
+                                @*Viewer*@
+                                <div class="col-lg-12">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" id="IsViewer" name="IsViewer" value="">Viewer</label>
+                                    </div>
+                                </div>
+
+                                @*Approver*@
+                                <div class="col-lg-12">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" id="IsApprover" name="IsApprover" value="">Approver</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-inline pull-right">
+                            <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                            @Html.ActionLink("Back To List", "Index", new { id = "" }, new { @class = "btn btn-primary" })
+                            <li><button type="button" class="btn btn-primary next-step" value="Role" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Processing...">Next</button></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tab-pane" role="tabpanel" id="step3">
+                    <div class="container-fluid">
+                        <div class="form-horizontal">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover nowrap" id="menuTable">
+                                    <thead>
+                                        <tr class="active">
+                                            <th>
+                                                Menu Name
+                                            </th>
+                                            <th>
+                                                AdminMaker
+                                            </th>
+                                            <th>
+                                                AdminApprover
+                                            </th>
+                                            <th>
+                                                Maker
+                                            </th>
+                                            <th>
+                                                Checker
+                                            </th>
+                                            <th>
+                                                Approver
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <ul class="list-inline pull-right">
+                            <li><button type="button" class="btn btn-default prev-step">Previous</button></li>
+                            @Html.ActionLink("Back To List", "Index", new { id = "" }, new { @class = "btn btn-primary" })
+                            <li><button type="button" class="btn btn-primary next-step" value="Menu" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Processing...">Next</button></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tab-pane" role="tabpanel" id="step4">
+                    <div class="container-fluid">
+                        <div class="form-horizontal">
+                            @*Maker Tran Limit*@
+                            <div class="form-group Maker">
+                                <label for="MakerTranLimit" class="control-label col-md-2">Maker Tran Limit</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control number-separator" name="MakerTranLimit" id="MakerTranLimit" value="@ViewBag.MakerTranLimit" />
+                                </div>
+                            </div>
+
+                            @*Checker Tran Limit*@
+                            <div class="form-group Checker">
+                                <label for="CheckerTranLimit" class="control-label col-md-2">Checker Tran Limit</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control number-separator" name="CheckerTranLimit" id="CheckerTranLimit" value="@ViewBag.CheckerTranLimit" />
+                                </div>
+                            </div>
+
+                            @*Maker Bulk Tran Limit*@
+                            <div class="form-group Maker">
+                                <label for="MakerBulkTranLimit" class="control-label col-md-2">Maker Bulk Tran Limit</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control number-separator" name="MakerBulkTranLimit" id="MakerBulkTranLimit" value="@ViewBag.MakerBulkTranLimit" />
+                                </div>
+                            </div>
+
+                            @*Checker Bulk Tran Limit*@
+                            <div class="form-group Checker">
+                                <label for="CheckerBulkTranLimit" class="control-label col-md-2">Checker Bulk Tran Limit</label>
+                                <div class="col-md-10">
+                                    <input type="text" class="form-control number-separator" name="CheckerBulkTranLimit" id="CheckerBulkTranLimit" value="@ViewBag.CheckerBulkTranLimit" />
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-inline pull-right">
+                            @Html.ActionLink("Back To List", "Index", new { id = "" }, new { @class = "btn btn-primary" })
+                            <li><button type="button" class="btn btn-primary next-step" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Processing...">Next</button></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tab-pane" role="tabpanel" id="step5">
+                    <div class="container-fluid">
+                        <div class="form-horizontal">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover nowrap" id="accTable">
+                                    <thead>
+                                        <tr class="active">
+                                            <th>
+                                            </th>
+                                            <th>
+                                            </th>
+                                            <th>
+                                                Account No
+                                            </th>
+                                            <th>
+                                                Account Type
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <ul class="list-inline pull-right">
+                            <li><button type="button" class="btn btn-default prev-step" value="Register">Previous</button></li>
+                            @Html.ActionLink("Back To List", "Index", new { id = "" }, new { @class = "btn btn-primary" })
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @*<script type="text/javascript">
+            $(function () {
+                $("#btnDetail").click(function (e) {
+                        window.location.href = '/CorporateUser/Index/';
+                });
+            });
+        </script>*@
+    <script>
+        let bootstrapButton = jQuery.fn.button;
+    </script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script>
+        //jQuery.fn.jQueryUIButton = jQuery.fn.button;
+        jQuery.fn.button = bootstrapButton;
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/jquery.number.min.js"></script>
+    @Scripts.Render("~/bundles/userreg")
+}

@@ -1,0 +1,259 @@
+﻿@model ABankAdmin.ViewModels.CorporateVM
+@{
+    ViewBag.Title = "Corporate Edit";
+}
+
+<h2>Edit</h2>
+<style>
+    fieldset.scheduler-border {
+        border: 1px groove #ddd !important;
+        padding: 0 1.4em 1.4em 1.4em !important;
+        margin: 0 0 1.5em 0 !important;
+        -webkit-box-shadow: 0px 0px 0px 0px #000;
+        box-shadow: 0px 0px 0px 0px #000;
+    }
+
+    legend.scheduler-border {
+        font-size: 1.2em !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        width: auto;
+        padding: 0 10px;
+        border-bottom: none;
+    }
+</style>
+@using (Html.BeginForm("CorporateEdit","Corporate",FormMethod.Post,new { autocomplete="off"}))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Request Corporate</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.CIFID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.CIFID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.CIFID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Company_Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Company_Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            @Html.HiddenFor(model => model.CorporateID)
+            @Html.ValidationMessageFor(model => model.Company_Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Company_Email, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Company_Email, new
+            {
+                htmlAttributes = new
+                {
+                    @class = "form-control"@*, @readonly = "readonly"*@}
+})
+            @Html.ValidationMessageFor(model => model.Company_Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Company_Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Company_Phone, new
+            {
+                htmlAttributes = new
+                {
+                    @class = "form-control"@*, @readonly = "readonly"*@,
+                    @onkeypress = "return isNumberKey(this, event);",
+                }
+       })
+            @Html.ValidationMessageFor(model => model.Company_Phone, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Company_Address, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Company_Address, new { @class = "form-control", @style = "height:70px;" })
+            @Html.ValidationMessageFor(model => model.Company_Address, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Branch, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Branch,
+                  (IEnumerable<SelectListItem>)ViewBag.BranchList,
+                  "--Select Branch--", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Branch, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.COUNTRY_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.COUNTRY_ID,
+          (IEnumerable<SelectListItem>)ViewBag.Country,
+          "", new { @class = "form-control" })
+            @*@Html.DropDownListFor(model => model.COUNTRY_ID, ViewBag.Country as List<SelectListItem>, new { @class = "form-control" })*@
+            @Html.ValidationMessageFor(model => model.COUNTRY_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.STATE_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.STATE_ID,
+         (IEnumerable<SelectListItem>)ViewBag.State,
+         null, new { @class = "form-control" })
+            @*@Html.DropDownListFor(model => model.STATE_ID, ViewBag.State as List<SelectListItem>, new { @class = "form-control" })*@
+            @Html.ValidationMessageFor(model => model.STATE_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ISVIP, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.CheckBoxFor(model => model.ISVIP)
+            @Html.ValidationMessageFor(model => model.ISVIP, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group OnlyVIP">
+        @Html.LabelFor(model => model.T_CHARGES_CODE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.T_CHARGES_CODE, ViewBag.TransferChargesCode as List<SelectListItem>, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.T_CHARGES_CODE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group OnlyVIP">
+        @Html.LabelFor(model => model.R_CHARGES_CODE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.R_CHARGES_CODE, ViewBag.RemittanceChargesCode as List<SelectListItem>, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.R_CHARGES_CODE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Tran_Limit, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Tran_Limit, new { htmlAttributes = new { @class = "form-control Money", @type = "" } })
+            @Html.ValidationMessageFor(model => model.Tran_Limit, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="col-md-1 form-group"></div>
+
+    <fieldset class="scheduler-border form-group">
+        <legend class="scheduler-border"> Bulk Payment Charges</legend>
+        <div class="form-group">
+            @Html.Label( "OWN BANK", htmlAttributes: new { @class = "control-label  col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Bulk_Charges_Fix_Rate, new { htmlAttributes = new { @class = "form-control text-align", @onkeypress = "return isNumberKey(this, event);", @type = "" } })
+                @Html.ValidationMessageFor(model => model.Bulk_Charges_Fix_Rate, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+                <label>@Html.RadioButtonFor(model => model.IS_FIXRATE_BULK_CHARGES, false) Percentage </label>
+                <label>@Html.RadioButtonFor(model => model.IS_FIXRATE_BULK_CHARGES, true) Fixed Amount </label>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label( "OTHER BANK", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CCT_BULK_CHARGES_FIX_RATE_N_PERCENT, new { htmlAttributes = new { @class = "form-control text-align col-md-10", @onkeypress = "return isNumberKey(this, event);", @type = "" } })
+                @Html.ValidationMessageFor(model => model.CCT_BULK_CHARGES_FIX_RATE_N_PERCENT, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+                <label>@Html.RadioButtonFor(model => model.CCT_IS_FIXRATE_BULK_CHARGES, false) Percentage </label>
+                <label>@Html.RadioButtonFor(model => model.CCT_IS_FIXRATE_BULK_CHARGES, true) Fixed Amount </label>
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-success" />
+            @Html.ActionLink("Cancel", "CorporateLists", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+          $("input[name='IS_FIXRATE_BULK_CHARGES']").change(function () {
+            $("#Bulk_Charges_Fix_Rate").val('');
+          });
+           $("input[name='CCT_IS_FIXRATE_BULK_CHARGES']").change(function () {
+            $("#CCT_BULK_CHARGES_FIX_RATE_N_PERCENT").val('');
+        });
+
+        $(document).ready(function () {
+        $("#COUNTRY_ID").change(function () {
+            $("#STATE_ID").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getState")',
+                dataType: 'json',
+                data: { id : $("#COUNTRY_ID").val() },
+                success: function (township) {
+
+                    $.each(township, function (i, state) {
+                        $("#STATE_ID").append('<option value="'
+                                                   + state.Value + '">'
+                                             + state.Text + '</option>');
+                    });
+                },
+                error: function (xhr, ajaxError, thrown) {
+                    if (xhr.status == 302) {
+                        window.location.href = "/Admin/Login";
+                    }
+                }
+            });
+            return false;
+        })
+
+        //show or hide at initially and after validation error
+        if ($("#ISVIP")[0].checked) {
+            $(".OnlyVIP").show();
+        } else {
+            $(".OnlyVIP").hide();
+        }
+        //VIP check change
+        $("#ISVIP").change(function () {
+            if ($("#ISVIP")[0].checked) {
+                $(".OnlyVIP").show();
+            } else {
+                $(".OnlyVIP").hide();
+                 $('#T_CHARGES_CODE').prop('selectedIndex', 0);
+                 $('#R_CHARGES_CODE').prop('selectedIndex',0);
+            }
+        });
+             //add thousand separator
+        $("#Bulk_Charges_Fix_Rate,#CCT_BULK_CHARGES_FIX_RATE_N_PERCENT").on("keyup", function () {
+                var val = this.value;
+            val = val.replace(/[^0-9\.]/g, '');
+            var s = val.split('.');
+            //if (s[0].length > 15) {
+            //    val = 0;
+            //}
+
+                if (val != "") {
+                    valArr = val.split('.');
+                    valArr[0] = (BigInt(valArr[0], 10)).toLocaleString();
+                    val = valArr.join('.');
+                }
+            this.value = val;
+
+        });
+    });
+    </script>
+}

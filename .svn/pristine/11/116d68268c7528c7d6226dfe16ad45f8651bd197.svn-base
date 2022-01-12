@@ -1,0 +1,193 @@
+﻿using ABankAdmin.Models;
+using ABankAdmin.ViewModels;
+using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace ABankAdmin.Controllers
+{
+    public class PrivilegeUsageController : Controller
+    {
+        private AdminDBContext db = new AdminDBContext();
+        string controllerName = "PrivilegeUsage";
+        EventLogController log = new EventLogController();
+        // GET: PrivilegeUsage
+        public ActionResult CreatePrivilegeUsage()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreatePrivilegeUsage(PrivilegeUsageCreateVM privilegeUsageVM)
+        {
+            TempData["createD"] = "1";
+            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (string.IsNullOrEmpty(privilegeUsageVM.IconicNumber))
+                    {
+                        string usertypecode = (from s in db.CIFInfoModels where s.USERTYPE == privilegeUsageVM.IconicNumber && s.DELFLAG == false select s.USERTYPECODE).SingleOrDefault();
+                        if (!usertypecode.Equals(privilegeUsageVM.IconicNumber))
+                        {
+                            ModelState.AddModelError("USERTYPECODE", "THE ICONIC Number is Invalid");
+                            return View(privilegeUsageVM);
+                        }
+
+                    }
+
+                    //save log
+                    Session["PrivilegeUsage"] = string.Empty;//To genereate PDF
+                    Session["PrivilegeUsage"] = JsonConvert.SerializeObject(privilegeUsageVM);
+                    return RedirectToAction("ConfirmPrivilegeUsage");
+                }
+
+                return View();
+
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(User.Identity.GetUserId(), controllerName, actionName, ex);
+                return View("Error");
+            }
+        }
+        public ActionResult ConfirmPrivilegeUsage()
+        {
+            TempData["createReturn"] = "1";
+            PrivilegeUsageVM reqmodel = new PrivilegeUsageVM();
+            try
+            {
+                if (TempData["createD"] == "1")
+                {
+                    if (Session["PrivilegeUsage"] != null)
+                    {
+                        if (!string.IsNullOrEmpty(Session["PrivilegeUsage"].ToString()))
+                        {
+                            reqmodel = JsonConvert.DeserializeObject<PrivilegeUsageVM>(Session["PrivilegeUsage"].ToString());
+                        }
+                    }
+                }
+
+                IEnumerable<SelectListItem> privilegeList = db.Privilege.Where(b => b.IsDelete == false)
+                                   .Select(c => new SelectListItem
+                                   {
+                                       Value = c.ID.ToString(),
+                                       Text = c.PrivilegeName.ToString()
+                                   }).ToList();
+                var objectList = db.Privilege.Where(b => b.IsDelete == false).ToList();
+                ViewBag.ObjectList = objectList;
+                ViewBag.PrivilegeList = privilegeList;
+                Session["PrivilegeList"] = ViewBag.PrivilegeList;
+
+            }
+            catch (Exception ex)
+            { throw ex; }
+            return View(reqmodel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ConfirmPrivilegeUsage(PrivilegeUsageVM privilegeUsage)
+        {
+
+            ViewBag.PrivilegeList = Session["PrivilegeList"];
+            TempData["createD"] = "1";
+            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (db.PrivilegeUsage.Where(c => c.CustomerName.ToLower().Trim().Replace(" ", "") == privilegeUsage.CustomerName.ToLower().Trim().Replace(" ", "") && c.IsDelete == false).Count() != 0)
+                    {
+                        ModelState.AddModelError("CustomerName", "Duplicate Customer Name!");
+                        return View(privilegeUsage);
+                    }
+                    Privilege_Usage privilege = new Privilege_Usage();
+                    //core data
+                    privilege.CustomerName = privilegeUsage.CustomerName;
+                    privilege.CustomerNRC = privilegeUsage.CustomerNRC;
+                    privilege.IconicNumber = privilegeUsage.IconicNumber;
+                    privilege.IconicTier = privilegeUsage.IconicTier;
+                    privilege.IconicExpireDate = DateTime.Now;//privilegeUsage.IconicExpireDate;
+                    privilege.PrivilegeUsage = privilegeUsage.PrivilegeName;
+                    privilege.ServiceDate = DateTime.Now;//privilegeUsage.ServiceDate;
+                    privilege.ServiceLocation = privilegeUsage.ServiceLocation;
+                    privilege.IsDelete = false;
+
+                    //default values
+                    privilege.CreatedDate = DateTime.Now;
+                    privilege.CreatedUserID = User.Identity.GetUserId();
+
+                    db.PrivilegeUsage.Add(privilege);
+                    db.SaveChanges();
+                    //save log
+                    log.Info(User.Identity.GetUserId(), controllerName, "ConfirmPrivilegeUsage", 1);
+
+                    #region Data preparation for Privilege In Use Update
+                    var DbInfo = (from s in db.Privilege where s.PrivilegeName == privilegeUsage.PrivilegeName && s.IsDelete == false select s).SingleOrDefault();
+                    DbInfo.InUse = true;
+                    var localEntity = db.Set<Privilege>().Local.FirstOrDefault(f => f.ID == DbInfo.ID);
+                    if (localEntity != null)
+                    {
+                        db.Entry(localEntity).State = EntityState.Detached;
+                    }
+                    db.Entry(DbInfo).State = EntityState.Modified;
+                    db.SaveChanges();
+                    #endregion
+
+                    ViewBag.PrivilegeUsage = "success";
+                }
+                return View(privilegeUsage);
+            }
+            catch (Exception ex)
+            {
+                log.Error(User.Identity.GetUserId(), controllerName, "CreatePrivilege", ex);
+                return View("Error");
+            }
+        }
+
+        public JsonResult getCIFIDInfo(string iconicno)
+        {
+            PrivilegeUsageVM privilegeUsage = new PrivilegeUsageVM();
+            CIFInfoModel info = new CIFInfoModel();
+            try
+            {
+                if (iconicno != "")
+                {
+                    info =
+                           (from s in db.CIFInfoModels where s.USERTYPECODE == iconicno && s.DELFLAG == false select s)
+                               .SingleOrDefault();
+                    if (info == null)
+                    {
+                        return Json(new { message = "This CIFID is not registered" }, JsonRequestBehavior.AllowGet);
+
+                    }
+                    else
+                    {
+                        privilegeUsage.IconicNumber = info.USERTYPECODE;
+                        privilegeUsage.IconicTier = info.USERTYPE;
+                        privilegeUsage.IconicExpireDate = info.EXPIREDATE.ToString();
+
+                    }
+                    return Json(privilegeUsage, JsonRequestBehavior.AllowGet);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+
+                log.Error(User.Identity.GetUserId(), controllerName, actionName, ex);
+            }
+            return Json(privilegeUsage, JsonRequestBehavior.AllowGet);
+        }
+
+    }
+}

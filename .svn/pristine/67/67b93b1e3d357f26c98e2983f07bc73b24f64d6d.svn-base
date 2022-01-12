@@ -1,0 +1,51 @@
+﻿@using Newtonsoft.Json;
+@model ABankAdmin.ViewModels.HolidayList
+@{
+    Layout = "~/Views/Shared/_LayoutDataTable.cshtml";
+}
+
+<style>
+    .fc a[data-navlink] {
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+</style>
+
+<div id='calendar'></div>
+
+<!--FullCalender-->
+<link href="~/Content/FullCalendar/lib/main.css" rel="stylesheet" />
+<!--FullCalender-->
+<script src="~/Content/FullCalendar/lib/main.js"></script>
+<script>
+
+    var calendarEl = document.getElementById('calendar');
+    var lstEventLists = JSON.parse('@Html.Raw(JsonConvert.SerializeObject(Model.FullCalendar.EventLists))');
+    var startrange = '@Model.FullCalendar.validRange.start';
+    var endrange = '@Model.FullCalendar.validRange.end';
+    var initialdate = '@Model.FullCalendar.validRange.initialdate';
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        eventClick: function (info) {
+            info.jsEvent.preventDefault(); // don't let the browser navigate
+            var ID = info.event.extendedProps.ID;
+           postForm('/Holiday/Detail', {
+                ID: ID
+            });
+
+        },
+        validRange: {
+            start: startrange,
+            end: endrange
+        },
+        initialDate: initialdate,
+        navLinks: true, // can click day/week names to navigate views
+        editable: true,
+        dayMaxEvents: true, // allow "more" link when too many events
+        events: lstEventLists
+        });
+
+    calendar.render();
+
+</script>
+

@@ -1,0 +1,50 @@
+﻿@model ABankAdmin.Models.UtilitiesDetail
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Utilities Detail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("UTILITY")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VrUID.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DENO)
+        </dt>
+
+        <dd>
+            @{
+                string parameterValue = String.Format("{0:N0}",Convert.ToInt32(Model.DENO));
+            }
+            @Html.DisplayFor(model => parameterValue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CURRENCY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CURRENCY)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <input type="submit" value="Delete" class="btn btn-danger" />
+    @Html.ActionLink("Cancel", "Index", null, null, new { @*href = Request.UrlReferrer,*@ @class = "btn btn-default" })
+</div>
+    }
+</div>

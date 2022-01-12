@@ -1,0 +1,37 @@
+﻿@model ABankAdmin.Models.Holiday
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>Detail Holiday</h2>
+
+<div  style="width:65%;">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => Model.HolidayName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => Model.HolidayName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => Model.HolidayDate)
+        </dt>
+
+        <dd>
+            @{ 
+                var dateformat = Convert.ToDateTime(Model.HolidayDate).ToString("dd-MM-yyyy");
+            }
+            @Html.DisplayFor(model => dateformat)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-success" })
+    @Html.ActionLink("Delete", "Delete", new { id = Model.ID }, new { @class = "btn btn-danger" })
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

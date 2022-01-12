@@ -1,0 +1,120 @@
+﻿@model IEnumerable<ABankAdmin.Models.Role>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Permission</h2>
+
+<table class="table">
+    <tr class="col-md-6">
+            @foreach (var item in Model)
+            {
+                <td class="col-md-3">
+                @Html.RadioButton("Role", item.ID, new { id = item.Name.ToString() })
+                @Html.DisplayFor(modelItem => item.Name)
+                </td>
+            }
+    </tr>
+
+</table>
+
+<!--Sucess Box-->
+<div class="modal" id="divSuccess">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Update Information</h4>
+            </div>
+            <div class="modal-body">
+                <pre id="pMessage"></pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success pull-right" data-dismiss="modal" @*onclick="window.location = '/Home/Index';"*@>OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="jstree">
+</div>
+@using (Html.BeginForm("Index", "RoleMenu", FormMethod.Post))
+{
+    <input type="hidden" name="selectedItems" id="selectedItems" />
+    <input type="hidden" name="role" id="role" value='@ViewBag.role' />
+    <input type="submit" id="btnSubmit" value="Update" class="btn btn-default" @*onclick="successupdate()"*@ />
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/retail")
+    <link rel="stylesheet" href="~/Content/plugins/jstree_style/style.min.css" />
+    <script type="text/javascript" src="~/Scripts/jstree-3.2.1.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#jstree').on('changed.jstree', function (e, data) {
+                var i, j;
+                var selectedItems = [];
+                for(i = 0, j = data.selected.length; i < j; i++) {
+
+                    //Fetch the Id.
+                    var id = data.selected[i];
+
+                    //Add the Node to the JSON Array.
+                    selectedItems.push({
+                        text: data.instance.get_node(data.selected[i]).text,
+                        id: id,
+                        parent: '0'
+                    });
+                }
+
+                //Serialize the JSON Array and save in HiddenField.
+                $('#selectedItems').val(JSON.stringify(selectedItems));
+            }).jstree({
+                "core": {
+                    "themes": {
+                        "variant": "large",
+                        "icons": false
+                    },
+                    "data": @Html.Raw(ViewBag.Json)
+                    },
+                "checkbox": {
+                    "keep_selected_style": false,
+                    "checkbox":{ "tie_selection": false }
+                },
+                "plugins": ["wholerow", "checkbox"],
+            });
+        });
+
+        $(document).ready(function () {
+            var roleID = parseInt(@ViewBag.role);
+            var roleName = '@ViewBag.rolename';
+            var genrolename = '#' + roleName;
+
+            if (roleID != 0) {
+                jQuery(genrolename).attr('checked', true);
+            }
+
+            $('input:radio').click(function () {
+                var id = $("input[name='Role']:checked").val();
+                //var clickchanges = '#' + $("input[name='Role']:checked").attr('id');
+                window.location.href = "/RoleMenu/Index/" + id;
+            });
+        });
+    </script>
+
+    @if (@ViewBag.message != null)
+    {
+        <script type="text/javascript">
+            $("#pMessage").text('@ViewBag.message');
+            $("#divSuccess").modal('toggle');
+        </script>
+    }
+}
+

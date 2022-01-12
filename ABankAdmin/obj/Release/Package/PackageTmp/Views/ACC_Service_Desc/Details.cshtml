@@ -1,0 +1,42 @@
+﻿@model ABankAdmin.Models.ACC_Service_Desc
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Account Service Description</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Account_Services_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.acc_service.Acc_Description)
+        </dd>
+
+        <dt style="margin-top:20px;">
+            @Html.DisplayNameFor(model => model.Desc)
+        </dt>
+
+        <dd style="margin-top:20px;">
+            @Html.DisplayFor(model => model.Desc)
+        </dd>
+
+        <dt style="margin-top:20px;">
+            @Html.DisplayNameFor(model => model.OrderNo)
+        </dt>
+
+        <dd style="margin-top:20px;">
+            @Html.DisplayFor(model => model.OrderNo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID },new { @class ="btn btn-success"}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

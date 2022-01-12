@@ -1,0 +1,197 @@
+﻿@model ABankAdmin.Models.OtherBranch
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>OtherBranch</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.Label("BANK NAME", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("OTHER_BANK_ID",
+        (IEnumerable<SelectListItem>)ViewBag.OtherBank,
+        null, new { @class = "form-control" })
+            @*@Html.DropDownListFor(model => model.OTHER_BANK_ID, ViewBag.OtherBank as List<SelectListItem>, new { @class = "form-control" })*@
+            @Html.ValidationMessageFor(model => model.OTHER_BANK_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BR_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("BR_NAME",
+               (IEnumerable<SelectListItem>)ViewBag.Branch,
+               null, new { @class = "form-control" })
+            @*@Html.DropDownListFor(model => model.BR_NAME, ViewBag.Branch as List<SelectListItem>, new { @class = "form-control" })*@
+            @Html.ValidationMessageFor(model => model.BR_NAME, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BR_CODE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.BR_CODE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @*@Html.EditorFor(model => model.BR_CODE, new { htmlAttributes = new { @class = "form-control", @value = ViewBag.BR_CODE } })*@
+            @Html.ValidationMessageFor(model => model.BR_CODE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BR_SHORT_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.BR_SHORT_NAME, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.BR_SHORT_NAME, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FI_CODE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FI_CODE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.FI_CODE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CR_BR_CODE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CR_BR_CODE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.CR_BR_CODE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BR_CITY_CODE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.BR_CITY_CODE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.BR_CITY_CODE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BR_STATE_CODE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.BR_STATE_CODE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.BR_STATE_CODE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CHARGES_CODE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.CHARGES_CODE,
+                (IEnumerable<SelectListItem>)ViewBag.ChargeCode,
+                null, new { @class = "form-control" })
+            @*@Html.DropDownListFor(model => model.CHARGES_CODE, ViewBag.ChargeCode as List<SelectListItem>, new { @class = "form-control" })*@
+            @Html.ValidationMessageFor(model => model.CHARGES_CODE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.Address, new { @class = "form-control", @style = "height:150px;" })
+            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-success" />
+            @Html.ActionLink("Cancel", "Index", null, null, new
+            {@*href = Request.UrlReferrer,*@ @class = "btn btn-default"
+        })
+        </div>
+    </div>
+</div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#OTHER_BANK_ID").change(function () {
+            $("#BR_NAME").empty();
+            $("#BR_CODE").val('');
+            $("#BR_SHORT_NAME").val('');
+            $("#FI_CODE").val('');
+            $("#CR_BR_CODE").val('');
+            $("#BR_CITY_CODE").val('');
+            $("#CHARGES_CODE").val('');
+            if ($("#OTHER_BANK_ID").val() != "") {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("getBranch")',
+                    dataType: 'json',
+                    data: { bankId: $("#OTHER_BANK_ID").val() },
+                    success: function (branch) {
+
+                        $.each(branch, function (i, branch) {
+                            $("#BR_NAME").append('<option value="'
+                                + branch.Value + '">'
+                                + branch.Text + '</option>');
+                        });
+                    },
+                    error: function (xhr, ajaxError, thrown) {
+                        if (xhr.status == 302) {
+                            window.location.href = "/Admin/Login";
+                        }
+                    }
+                });
+            }
+            else {
+                $("#BR_NAME").append('<option value="'
+                    + "" + '">'
+                    + "---Select Branch---" + '</option>');
+            }
+            return false;
+        })
+    });
+     
+
+    @*<script src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+         
+        $(document).ready(function () {
+            $('#BR_NAME').change(function () {                
+                $("#BR_CODE").val('');
+                $("#BR_SHORT_NAME").val('');
+                $("#FI_CODE").val('');
+                $("#CR_BR_CODE").val('');
+                $("#BR_CITY_CODE").val('');
+                $("#BR_STATE_CODE").val('');
+                $("#BR_STATE_CODE").val('');
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getBranchData")',
+                dataType: 'json',
+                data: { bankId : $("#OTHER_BANK_ID").val(), branchname : $("#BR_NAME").val() },
+                success: function (branch) {
+                    $("#BR_CODE").val(branch.BR_CODE);
+                    $("#BR_SHORT_NAME").val(branch.BR_SHORT_NAME);
+                    $("#FI_CODE").val(branch.FI_CODE);
+                    $("#CR_BR_CODE").val(branch.CR_BR_CODE);
+                    $("#BR_CITY_CODE").val(branch.BR_CITY_CODE);
+                    $("#BR_STATE_CODE").val(branch.BR_STATE_CODE);
+                },
+                error: function (xhr, ajaxError, thrown) {
+                    if (xhr.status == 302) {
+                        window.location.href = "/Admin/Login";
+                    }
+                }
+            });
+            return false;
+        })
+        });
+    </script>
+}

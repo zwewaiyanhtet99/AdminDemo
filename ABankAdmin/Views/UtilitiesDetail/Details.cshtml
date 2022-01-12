@@ -1,0 +1,82 @@
+﻿@model ABankAdmin.Models.UtilitiesDetail
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UtilitiesDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UTILITIES_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UTILITIES_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DENO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DENO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ACTIVE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ACTIVE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CURRENCY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CURRENCY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedUserID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedUserID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedDateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedDateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedUserId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID },new { @class="btn btn-success"})
+    @Html.ActionLink("Back to List", "Index")
+</p>

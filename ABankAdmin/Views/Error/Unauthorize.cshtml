@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Unauthorize";
+}
+
+    <style>
+        .header{
+            background-color:#5e5d5c;
+            font-weight:bold;
+            color:white;
+            font-size:40px;
+            height:2em;
+            padding-top:20px;
+        }
+
+        .h2{
+            color:yellow;
+            font-weight:bold;
+            font-size:15px;
+        }
+    </style>
+
+
+    <div class="container-fluid">
+        <div class="header col-md-12">
+            Server Error
+        </div>
+        <div class="h1 col-md-12">
+            <center>
+                <h2>403 -Unauthorize: Access is denied due to invalid credentials.</h2>
+                <p>You do not have permission to view this directory or page using the credentials that you supplied.</p>
+                <h4>@Html.ActionLink("Go to Dashboard", "Index", "Home")</h4>
+            </center>
+        </div>
+    </div>
+
+

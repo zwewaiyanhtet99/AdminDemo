@@ -1,0 +1,4 @@
+{
+    "FinacleCoreAPI": "http://10.55.55.23/Api/CallService"
+    //"FinacleCoreAPI": "http://localhost:7796/Api/CallService"
+}

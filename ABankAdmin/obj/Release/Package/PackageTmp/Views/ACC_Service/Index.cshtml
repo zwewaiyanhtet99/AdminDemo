@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Account Service List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="table-responsive">
+        <table class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" id="myTable">
+            <thead>
+                <tr>
+                    <th>
+                        Account Type
+                    </th>
+                    <th>
+                        Account Description
+                    </th>
+                    <th>
+                        Language
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+        </table>
+</div>
+@section Scripts {
+
+    <script>
+        $(function () {
+
+            /*disable datatable warnings*/
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $("#myTable").dataTable(
+                {
+                    //"stateSave": true, // to save current state when going to next page
+                    //"processing": true, // for show processing bar
+                    "serverSide": true, // for process on server side
+                    "orderMulti": false, // for disable multi column order
+                    "dom": '<"top"i>rt<"bottom"lp><"clear">', // for hide default global search box // little confusion? don't worry I explained in the tutorial website
+                    "ajax": {
+                        "url": "/ACC_Service/Index",
+                        "type": "POST",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "Account_Type", "name": "Account_Type", "autoWidth": true },
+                        { "data": "Acc_Description", "name": "Acc_Description", "autoWidth": true },
+                        { "data": "Language", "name": "Language", "autoWidth": true },
+                        {// this is Actions Column
+                            mRender: function (data, type, row) {
+                                var linkEdit = '@Html.ActionLink("Edit", "Edit", new {id= -1 })';
+                                linkEdit = linkEdit.replace("-1", row.ID);
+
+                                var linkDelete = '@Html.ActionLink("Delete", "Delete", new {id= -1 })';
+                                linkDelete = linkDelete.replace("-1", row.ID);
+
+                                return linkEdit + " | " + linkDelete;
+                            },
+                            width: "100px",
+                            orderable: false
+                        }
+                    ]
+             });
+        })
+    </script>
+}

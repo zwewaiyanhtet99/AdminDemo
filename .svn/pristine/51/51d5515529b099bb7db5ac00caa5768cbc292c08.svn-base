@@ -1,0 +1,70 @@
+﻿using ABankAdmin.Models;
+using ABankAdmin.ViewModels;
+using Microsoft.AspNet.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace ABankAdmin.Controllers
+{
+    public class PrivilegeController : Controller
+    {
+        string controllerName = "Privilege";
+        private AdminDBContext db = new AdminDBContext(); 
+        EventLogController log = new EventLogController();
+        // GET: Privilege
+        public ActionResult CreatePrivilege()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreatePrivilege(PrivilegeVM prvilegeViewModel)
+        {
+            TempData["createD"] = "1";
+            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (db.Privilege.Where(c => c.PrivilegeName.ToLower().Trim().Replace(" ", "") == prvilegeViewModel.PrivilegeName.ToLower().Trim().Replace(" ", "") && c.IsDelete == false).Count() != 0)
+                    {
+                        ModelState.AddModelError("PrivilegeName", "Duplicate Privilege Name!");
+                        return View(prvilegeViewModel);
+                    }
+                    Privilege privilege = new Privilege();
+                    //core data
+                    privilege.PrivilegeName = prvilegeViewModel.PrivilegeName;
+                    privilege.Room = prvilegeViewModel.Room;
+                    privilege.Location = prvilegeViewModel.Location;
+                    privilege.NoOfFollowers = prvilegeViewModel.NoOfFollowers;
+                    privilege.Staff = prvilegeViewModel.Staff;
+                    privilege.IsDelete = false;
+                    privilege.InUse = false;
+                    privilege.Date = DateTime.Now;
+                    privilege.Time = DateTime.Now;
+
+                    //default values
+                    privilege.CreatedDate = DateTime.Now;
+                    privilege.CreatedUserID = User.Identity.GetUserId();
+
+                    db.Privilege.Add(privilege);
+                    db.SaveChanges();
+                    //save log
+                    log.Info(User.Identity.GetUserId(), controllerName, "CreatePrivilege", 1);
+                    ViewBag.Privilege = "success";
+                }
+
+                return View(prvilegeViewModel);
+            }
+            catch (Exception ex)
+            {
+                log.Error(User.Identity.GetUserId(), controllerName, "CreatePrivilege", ex);
+                return View("Error");
+            }
+        }
+    }
+}

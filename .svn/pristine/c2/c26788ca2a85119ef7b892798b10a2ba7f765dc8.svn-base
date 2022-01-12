@@ -1,0 +1,61 @@
+﻿@using ReportViewerForMvc
+
+@{
+    ViewBag.Title = "Corporate User Summary";
+}
+
+<h2>Corporate User Summary</h2>
+
+<div class="card">
+    <div class="card-header">
+        @using (Html.BeginForm("CorporateUserSummary", "CorporateUserReport", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken();
+            <div class="row">
+                @*Company Name*@
+                <div class="form-group col-md-2">
+                    <label>Company Name</label>
+                    <input type="text" name="CompanyName" id="CompanyName" class="form-control" value="@ViewBag.CompanyName" />
+                </div>
+
+                @*Corporate ID*@
+                <div class="form-group col-md-2">
+                    <label>Corporate ID</label>
+                    <input type="text" name="CorporateID" id="CorporateID" class="form-control" value="@ViewBag.CorporateID" />
+                </div>
+
+                @*User Name*@
+                <div class="form-group col-md-2">
+                    <label>User Name</label>
+                    <input type="text" name="UserName" id="UserName" class="form-control" value="@ViewBag.UserName" />
+                </div>
+
+                @*Phone No*@
+                <div class="form-group col-md-2">
+                    <label>Phone No.</label>
+                    <input type="text" name="PhoneNo" id="PhoneNo" class="form-control" value="@ViewBag.PhoneNo" />
+                </div>
+
+                @*User Role*@
+                @*<div class="form-group col-md-2">
+                        <label>User Role</label>
+                        @Html.DropDownList("userRole", null, "-- Select One --", htmlAttributes: new { @class = "form-control" })
+                    </div>*@
+
+                <div class="form-group col-md-2">
+                    <br />
+                    <input type="submit" value="View" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            @if (ViewBag.CorporateUserReport != null)
+            {
+                @Html.ReportViewer(ViewBag.CorporateUserReport as Microsoft.Reporting.WebForms.ReportViewer,
+                                    new { @class = "table", @style = "border:1px solid #CCC;", @scrolling = "no" })
+            }
+        </div>
+    </div>
+</div>

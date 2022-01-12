@@ -1,0 +1,219 @@
+﻿using ABankAdmin.Core.Utils;
+using ABankAdmin.Models;
+using ABankAdmin.ViewModels;
+using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
+using System;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Web.Mvc;
+
+namespace ABankAdmin.Controllers
+{
+    public class CIFInfoReportController : Controller
+    {
+        private AdminDBContext db = new AdminDBContext();
+        EventLogController log = new EventLogController();
+        string controllerName = "CIFInfoReport";
+        string connectionString = ConfigurationManager.ConnectionStrings["AdminDBContext"].ConnectionString;
+        string CSVFile_Path = ConstantValues.CSVFile_Path;
+        // GET: CIFInfoReport
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        #region New Registration Report
+        public ActionResult NewRegisterationReport()
+        {
+            try
+            {
+                CIFInfoVMForReport infoVm = new CIFInfoVMForReport();
+                if (TempData["createReturnReport"] == "1")
+                {
+                    if (Session["InfoForReport"] != null)
+                    {
+                        if (!string.IsNullOrEmpty(Session["InfoForReport"].ToString()))
+                        {
+                            infoVm= JsonConvert.DeserializeObject<CIFInfoVMForReport>(Session["InfoForReport"].ToString());
+
+                        }
+                    }
+                }
+                return View(infoVm);
+            }
+            catch (Exception ex)
+            {
+                string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+
+                log.Error(User.Identity.GetUserId(), controllerName, actionName, ex);
+                return View("Error");
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult NewRegisterationReport(CIFInfoVMForReport infoVm)
+        {
+            string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (string.IsNullOrEmpty(infoVm.USERTYPECODE))
+                    {
+                        string usertypecode = (from s in db.CIFInfoModels where s.USERTYPE == infoVm.USERTYPECODE && s.DELFLAG == false select s.USERTYPECODE).SingleOrDefault();
+                        if (!usertypecode.Equals(infoVm.USERTYPECODE))
+                        {
+                            ModelState.AddModelError("USERTYPECODE", "THE ICONIC Number is Invalid");
+                            return View(infoVm);
+                        }
+
+                    }
+                    if (string.IsNullOrEmpty(infoVm.CIFID))
+                    {
+                        string cif = (from s in db.CIFInfoModels where s.CIFID == infoVm.CIFID && s.DELFLAG == false select s.USERTYPECODE).SingleOrDefault();
+                        if (!cif.Equals(infoVm.CIFID))
+                        {
+                            ModelState.AddModelError("CIFID", "The CIFID is Invalid");
+                            return View(infoVm);
+                        }
+
+                    }
+                    Session["InfoForReport"] = string.Empty;//To genereate PDF
+                    Session["InfoForReport"] = JsonConvert.SerializeObject(infoVm);
+                    return RedirectToAction("InfoForReport");
+                }
+
+                return View();
+
+
+            }
+            catch (Exception ex)
+            {
+                log.Error(User.Identity.GetUserId(), controllerName, actionName, ex);
+                return View("Error");
+            }
+        }
+        public ActionResult InfoForReport()
+        {
+            TempData["createReturnReport"] = "1";
+            CIFInfoVMForReport reqmodel = new CIFInfoVMForReport();
+            try
+            {
+                if (Session["InfoForReport"] != null)
+                    {
+                        if (!string.IsNullOrEmpty(Session["InfoForReport"].ToString()))
+                        {
+                            reqmodel = JsonConvert.DeserializeObject<CIFInfoVMForReport>(Session["InfoForReport"].ToString());
+                        }
+                    }
+                
+                
+            }
+            catch (Exception ex)
+            { throw ex; }
+            return View(reqmodel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult InfoForReport(CIFInfoVMForReport reqVM)
+        {
+            try
+            {
+               
+                return RedirectToAction("PDF", "CIFInfoModels");
+                
+
+            }
+            catch (Exception ex)
+            { throw ex; }
+            return View();
+        }
+        #endregion
+        
+        #region IconicReportExcel
+        //public void ExportToExcel(DataTable dt)//ActionResult
+        //{
+        //    string actionName = this.ControllerContext.RouteData.Values["action"].ToString();
+        //    try
+        //    {
+        //        string datestamp = General.GetDatestamp(DateTime.Now);
+        //        //create if folder doesn't exist
+        //        if (!Directory.Exists(CSVFile_Path))
+        //        {
+        //            Directory.CreateDirectory(CSVFile_Path);
+        //        }
+        //        string path = $"{CSVFile_Path}";
+        //        var files = new DirectoryInfo(path).GetFiles("*.*");
+        //        string filename = string.Empty;
+        //        int FileNo = 100;
+        //        string filepath = $"{path}\\{filename}";
+        //        dt = GetTable(fromDate, toDate, isDownloaded);
+        //        dt.Columns.Remove("CompanyName");
+        //        dt.Columns.Remove("FileName");
+        //        //fromDate, toDate
+
+        //        //Build the CSV file data as a Comma separated string.
+        //        string csv = string.Empty;
+        //        string date = DateTime.Now.ToString("yyyy-MM-dd");
+        //        //AddDoubleQuote("2") + ","
+        //        csv += AddDoubleQuote("1") + "," + AddDoubleQuote(date) + "," + AddDoubleQuote("AYFDMMMYYGN") + "," + AddDoubleQuote("Customer credit transfer (MMK)") + "," + AddDoubleQuote("csv");
+        //        //csv += "\r\n";
+        //        //csv += ",";
+        //        //foreach (DataColumn column in dt.Columns)
+        //        //{
+        //        //    //Add the Header row for CSV file.
+        //        //    csv += column.ColumnName + ',';
+        //        //}
+        //        //Add new line.
+        //        csv += "\r\n";
+        //        decimal totalfund = 0;
+        //        foreach (DataRow row in dt.Rows)
+        //        {
+        //            csv += AddDoubleQuote("2") + ",";
+        //            foreach (DataColumn column in dt.Columns)
+        //            {
+        //                if (column.ColumnName.ToString().Equals("Total Fund Settlement Amount(MMK)") || column.ColumnName.ToString().Equals("Transfer Amount(MMK)") || column.ColumnName.ToString().Equals("Interbank Charge Amount (MMK) to Debtor FI") || column.ColumnName.ToString().Equals("Interbank Charge Amount (MMK) to Creditor FI"))
+        //                {
+        //                    csv += row[column.ColumnName].ToString() + ",";
+        //                }
+        //                else
+        //                {
+        //                    csv += AddDoubleQuote(row[column.ColumnName].ToString()) + ",";
+        //                }
+        //            }
+        //            csv = csv.TrimEnd(',');
+
+        //            //csv += "\"\"\"" + "1" + "\"\"\"";
+        //            totalfund += Convert.ToDecimal(row["Total Fund Settlement Amount(MMK)"]);//Convert.ToDecimal(row.ItemArray[4]);
+        //                                                                                     //Add new line.
+        //            csv += "\r\n";
+        //        }
+        //        var rows = dt.Rows.Count;
+        //        csv += AddDoubleQuote("9") + "," + rows + "," + totalfund;
+        //        updateDownload(dt);
+        //        TempData["filename"] = filename;
+        //        //Download the CSV file.
+        //        Response.Clear();
+        //        Response.Buffer = true;
+        //        Response.AddHeader("content-disposition", "attachment;filename=" + filename);
+        //        Response.Charset = "";
+        //        Response.ContentType = "application/text";
+        //        Response.Output.Write(csv);
+        //        System.IO.File.WriteAllText(filepath, csv.ToString());
+        //        Response.Redirect("~/CCT/OtherBankRecon");
+        //        //Response.Flush();
+        //        //Response.End();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Error(User.Identity.GetUserId(), controllerName, actionName, ex);
+        //    }
+        //}
+
+
+        #endregion
+    }
+}

@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>How To Use</h2>
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+</p>
+<div class="row">
+    <div class="form-group col-md-3">
+            IB Menu
+            @Html.DropDownList("ddlMenuID",
+           (IEnumerable<SelectListItem>)ViewBag.MenuID,
+           "Select Menu", new { @class = "form-control" })
+            @*@Html.Editor("txtIbMenu", new { htmlAttributes = new { @class = "form-control" } })*@
+        </div>
+    <div class="form-group col-md-3">
+        Form Name
+        @Html.Editor("txtname", new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+    <div class="form-group col-md-3">
+        Description
+        @Html.Editor("txtDescription", new { htmlAttributes = new { @class = "form-control" } })
+    </div>
+    <div class="form-group col-md-3">
+        <br />
+        <input type="button" value="Search" class="btn btn-default" id="btnSearch" />
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table-bordered table-responsive table nowrap" cellpadding="0" width="100%" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    IB Menu
+                </th>
+                <th>
+                    FormName
+                </th>
+                <th>
+                    Description
+                </th>                
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section Scripts{
+    <script>
+        $(function () {
+
+            /*disable datatable warnings*/
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $("#myTable").dataTable({
+                "stateSave": true,//to save current state when going to next page
+                "serverSide": true,//for process on server side
+                "orderMulti": false,// for disable multi column order
+                "dom": '<"top"i>rt<"buttom"lp><"clear">',// for hide default global search box
+                "ajax": {
+                    "url":"/IB_HowToUse/Index",
+                    "type": "POST",
+                    "dataType":"json"
+                },
+                "columns": [
+                    { "data": "VrIB_Menu.Menu_Name", "name": "VrIB_Menu.Menu_Name", "autoWidth": true },
+                    { "data": "FormName", "name": "FormName", "autoWidth": true, "width": "150px" },
+                    {
+                        "data": "Description", "name": "Description", "autoWidth": true,
+                        render: function ( data, type, row ) {
+                            return data.length > 100 ?
+                            data.substr( 0, 100 ) +'……' :data;
+                            }
+                    },                                        
+                    {// this is Actions Column
+                         mRender: function (data, type, row) {
+                         var linkEdit = '@Html.ActionLink("Edit", "Edit", new {id= -1 })';
+                         linkEdit = linkEdit.replace("-1", row.ID);
+                         @*var linkDelete = '@Html.ActionLink("Delete", "Delete", new {id= -1 })';
+                            linkDelete = linkDelete.replace("-1", row.ID);*@
+
+                         var linkDetails = '@Html.ActionLink("Details", "Details", new {id= -1 })';
+                         linkDetails = linkDetails.replace("-1", row.ID);
+
+                         return  linkEdit +" | "+linkDetails;
+                        },
+                        orderable: false,
+                        width: "100px"
+                    }
+                ]
+            });
+            //Apply Custom search on jQuery DataTables here
+            oTable = $('#myTable').DataTable();
+            $('#btnSearch').click(function () {
+                //Apply search for Employee Name 
+                oTable.columns(0).search($('#txtname').val().trim());
+                oTable.columns(1).search($('#txtDescription').val().trim());
+                oTable.columns(2).search($('#ddlMenuID').val());
+                //hit search on server
+                oTable.draw();               
+            });
+        })
+    </script>
+}
+
+

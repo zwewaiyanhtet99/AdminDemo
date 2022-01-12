@@ -1,0 +1,40 @@
+﻿@model ABankAdmin.Models.UserTypeModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Tier Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Tier Name")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USERTYPE)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Tier Code")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USERTYPE_CODE_LIMIT)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Number of Digit")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GENERATED_LIMIT)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

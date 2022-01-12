@@ -1,0 +1,82 @@
+﻿@model ABankAdmin.Models.SMS_Body
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SMS Body</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TransactionType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransactionType)
+        </dd>
+
+        <dt style="padding-top:30px;">
+            @Html.DisplayNameFor(model => model.DebitMessage)
+        </dt>
+
+        <dd style="padding-top:30px;">
+            @Html.DisplayFor(model => model.DebitMessage)
+        </dd>
+
+        <dt style="padding-top:30px;">
+            @Html.DisplayNameFor(model => model.CreditMessage)
+        </dt>
+
+        <dd style="padding-top:30px;">
+            @Html.DisplayFor(model => model.CreditMessage)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.CreatedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedUserId)
+        </dd>*@
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedUserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>*@
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID },new {@class="btn btn-success"}) |
+    @Html.ActionLink("Back to List", null, null, null, new { href = Request.UrlReferrer })
+</p>

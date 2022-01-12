@@ -1,0 +1,121 @@
+﻿@using ReportViewerForMvc
+
+@{
+    ViewBag.Title = "Request Corporate Changes Summary";
+}
+
+<h2>Request Corporate Changes Summary</h2>
+
+<div class="card">
+    <div class="card-header">
+        @using (Html.BeginForm("RequestCorporateChangesSummary", "CorporateUserReport", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken();
+            <div class="row">
+                @*Company Name*@
+                <div class="form-group col-md-2">
+                    <label>Company Name</label>
+                    <input type="text" name="CompanyName" id="CompanyName" class="form-control" value="@ViewBag.CompanyName" />
+                </div>
+
+                @*Corporate ID*@
+                <div class="form-group col-md-2">
+                    <label>Corporate ID</label>
+                    <input type="text" name="CorporateID" id="CorporateID" class="form-control" value="@ViewBag.CorporateID" />
+                </div>
+
+                @*User Name*@
+                <div class="form-group col-md-2">
+                    <label>User Name</label>
+                    <input type="text" name="UserName" id="UserName" class="form-control" value="@ViewBag.UserName" />
+                </div>
+
+                @*Type*@
+                <div class="form-group col-md-2">
+                    <label>Type</label>
+                    @Html.DropDownList("UserType", null, "-- Select One --", htmlAttributes: new { @class = "form-control" })
+                </div>
+
+                @*FromDate*@
+                <div class="form-group col-md-2">
+                    <label>From Date</label>
+                    <div class="input-group date" id="fromDate">
+                        @Html.TextBox("FromDate", null, new { @class = "form-control inputField", placeholder = "From Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+
+                @*ToDate*@
+                <div class="form-group col-md-2">
+                    <label>To Date</label>
+                    <div class="input-group date" id="toDate">
+                        @Html.TextBox("ToDate", null, new { @class = "form-control inputField", placeholder = "To Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @*Status*@
+                <div class="form-group col-md-2">
+                    <label>Status</label>
+                    @Html.DropDownList("Status", null, "-- Select One --", htmlAttributes: new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-2">
+                    <br />
+                    <input type="submit" value="View" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            @if (ViewBag.RequestCorporateChangesReport != null)
+            {
+                @Html.ReportViewer(ViewBag.RequestCorporateChangesReport as Microsoft.Reporting.WebForms.ReportViewer,
+                                    new { @class = "table", @style = "border:1px solid #CCC;", @scrolling = "no" })
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        const DateFormat = 'MM-DD-YYYY';
+        $(function () {
+            //date input initialize
+            $('#FromDate').datetimepicker({
+                format: DateFormat,
+                maxDate: new Date(),
+                defaultDate: new Date()
+                //clearBtn: true
+            });
+
+            var fromDate = '@(ViewBag.FromDate)';
+            if (fromDate) {
+                $('#FromDate').data("DateTimePicker").date(fromDate);
+            }
+
+            //date input initialize
+            $("#ToDate").datetimepicker({
+                format: DateFormat,
+                maxDate: new Date(),
+                defaultDate: new Date()
+                //clearBtn: true
+            });
+
+            var toDate = '@(ViewBag.ToDate)';
+            if (toDate) {
+                $('#ToDate').data("DateTimePicker").date(toDate);
+            }
+
+            //calander add on click
+            $('.input-group-addon').click(function () {
+                $(this).closest(".input-group").find('.inputField').focus();
+            });
+        });
+    </script>
+}

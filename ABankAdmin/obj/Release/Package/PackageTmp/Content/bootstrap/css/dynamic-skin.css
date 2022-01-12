@@ -1,0 +1,114 @@
+:root{
+	/*login-background*/
+	--login-page-background: #000;
+	--login-box-background: #fff;
+	--btn-login-color: #464646;
+	/*outer background-color*/
+	--siderbar-header-bg: #fff;
+	--siderbar-body-bg: #595a5c;
+	--right-tittle-bar: #595a5c;
+	--right-content-wrapper: #fafafa;
+	--footer-bg: #f1f1f1;
+	/*sidebar menu*/
+	--treeview-menu-color: #fff;
+	--treeview-menu-hover-color: #ff9095;
+	--dynamic-skin-sidebar-menu-background: #414244;
+	--dynamic-skin-sidebar-menu-borderleftcolor: #ccc;
+	--dynamic-skin-sidebar-menu-treeview-menu: #414244;
+	/*Box Background*/
+	--box-custombackground: #fff;
+	--box-customcolor:#fff;
+	--box-header-customcolor:#efefef;
+	/*Button Color*/
+	--agd-btn: #a3620a;
+	--agd-btn-color: #fff;
+	--agd-btn-hover: #414244;
+	--agd-btn-hover-color: #fff;
+}
+
+/*login-background*/
+
+.login-page-background, .register-page{
+	background-color: var(--login-page-background);
+}
+
+.login-box-background, .register-box{
+	background-color: var(--login-box-background);
+}
+
+.btn-login-color{
+	background-color: var(--btn-login-color) !important;
+}
+
+/*background-color*/
+
+#siderbar-header-bg{
+	background-color: var(--siderbar-header-bg);
+}
+
+#siderbar-body-bg{
+	background-color: var(--siderbar-body-bg);
+}
+
+#right-tittle-bar{
+	background-color: var(--right-tittle-bar);
+}
+
+#right-content-wrapper{
+	background-color: var(--right-content-wrapper);
+}
+
+#footer-bg{
+	background-color: var(--footer-bg);
+}
+
+/*sidebar menu color*/
+
+.dynamic-skin .treeview-menu>li>a{
+	color: var(--treeview-menu-color) !important;
+}
+
+.dynamic-skin .sidebar a {
+    color: red;
+}
+
+.dynamic-skin .treeview-menu>li.active>a, .skin-blue .treeview-menu>li>a:hover{
+	color: var(--treeview-menu-hover-color) !important;
+}
+
+.dynamic-skin .sidebar-menu>li:hover>a, .dynamic-skin .sidebar-menu>li.active>a {
+    background: var(--dynamic-skin-sidebar-menu-background) !important;
+    border-left-color: var(--dynamic-skin-sidebar-menu-borderleftcolor) !important;
+}
+
+.skin-blue .sidebar-menu>li>.treeview-menu{
+	background: var(--dynamic-skin-sidebar-menu-treeview-menu) !important;
+}
+
+/*Box background-color*/
+
+#box-custombackground{
+	background-color: var(--box-custombackground);
+	padding: 20px;
+	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+}
+
+.box-customcolor{
+	border-top: 3px solid var(--box-customcolor)!important;
+}
+
+.box-header-customcolor{
+	background-color: var(--box-header-customcolor);
+}
+
+/*Button color*/
+
+.agd-btn{
+	background-color: var(--agd-btn);
+	color: var(--agd-btn-color);
+}
+
+.agd-btn:hover{
+	background-color: var(--agd-btn-hover);
+	color: var(--agd-btn-hover-color);
+}

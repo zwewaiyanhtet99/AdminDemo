@@ -1,0 +1,105 @@
+﻿@model ABankAdmin.Models.Branch
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Branch</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PHONE_NO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PHONE_NO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RateCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RateCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RemitRateCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RemitRateCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RateDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RateDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CITY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CITY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TOWNSHIP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TOWNSHIP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LATITUDE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LATITUDE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LONGITUDE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LONGITUDE)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id },new {@class ="btn btn-success"}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

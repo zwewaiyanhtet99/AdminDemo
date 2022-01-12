@@ -1,0 +1,101 @@
+﻿@model ABankAdmin.ViewModels.IconicBookingVM
+
+@{
+    ViewBag.Title = "Booking Info";
+}
+
+<h3>Create New Reserved Number</h3>
+<Style>
+    .table-wrapper {
+        position: relative;
+        max-height: 450px;
+        overflow: auto;
+    }
+
+    thead tr th {
+        text-align: center;
+    }
+</Style>
+
+@using (Html.BeginForm("Create", "Number_Management", FormMethod.Post, new { autocomplete = "off", @id = "create" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" style="width: 60%">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.Label("Tier", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.USERTYPECODE,
+                    (IEnumerable<SelectListItem>)ViewBag.UserType,
+                    "Select Tier", new { @class = "form-control", @id = "usertypelist", onchange = "changeValue(this)" })
+                @Html.HiddenFor(model => model.USERTYPE, new { @id = "usertype" })
+                @Html.ValidationMessageFor(model => model.USERTYPECODE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Reserved Number", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BookingNo, new { htmlAttributes = new { @class = "form-control", @onkeypress = "return isNumberKeyForBooking(this, event);", id = "booking", @readonly = "readonly" } })
+                @Html.HiddenFor(model => model.PrefixBooking, new { @id = "prefixbooking" })
+                @Html.ValidationMessageFor(model => model.BookingNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Description ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="btnSubmit" value="Save" class="btn btn-success" />
+                @Html.ActionLink("Cancel",null, null, null, new { @class = "btn btn-default" })
+            </div>
+           </div>
+    </div>
+}
+<!--Sucess Box-->
+<div class="modal" id="divSuccess">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Reserved Number Lists</h4>
+            </div>
+            <div class="modal-body">
+                <p>Successfully saved!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success pull-right" data-dismiss="modal" onclick="window.location = '/Number_Management/Index';">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/iconicbooking")
+    @if (ViewBag.Booking != null)
+    {
+        <script type="text/javascript">
+            window.onload = function() {
+                var $confirm = $("#divSuccess");
+                $confirm.show();
+            }
+
+        </script>
+    }
+    @if (ViewBag.Error != null)
+    {
+        <script type="text/javascript">
+        $("#booking").attr('readonly', false);
+        </script>
+    }
+
+}

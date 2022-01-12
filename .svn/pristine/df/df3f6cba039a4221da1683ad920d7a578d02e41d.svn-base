@@ -1,0 +1,96 @@
+﻿@model ABankAdmin.ViewModels.ReqApvTranRuleAndDetailVM
+
+@{
+    ViewBag.Title = "DetailsReqApproveRule";
+}
+
+<h2>Details</h2>
+<div>
+    <h4>Requested Approve Rule</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.COMPANY_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COMPANY_NAME)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsForBulkPayment)
+        </dt>
+
+        <dd>
+            @if (Model.IsForBulkPayment)
+            {
+                <text>Bulk</text>
+            }
+            else
+            {
+                <text>Normal</text>
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FROM_AMT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FROM_AMT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TO_AMT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TO_AMT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CURRENCY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CURRENCY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NO_OF_APPROVERS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NO_OF_APPROVERS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.APPROVERS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.APPROVERS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.POSITIONS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.POSITIONS)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @if (Model.STATUS == 0)
+    {
+        @Html.ActionLink("Edit", "EditReqApproveRule", new { id = Model.ID }, new { @class = "btn btn-success" })
+    }
+    else
+    {
+        @Html.ActionLink("Edit", "EditReqApproveRule", new { id = Model.ID }, new { @class = "btn btn-success ", disabled = "disabled" })
+    }
+    |
+    @Html.ActionLink("Back to List", "ReqApproveRuleList")
+</p>
+

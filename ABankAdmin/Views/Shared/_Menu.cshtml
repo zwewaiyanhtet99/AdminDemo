@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ABankAdmin.Models.Menu>
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated && Session["menus"] != null)
+{
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
+                @{foreach (var item in Model.Where(s => s.Parent_ID == 0).GroupBy(Obj => new { Obj.ID }).Distinct().ToList())
+                    {
+                        <li class="treeview">
+                            <a href="#"><i class="@item.FirstOrDefault().Icon"></i> <span><span>@item.FirstOrDefault().Menu_Name</span></span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                            <ul class="treeview-menu">
+                                @foreach (var secondItem in (Model.Where(s => s.Parent_ID == item.FirstOrDefault().ID).OrderBy(m=> m.Order).ToList()))
+                                {
+                                    <li>
+                                        <a href="/@secondItem.Controller/@secondItem.Action">
+                                            <i class="@secondItem.Icon"></i> <span>@secondItem.Menu_Name</span>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+}

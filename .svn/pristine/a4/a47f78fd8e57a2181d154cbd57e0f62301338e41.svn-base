@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace ABankAdmin.ViewModels
+{
+    public class PrivilegeUsageCreateVM
+    {
+        [StringLength(200)]
+        [Display(Name = "Customer's Name")]
+        [Required(ErrorMessage = "Customer's Name is required")]
+        public string CustomerName { get; set; }
+        [StringLength(200)]
+        [Display(Name = "Customer's NRC")]
+        [Required(ErrorMessage = "Customer's NRC is required")]
+        public string CustomerNRC { get; set; }
+        [StringLength(200)]
+        [Display(Name = "Iconic Number")]
+        [Required(ErrorMessage = "Iconic Number is required")]
+        public string IconicNumber { get; set; }
+        [StringLength(200)]
+        [Display(Name = "Iconic Tier")]
+        [Required(ErrorMessage = "Iconic Tier is required")]
+        public string IconicTier { get; set; }
+        [StringLength(50)]
+        [Display(Name = "Iconic Expire Date")]
+        [Required(ErrorMessage = "Iconic Expire Date is required")]
+        public string IconicExpireDate { get; set; }
+    }
+}

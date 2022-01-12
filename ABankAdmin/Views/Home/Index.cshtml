@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ACE Datasystems</h1>
+    <p class="lead">Bank Admin User Dashboard</p>
+</div>
+
+
+<!--Sucess Box-->
+<div class="modal" id="divSuccess">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Change Password</h4>
+            </div>
+            <div class="modal-body">
+                <pre id="pMessage"></pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success pull-right" data-dismiss="modal" @*onclick="window.location = '/Home/Index';"*@>OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @if (@ViewBag.message != null)
+    {
+        <script>
+            $("#pMessage").text('@ViewBag.message');
+            $("#divSuccess").modal('toggle');
+        </script>
+    }
+}

@@ -1,0 +1,115 @@
+﻿@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Branch List</h2>
+<p>
+    @Html.ActionLink("Create New Branch", "Create")
+</p>
+<div class="row">
+    <div class="form-group col-md-3">
+        Code
+        @Html.TextBox("txtCode", String.Empty, new { @class = "form-control" })
+    </div>
+    <div class="form-group col-md-3">
+        <br />
+        <input type="button" value="Search" class="btn btn-default" id="btnSearch" />
+    </div>
+</div>
+<div class="table-responsive">
+    <table id="myTable" class="table table-striped table-bordered nowrap" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>
+                    Code
+                </th>
+                <th>
+                    Name
+                </th>
+                @*<th>
+                        Address
+                    </th>*@
+                <th>
+                    PHONE_NO
+                </th>
+                <th>
+                    Transfer Rate
+                </th>
+                <th>
+                    Remittance Rate
+                </th>
+                <th>
+                    CITY
+                </th>
+                <th>
+                    TOWNSHIP
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section Scripts {
+    <script>
+        $(function () {
+
+            /*disable datatable warnings*/
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $("#myTable").dataTable(
+                {
+                    //"stateSave": true, // to save current state when going to next page
+                    //"processing": true, // for show processing bar
+                    "serverSide": true, // for process on server side
+                    "orderMulti": false, // for disable multi column order
+                    "dom": '<"top"i>rt<"bottom"lp><"clear">', // for hide default global search box // little confusion? don't worry I explained in the tutorial website
+                    "ajax": {
+                        "url": "/Branch/Index",
+                        "type": "POST",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                    { "data": "code", "name": "code", "autoWidth": true },
+                    { "data": "name", "name": "name", "autoWidth": true },
+                    { "data": "PHONE_NO", "name": "PHONE_NO", "autoWidth": true },
+                    { "data": "RateCode", "name": "RateCode", "autoWidth": true },
+                    { "data": "RemitRateCode", "name": "RemitRateCode", "autoWidth": true },
+                    { "data": "CITY", "name": "CITY", "autoWidth": true },
+                    { "data": "TOWNSHIP", "name": "TOWNSHIP", "autoWidth": true },
+                    {// this is Actions Column
+                            mRender: function (data, type, row) {
+                            var linkEdit = '@Html.ActionLink("Edit", "Edit", new {id= -1 })';
+                            linkEdit = linkEdit.replace("-1", row.id);
+
+                                var linkDetails = '@Html.ActionLink("Details", "Details", new {id= -1 })';
+                                linkDetails = linkDetails.replace("-1", row.id);
+
+                                var linkDelete = '@Html.ActionLink("Delete", "Delete", new {id= -1 })';
+                                linkDelete = linkDelete.replace("-1", row.id);
+
+                                return linkEdit + " | " + linkDelete + " | " + linkDetails;
+                        },
+                            width: "100px",
+                            orderable: false 
+                    }
+                ]  
+            });
+              //Apply Custom search on jQuery DataTables here
+                  oTable = $('#myTable').DataTable();
+            $('#btnSearch').click(function () {
+                //Apply search for Employee Name // DataTable column index 0
+                oTable.columns(0).search($('#txtCode').val().trim());
+                //hit search on server
+                oTable.draw();
+               
+            });
+
+        })
+    </script>
+
+}
+
+
+

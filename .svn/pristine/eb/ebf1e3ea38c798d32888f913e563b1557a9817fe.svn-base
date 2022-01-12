@@ -1,0 +1,5 @@
+{
+
+    "FinacleCoreAPI": "http://172.16.15.25/Api/CallService" // Production
+    //"FinacleCoreAPI": "http://10.55.55.23/Api/CallService" // UAT
+}

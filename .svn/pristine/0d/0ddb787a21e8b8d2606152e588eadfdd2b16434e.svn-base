@@ -1,0 +1,58 @@
+﻿@model ABankAdmin.Models.RemittanceRate
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RemittanceRate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CODE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CODE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FROM_AMT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FROM_AMT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TO_AMT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TO_AMT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FIXED_AMT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FIXED_AMT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PERCENT_AMT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PERCENT_AMT)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

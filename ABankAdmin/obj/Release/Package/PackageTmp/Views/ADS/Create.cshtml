@@ -1,0 +1,91 @@
+﻿@model ABankAdmin.Models.ADS
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+@section Scripts {
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#image')
+                        .attr('src', e.target.result)
+                        .width(320)
+                        .height(100);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+                $('.field-validation-error').empty();
+            }
+        }
+    </script>
+}
+@using (Html.BeginForm("Create", "ADS", FormMethod.Post, new { enctype = "multipart/form-data" ,autocomplete="off"}))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>ADS</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.OrderNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OrderNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OrderNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ImageName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ImageName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageRedirectLink, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ImageRedirectLink, new { htmlAttributes = new { @class = "form-control", placeholder = "https://www.google.com" } })
+                @Html.ValidationMessageFor(model => model.ImageRedirectLink, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Image", htmlAttributes: new { @class = "control-label col-md-2" })
+            @*@Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="col-md-10">
+                <input type="file" name="file" id="ImageRedirectLink" onchange="readURL(this);" />
+                <br />
+                <img id="image" src="#" alt="" width="320" height="100" />
+                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                <br />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+                @Html.ActionLink("Cancel", "Index", null, null, new { @*href = Request.UrlReferrer,*@ @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+@*<div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>*@
+@{
+    var message = TempData["AlertMessage"] ?? string.Empty;
+}
+@Scripts.Render("~/bundles/jqueryval")
+

@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Bulk THE ICONIC Reserved Number";
+ }
+
+<!DOCTYPE html>
+<html>
+<body class="hold-transition skin-blue sidebar-mini">
+    <section class="content">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="box">
+                    @if (@ViewBag.Booking == "Success")
+                    {
+                        <div class="alert alert-success alert-dismissible">
+                            <h4><i class="icon fa fa-check"></i> Success!</h4>
+                           Bulk Iconic Booking Registration is successful.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-error alert-dismissible">
+                            <h4><i class="icon fa fa-error"></i> Error!</h4>
+                            Something went wrong.
+                        </div>
+                    }
+                    <div class="">
+                        <div class="pull-right">
+                            <input type="button" class="btn btn-purple" value="OK" id="OK" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
+@section Scripts {
+    <script type="text/javascript">
+        $('#OK').click(function() {
+            window.location.href = "BulkIconicBooking", "IconicBookingModels";
+
+        });
+    </script>
+
+}
+

@@ -1,0 +1,286 @@
+﻿
+@model ABankAdmin.ViewModels.CorporateVM
+
+@{
+    ViewBag.Title = "Corporate Delete";
+}
+<h2>Delete</h2>
+<Style>
+    .table-wrapper {
+        position: relative;
+        max-height: 450px;
+        overflow: auto;
+    }
+
+    thead tr th {
+        text-align: center;
+    }
+    /*table {
+        width: 1025px;
+        display: block;
+        margin-left: 35px;
+    }
+
+    tbody {
+        height: 300px;
+        display: block;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    thead {
+        background-color: darkgray;
+        height: 50px;
+        line-height: 20px;
+    }
+
+    tr {
+        border: solid 2px;
+        border-color: lightgray;
+    }
+
+    td {
+        border: solid 2px;
+        border-color: lightgray;
+        text-align: left;
+    }
+
+    thead, tbody tr {
+        text-align: center;
+        display: normal;
+        width: 1050px;
+        height: 50px;
+    }
+
+    h4 {
+        padding-left: 35px;
+    }*/
+</Style>
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr style="display:block" />
+    <div class="row">
+        <div>
+            <div class="col-sm-6">
+                <h3>Corporate Information</h3>
+                <dl class="dl-horizontal">
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.CIFID)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CIFID)
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.CorporateID)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CorporateID)
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.Company_Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Company_Name)
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.Company_Email)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Company_Email)
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.Company_Address)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Company_Address)
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.Branch)
+                    </dt>
+
+                    <dd>
+                        @ViewBag.Branch
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.Company_Phone)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Company_Phone)
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.COUNTRY_ID)
+                    </dt>
+
+                    <dd>
+                        @ViewBag.Country
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.STATE_ID)
+                    </dt>
+
+                    <dd>
+                        @ViewBag.State
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-sm-6">
+                <h3>Transaction Information</h3>
+                <dl class="dl-horizontal">
+                    @if (ViewBag.IsVIP)
+                    {
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model => model.ISVIP)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.ISVIP)
+                        </dd>
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model => model.T_CHARGES_CODE)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.T_CHARGES_CODE)
+                        </dd>
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model => model.R_CHARGES_CODE)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.R_CHARGES_CODE)
+                        </dd>
+                    }
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model => model.Tran_Limit)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Tran_Limit) MMK
+                        </dd>
+
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model => model.Bulk_Charges_Fix_Rate)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Bulk_Charges_Fix_Rate)
+                            @if (Model.IS_FIXRATE_BULK_CHARGES)
+                            {
+                                <text> MMK</text> }
+                            else
+                            {
+                                <text> %</text>
+                            }
+                        </dd>
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model => model.CCT_BULK_CHARGES_FIX_RATE_N_PERCENT)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CCT_BULK_CHARGES_FIX_RATE_N_PERCENT)
+                            @if (Model.CCT_IS_FIXRATE_BULK_CHARGES)
+                            {
+                                <text> MMK</text> }
+                            else
+                            {
+                                <text> %</text>
+                            }
+                        </dd>
+                    </dl>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="button" value="Delete" onclick="CorlstDeleteConfirmed(@Model.ID)" class="btn btn-danger" /> 
+                    @*@Html.ActionLink("Back to List", "CorporateLists")*@
+                    @Html.ActionLink("Cancel","CorporateLists", "Corporate", null, new { @class = "btn btn-default" })
+                </div>
+            </div>
+            }
+        </div>
+        <!-- Modal confirm -->
+        <div id="modalConfirmYesNo" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">x</span>
+                        </button>
+                        <h4 class="modal-title" id="hMessage"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <pre id="iMessage"></pre>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnYesConfirmYesNo" type="button" class="btn btn-primary">
+                            Yes
+                        </button>
+                        <button id="btnNoConfirmYesNo" type="button" class="btn btn-default">
+                            No
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Sucess Box-->
+        <div class="modal" id="divSuccess">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">Requested Corporate List</h4>
+                    </div>
+                    <div class="modal-body">
+                        <pre id="pMessage"></pre>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success pull-right" data-dismiss="modal" onclick="window.location = '/Corporate/CorporateLists';">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal modal-danger" id="divError">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">Requested Corporate List</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="errMessage"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        @section Scripts {
+            <script src="~/Scripts/mine/reqCorporate.js"></script>
+        }

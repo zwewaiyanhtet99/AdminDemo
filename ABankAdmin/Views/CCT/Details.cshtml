@@ -1,0 +1,200 @@
+﻿@*@model ABankAdmin.Models.OtherBankTranLog*@
+@model ABankAdmin.ViewModels.DomesticInterbankTransferViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Domestic Interbank Transfer</h4>
+    <hr />
+        <div class="row">
+            <div class="col-sm-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.VALUE_DATE)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.VALUE_DATE)
+                    </dd>
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.TRAN_ID)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.TRAN_ID)
+                    </dd>
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.FROM_ACCT)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.FROM_ACCT)
+                    </dd>
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.TO_ACCT)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.TO_ACCT)
+                    </dd>
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.OFFICE_ACCT)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.OFFICE_ACCT)
+                    </dd>
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.FROM_BRANCH)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.FROM_BRANCH)
+                    </dd>
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.TO_BANK)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.TO_BANK)
+                    </dd>
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.BRANCH)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.BRANCH)
+                    </dd>
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.AMOUNT)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.AMOUNT)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-sm-6">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CHARGE_CODE)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CHARGE_CODE)
+                    </dd>
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.CHARGES)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.CHARGES)
+                    </dd>
+
+                    @*<dt>
+            @Html.DisplayNameFor(model => model.DISCOUNT_AMT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DISCOUNT_AMT)
+        </dd>*@
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.TOTAL)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.TOTAL)
+                    </dd>
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.TRAN_DATE)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.TRAN_DATE)
+                    </dd>
+
+                    @*<dt>
+            @Html.DisplayNameFor(model => model.NRC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NRC)
+        </dd>*@
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.USERNAME)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.USERNAME)
+                    </dd>
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.TRAN_TYPE)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.TRAN_TYPE)
+                    </dd>
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.CBMTran_Type)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.CBMTran_Type)
+                    </dd>
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.PayeeName)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.PayeeName)
+                    </dd>
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.PAYEE_PHONE)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.PAYEE_PHONE)
+                    </dd>
+
+                    @*<dt>
+            @Html.DisplayNameFor(model => model.OTHER_BANK_BENE_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OTHER_BANK_BENE_ID)
+        </dd>*@
+
+                    <dt style="padding-top:5px;">
+                        @Html.DisplayNameFor(model => model.Core_status)
+                    </dt>
+
+                    <dd style="padding-top:5px;">
+                        @Html.DisplayFor(model => model.Core_status)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+</div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |*@
+    @Html.ActionLink("Back to List", "PendingList")
+</p>

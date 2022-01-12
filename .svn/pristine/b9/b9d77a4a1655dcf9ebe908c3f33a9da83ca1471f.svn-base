@@ -1,0 +1,69 @@
+﻿@model ABankAdmin.Models.ExchangeRate
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>ExchangeRate</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })       
+        <div class="form-group">
+            @Html.LabelFor(model => model.fxdCurrencyCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("fxdCurrencyCode",
+                   (IEnumerable<SelectListItem>)ViewBag.Currency,
+                   "Select Currency", new { @class = "form-control" } )
+                @Html.ValidationMessageFor(model => model.fxdCurrencyCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.varCurrencyCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.varCurrencyCode, "",new { htmlAttributes = new {@Value="MMK", @class = "form-control" ,@readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.varCurrencyCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BUY_RATE, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BUY_RATE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BUY_RATE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SELL_RATE, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SELL_RATE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SELL_RATE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+                <a href='@Url.Action("Index","ExchangeRate")'>
+                    <input type="button" class="btn btn-default" value="Cancel" />
+                </a>
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

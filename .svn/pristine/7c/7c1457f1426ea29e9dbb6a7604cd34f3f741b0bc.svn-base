@@ -1,0 +1,194 @@
+﻿@using System.Collections.Generic
+@model ABankAdmin.ViewModels.CIFInfoVM
+
+@{
+    ViewBag.Title = "CIF_ConfirmPageForEdit";
+}
+
+<h2>Recheck & Submit to Approver</h2>
+@using (Html.BeginForm("CIF_ConfirmPageForEdit", "CIFInfoForViewAndEdit", FormMethod.Post, new { autocomplete = "off", @id = "create" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+                    @Html.HiddenFor(model => model.ID)
+
+        <hr/>
+        @if (!ViewContext.ViewData.ModelState.IsValid)
+        {
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+        }
+        <div class="row">
+            @Html.LabelFor(model => model.CIFID, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.CIFID, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.USERTYPECODE, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.USERTYPECODE, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.USERTYPE, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.USERTYPE, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.NAME, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.NAME, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.NRC, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.NRC, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.Address, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.PHONENO, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.PHONENO, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.strEffectiveDate, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.strEffectiveDate, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.strEXPIREDATE, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.strEXPIREDATE, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.BranchName, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.BranchName, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.RMName, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.RMName, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.RMID, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.RMID, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.REMARK, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.REMARK, new {htmlAttributes = new {@class = "form-control", @readonly = "readonly"}})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.ApproverEmail, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.DropDownListFor(model => model.ApproverEmail,
+                    (IEnumerable<SelectListItem>) ViewBag.Emaillist,
+                    "Select Approver's Email", new {@class = "form-control", @id = "approveemail"})
+                @Html.ValidationMessageFor(model => model.ApproverEmail, "", new {@class = "text-danger"})
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.UserEmail, htmlAttributes: new {@class = "control-label col-md-2", @style = "width:20%"})
+            <div class="form-group col-md-5">
+                @Html.EditorFor(model => model.UserEmail, new {htmlAttributes = new {@class = "form-control", @id = "useremail"}})
+                @Html.ValidationMessageFor(model => model.UserEmail, "", new {@class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div style="padding-left: 35px;">
+                @*class="col-md-offset-2 col-md-10"*@
+                <input type="button" id="btnSubmit" value="Register" class="btn btn-success"/>
+                @Html.ActionLink("Back", "Edit", null, new {@class = "btn btn-default"})
+                <br/>
+            </div>
+        </div>
+    </div>
+}
+
+<!--Sucess Box-->
+<div class="modal" id="divSuccess">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Edit THE Iconic Registeration</h4>
+            </div>
+            <div class="modal-body">
+                <p>The e-mail has been sent to approvers for registration approval!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success pull-right" data-dismiss="modal" onclick="window.location = '/CIFInfoModels/Index';">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/RM_Info")
+    @if (ViewBag.CifCreateInfo != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                var $confirm = $("#divSuccess");
+                $confirm.show();
+            }
+        </script>
+    }
+    <script type="text/javascript">
+
+        if ($('#useremail').val() == null || $('#useremail').val() == "") {
+            $('#useremail').attr('readonly', false);
+        } else {
+            $('#useremail').attr('readonly', true);
+        }
+        $('#useremail').focus(function () {
+            $(".field-validation-error").empty();
+        });
+        $('#approveemail').focus(function () {
+            $(".field-validation-error").empty();
+        });
+        $('#btnSubmit').click(function () {
+            var isValid = true;
+            $(".field-validation-error").empty();
+            var approveEmail = $('#approveemail').val();
+            var userEmail = $('#useremail').val();
+            if (approveEmail == null || approveEmail.length < 1) {
+                isValid = false;
+                $('#approveemail').parent().append('<span class="field-validation-error">This field Approver\'s email is required</span>');
+
+            }
+            if (userEmail == null || userEmail.length < 1) {
+                isValid = false;
+                $('#useremail').parent().append('<span class="field-validation-error">This field User\'s email is required</span>');
+                $('#useremail').val('');
+                $('#useremail').attr('readonly', false);
+            }
+
+            if (isValid)
+                $('#create').submit();
+
+        });
+    </script>
+
+}
+

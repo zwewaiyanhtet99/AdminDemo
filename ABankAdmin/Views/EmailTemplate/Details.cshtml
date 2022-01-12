@@ -1,0 +1,44 @@
+﻿@model ABankAdmin.Models.EmailTemplate
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Email Template</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt style="padding-top:20px;">
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+
+        <dd style="padding-top:20px;">
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+
+        <dt style="padding-top:20px;">
+            @Html.DisplayNameFor(model => model.Body)
+        </dt>
+
+        <dd style="padding-top:20px;">
+            <pre>
+            @Html.DisplayFor(model => model.Body)
+            </pre>
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID },new { @class="btn btn-success"}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

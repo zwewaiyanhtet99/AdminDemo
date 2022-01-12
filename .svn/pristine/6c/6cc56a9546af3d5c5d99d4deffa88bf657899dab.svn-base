@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ABankAdmin.Models.ExchangeRate>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>    
+        <th>
+            @Html.DisplayNameFor(model => model.fxdCurrencyCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.varCurrencyCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BUY_RATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SELL_RATE)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.fxdCurrencyCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.varCurrencyCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BUY_RATE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SELL_RATE)
+        </td>
+        
+    </tr>
+}
+
+</table>

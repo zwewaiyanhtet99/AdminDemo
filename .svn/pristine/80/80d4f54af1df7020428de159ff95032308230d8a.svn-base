@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ABankAdmin.Models.UserTypeModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h3>Tier Management</h3>
+
+<p>
+    @Html.ActionLink("Create New Tier", "Create")
+</p>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName("Tier Name")
+                </th>
+                <th>
+                    @Html.DisplayName("Tier Code")
+                </th>
+                <th>
+                    @Html.DisplayName("Number of Digit")
+                </th>
+                <th>
+                    @Html.DisplayName("Tier Type")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+            $(function () {
+                $("#myTable").dataTable(
+                    {
+                        //"stateSave": true, // to save current state when going to next page
+                        //"processing": true, // for show processing bar
+                        "serverSide": true, // for process on server side
+                        "orderMulti": false, // for disable multi column order
+                        "dom": '<"top"i>rt<"bottom"lp><"clear">', // for hide default global search box // little confusion? don't worry I explained in the tutorial website
+                        "ajax": {
+                            "url": "/Tier_Management/Index",
+                            "type": "POST",
+                            "datatype": "json"
+                        },
+                        "columns": [
+                            { "data": "USERTYPE", "name": "USERTYPE", "autoWidth": true },
+                            { "data": "USERTYPE_CODE_LIMIT", "name": "USERTYPE_CODE_LIMIT", "autoWidth": true },
+                            { "data": "GENERATED_LIMIT", "name": "GENERATED_LIMIT", "autoWidth": true },
+                            { "data": "Type", "name": "Type", "autoWidth": true },
+                            {// this is Actions Column
+                                mRender: function (data, type, row) {
+                                    var linkEdit = '@Html.ActionLink("Edit", "Edit", new {id= -1 })';
+                                    linkEdit = linkEdit.replace("-1", row.ID);
+
+                                    var linkDetails = '@Html.ActionLink("Details", "Details", new {id= -1 })';
+                                    linkDetails = linkDetails.replace("-1", row.ID);
+
+                                    var linkDelete = '@Html.ActionLink("Delete", "Delete", new {id= -1 })';
+                                    linkDelete = linkDelete.replace("-1", row.ID);
+
+                                    return linkEdit + " | " + linkDelete + " | " + linkDetails;
+                             },
+                                width: "100px",
+                                orderable: false
+                            }
+                        ]
+                    });
+            })
+    </script>
+}
+
+

@@ -1,0 +1,202 @@
+/*Start All Custom Background*/
+/*.skin-blue .main-header .logo{background: #fff !important;}
+.skin-blue .main-header .navbar{background: #222d32; border-bottom: 1px solid #d6d6d6;}*/
+/* header gradient */
+.skin-blue .main-header .logo {
+    background: #050060 !important;
+}
+
+.skin-blue .main-header .navbar {
+    background: rgb(3,0,95);
+    background: linear-gradient(90deg, rgba(3,0,95,1) 35%, rgba(84,0,127,1) 53%);
+}
+/* .skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side{background: rgba(2,0,67,0.4) !important;} */
+
+/* sidebar gradient */
+.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
+    background: #03005f; /* Old browsers */
+    background: -moz-linear-gradient(top, #03005f 0%, #54007f 100%) !important;
+    background: -webkit-linear-gradient(top, #03005f 0%,#54007f 100%) !important;
+    background: linear-gradient(to bottom, #03005f 0%,#54007f 100%) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#03005f', endColorstr='#54007f',GradientType=0 ) !important;
+}
+
+.content-wrapper {
+    background: #e1e1e1 !important;
+}
+/*Ennd All Custom Background*/
+
+/*Start Navigation Active,Hover Background*/
+.skin-blue .sidebar-menu > li.header {
+    background: rgba(2,0,67,0.4) !important;
+    color: #fff !important;
+}
+
+.skin-blue .sidebar-menu > li:hover > a, .skin-blue .sidebar-menu > li.active > a, .skin-blue .sidebar-menu > li.menu-open > a {
+    background: rgba(2,0,67,0.4) !important;
+}
+
+.skin-blue .sidebar-menu > li > .treeview-menu {
+    background: #2e014f !important;
+}
+
+.skin-blue .sidebar-menu .treeview-menu > li > a {
+    color: #fff !important;
+}
+
+/*End Navigation Active,Hover Background*/
+
+.content-header > h1 {
+    /* color: rgba(84,0,127,0.8) !important; */
+    color: #000 !important;
+}
+
+.my-profile-img {
+    border: 1px solid rgba(84,0,127,0.3);
+    border-radius: 5px;
+    padding: 3px;
+}
+
+.btn-purple {
+    background: #54007f;
+    color: #fff;
+}
+
+.box-footer {
+    background: rgba(253,249,255,1) !important;
+}
+
+/*How to use*/
+.how-to-use {
+    background: #ebebeb;
+    box-shadow: none;
+}
+
+/*Tab Color*/
+.nav-tabs-custom > .nav-tabs > li.active, .nav-tabs-custom > .nav-tabs > li.active > a, .nav-tabs-custom > .nav-tabs > li.active:hover > a {
+    border-top-color: #54007f !important;
+}
+
+/*User Photo Background*/
+.skin-blue .main-header li.user-header {
+    background: rgb(3,0,95);
+    background: linear-gradient(90deg, rgba(3,0,95,1) 35%, rgba(84,0,127,1) 100%);
+}
+
+.text-danger-important {
+    color: #a94442 !important;
+}
+
+table {
+    background-color: white !important;
+    width: 100% !important;
+}
+
+td.wrapok {
+    white-space: normal !important;
+}
+
+/*.wrapok {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px;
+}*/
+
+.table-nonfluid {
+    width: auto !important;
+}
+
+.ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
+.wizard > .tab-content > .tab-pane {
+    position: relative;
+    padding-top: 50px;
+}
+
+.DecimalMoney {
+    text-align: right;
+}
+
+.Money {
+    text-align: right;
+}
+
+.no_of_apv {
+    text-align: right;
+}
+
+.number-separator {
+    text-align: right;
+}
+
+.text-align {
+    text-align: right;
+}
+
+
+.btn-choosefile {
+    border-color: #afaaaa;
+}
+
+
+
+/*.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}*/
+
+    .upload-btn-wrapper input[type=file] {
+        font-size: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+    }
+
+/*.nav-icon {
+    width: 20px !important;
+    text-align: center;
+}
+
+.fas {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900; }
+.fa,
+.fas,
+.far,
+.fal,
+.fad,
+.fab {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1; }*/
+
+.field-validation-error {
+    color: #e80c4d;
+    font-weight: bold;
+}
+
+table.status tr{
+    clear:both;
+}
+table.status td{
+    float:left;
+    width:100px;
+    border:1px solid #DDD;
+}
+table.status td:first-child{
+    
+    background:blue;
+    color:#fff;
+}

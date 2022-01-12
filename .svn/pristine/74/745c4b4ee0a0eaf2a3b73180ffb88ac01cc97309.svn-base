@@ -1,0 +1,536 @@
+﻿@model ABankAdmin.ViewModels.DomesticInterbankTransferSearchViewModel
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Domestic Interbank Transfer Report</h3>
+    </div>
+</div>
+
+<div class="panel with-nav-tabs panel-default">
+    <div class="panel-heading">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tabRetail" data-toggle="tab">Retail</a></li>
+            <li><a href="#tabCorporate" data-toggle="tab">Corporate</a></li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tabRetail">
+                Retail content
+                <form id="frmRetailDomInterTran" action="/Report/DomesticInterbankTransfer" method="post">
+                    <div class="row">
+                        <input data-val="true" id="R_IsCorporate" name="IsCorporate" type="hidden" value="false" />
+
+                        @*corporate search data*@
+                        @Html.HiddenFor(m => m.CorporateSearch.BankName)
+                        @Html.HiddenFor(m => m.CorporateSearch.BranchName)
+                        @Html.HiddenFor(m => m.CorporateSearch.Tran_Status)
+                        @Html.HiddenFor(m => m.CorporateSearch.Tran_Type)
+                        @Html.HiddenFor(m => m.CorporateSearch.FromDate)
+                        @Html.HiddenFor(m => m.CorporateSearch.ToDate)
+                        @Html.HiddenFor(m => m.CorporateSearch.CompanyName)
+                        @Html.HiddenFor(m => m.CorporateSearch.CBMStatus)
+                        @Html.HiddenFor(m => m.CorporateSearch.CBMTranType)
+
+                        @if (ViewBag.BankList != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.RetailSearch.BankName,
+                                (IEnumerable<SelectListItem>)ViewBag.BankList,
+                                /*"Select Bank",*/ new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RetailSearch.BankName, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        @if (ViewBag.BranchList != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.RetailSearch.BranchName,
+                                (IEnumerable<SelectListItem>)ViewBag.BranchList,
+                                /*"--Select Branch--"*/null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RetailSearch.BranchName, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        @if (ViewBag.TransactionType != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.RetailSearch.Tran_Type,
+                                (IEnumerable<SelectListItem>)ViewBag.TransactionType,
+                                "Select Tran Type", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RetailSearch.Tran_Type, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        @if (ViewBag.CBMTran_Type != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.RetailSearch.CBMTranType,
+                                (IEnumerable<SelectListItem>)ViewBag.CBMTran_Type,
+                                "Select CBM Tran Type", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RetailSearch.CBMTranType, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        <div class="form-group col-md-2">
+                            <div class="input-group date" id='fromDate'>
+                                @Html.TextBoxFor(m => m.RetailSearch.FromDate, new { @class = "form-control", placeholder = "From Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.RetailSearch.FromDate, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <div class="input-group date" id='toDate'>
+                                @Html.TextBoxFor(m => m.RetailSearch.ToDate, new { @class = "form-control", placeholder = "To Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.RetailSearch.ToDate, "", new { @class = "text-danger" })
+                        </div>
+
+                        @if (ViewBag.TransactionStatus != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.RetailSearch.Tran_Status,
+                                (IEnumerable<SelectListItem>)ViewBag.TransactionStatus,
+                                "Select Tran Status", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RetailSearch.Tran_Status, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        @if (ViewBag.CBMStatus != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.RetailSearch.CBMStatus,
+                                (IEnumerable<SelectListItem>)ViewBag.CBMStatus,
+                                "Select CBM Status", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RetailSearch.CBMStatus, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        <div class="col-md-2" @*style="padding:0px 0px 10px 115px"*@>
+                            <input type="button" class="btn btn-default col-md-offset-0" id="btnRetail" value="View" onclick="retailDateValidation()">
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <iframe id="ifrmRetailReportViewer" frameborder="0" width="100%" height="410" style="overflow:hidden;" scrolling="no"></iframe>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tabCorporate">
+                Corporate content
+                <form id="frmCorporateDomInterTran" action="/Report/DomesticInterbankTransfer" method="post">
+                    <div class="row">
+                        <input data-val="true" id="C_IsCorporate" name="IsCorporate" type="hidden" value="true" />
+
+                        @*retail search data*@
+                        @Html.HiddenFor(m => m.RetailSearch.BankName)
+                        @Html.HiddenFor(m => m.RetailSearch.BranchName)
+                        @Html.HiddenFor(m => m.RetailSearch.Tran_Status)
+                        @Html.HiddenFor(m => m.RetailSearch.Tran_Type)
+                        @Html.HiddenFor(m => m.RetailSearch.FromDate)
+                        @Html.HiddenFor(m => m.RetailSearch.ToDate)
+                        @Html.HiddenFor(m => m.RetailSearch.CBMStatus)
+                        @Html.HiddenFor(m => m.RetailSearch.CBMTranType)
+
+                        @if (ViewBag.BankList != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.CorporateSearch.BankName,
+                                (IEnumerable<SelectListItem>)ViewBag.BankList,
+                                /*"Select Bank",*/ new { @class = "form-control", @id = "CorporateSearchBankName" })
+                                @Html.ValidationMessageFor(model => model.CorporateSearch.BankName, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        @if (ViewBag.BranchList != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.CorporateSearch.BranchName,
+                                (IEnumerable<SelectListItem>)ViewBag.BranchList,
+                                /*"--Select Branch--"*/null, new { @class = "form-control", @id = "CorporateSearchBranchName" })
+                                @Html.ValidationMessageFor(model => model.CorporateSearch.BranchName, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        @if (ViewBag.TransactionType != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.CorporateSearch.Tran_Type,
+                                (IEnumerable<SelectListItem>)ViewBag.TransactionType,
+                                "Select Tran Type", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CorporateSearch.Tran_Type, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        @if (ViewBag.CBMTran_Type != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.CorporateSearch.CBMTranType,
+                                (IEnumerable<SelectListItem>)ViewBag.CBMTran_Type,
+                                "Select CBM Tran Type", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CorporateSearch.CBMTranType, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        <div class="form-group col-md-2">
+                            <div class="input-group date" id='fromDate'>
+                                @Html.TextBoxFor(m => m.CorporateSearch.FromDate, new { @class = "form-control", placeholder = "From Date", autocomplete = "off", @id = "CorporateSearchFromDate", onkeydown = "event.preventDefault()" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CorporateSearch.FromDate, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <div class="input-group date" id='toDate'>
+                                @Html.TextBoxFor(m => m.CorporateSearch.ToDate, new { @class = "form-control", placeholder = "To Date", autocomplete = "off", @id = "CorporateSearchToDate", onkeydown = "event.preventDefault()" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CorporateSearch.ToDate, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.CorporateSearch.CompanyName, new { @class = "form-control", placeholder = "Company Name" })
+                        </div>
+
+                        @if (ViewBag.TransactionStatus != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.CorporateSearch.Tran_Status,
+                                (IEnumerable<SelectListItem>)ViewBag.TransactionStatus,
+                                "Select Tran Status", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CorporateSearch.Tran_Status, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        @if (ViewBag.CBMStatus != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.CorporateSearch.CBMStatus,
+                                (IEnumerable<SelectListItem>)ViewBag.CBMStatus,
+                                "Select CBM Status", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CorporateSearch.CBMStatus, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        <div class="col-md-2">
+                            <input type="button" class="btn btn-default col-md-offset-0" value="View" onclick="corporateDateValidation()">
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <iframe id="ifrmCorporateReportViewer" frameborder="0" width="100%" height="410" style="overflow:hidden;" scrolling="no"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<form id="frmDomInterTran" action="/Report/DomesticInterbankTransfer" method="post">
+        <div class="row">
+            @if (ViewBag.BankList != null)
+            {
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.BankName,
+                (IEnumerable<SelectListItem>)ViewBag.BankList,
+                /*"Select Bank",*/ new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
+            </div>
+            }
+
+            <div class="col-md-2">
+                    @Html.DropDownListFor(m => m.BranchName,
+                    (IEnumerable<SelectListItem>)ViewBag.BranchList,
+                    null,new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
+                </div>
+            @if (ViewBag.TransactionType != null)
+            {
+                <div class="col-md-2">
+                    @Html.DropDownListFor(m => m.Tran_Type,
+                    (IEnumerable<SelectListItem>)ViewBag.TransactionType,
+                    "Select Tran Type", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Tran_Type, "", new { @class = "text-danger" })
+                </div>
+            }
+
+            @if (ViewBag.TransactionStatus != null)
+            {
+                <div class="col-md-2">
+                    @Html.DropDownListFor(m => m.Tran_Status,
+                    (IEnumerable<SelectListItem>)ViewBag.TransactionStatus,
+                    "Select Tran Status", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Tran_Status, "", new { @class = "text-danger" })
+                </div>
+            }
+
+            <div class="form-group col-md-2">
+                <div class="input-group date" id='fromDate'>
+                    @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control", placeholder = "From Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-md-2">
+                <div class="input-group date" id='toDate'>
+                    @Html.TextBoxFor(m => m.ToDate, new { @class = "form-control", placeholder = "To Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-2">
+                <input type="button" class="btn btn-default col-md-offset-0" value="View" onclick="submit()">
+            </div>
+        </div>
+    </form>*@
+
+@*<div class="row">
+        <iframe id="ifrmReportViewer" frameborder="0" width="100%" height="410" style="overflow:hidden;" scrolling="no"></iframe>
+    </div>*@
+
+<!--Date Validation Message Box-->
+<div class="modal modal-danger" id="divDateValidate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Date Validation Error</h4>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts{
+    <script>
+            $(function () {
+
+                  $("#fromDate,#toDate").datetimepicker({
+                      format: 'DD-MM-YYYY'
+                  });
+
+                @*@if(Model.domintertranVM != null)
+                {
+                    <text>ShowReport();</text>
+                }*@
+
+                 //to show selected tab (corporate tab)
+                @if(Model.IsCorporate & Model.domintertranVM != null)
+                  {
+                   <text>$('.nav-tabs a[href="#tabCorporate"]').tab('show');</text>
+
+                    <text>ShowCorporateReport();</text>
+                  }
+
+                @if(!Model.IsCorporate & Model.domintertranVM != null)
+                {
+                    <text>ShowRetailReport();</text>
+                }
+            });
+
+        //    function submit() {
+        //        $("#ifrmRetailReportViewer").submit();
+        //        $("#ifrmCorporateReportViewer").submit();
+        //}
+
+        function retailDateValidation() {
+            var start = $('#RetailSearch_FromDate').val().split("-");
+            var from = new Date(start[2], start[1] - 1, start[0])//Date.parse(start);
+            var end = $('#RetailSearch_ToDate').val().split("-");
+            var to = new Date(end[2], end[1] - 1, end[0])// Date.parse(end);
+            if (from > to) {
+                $("#errorMessage").text("To Date must be greater than From Date!");
+                $("#divDateValidate").modal('toggle');
+            }
+            else {
+                $("#frmRetailDomInterTran").submit();
+            }
+        }
+
+        function corporateDateValidation() {
+            //for corporate date validation
+            var c_start = $('#CorporateSearchFromDate').val().split("-");
+            var c_from = new Date(c_start[2], c_start[1] - 1, c_start[0])//Date.parse(start);
+            var c_end = $('#CorporateSearchToDate').val().split("-");
+            var c_to = new Date(c_end[2], c_end[1] - 1, c_end[0])// Date.parse(end);
+            if (c_from > c_to) {
+                $("#errorMessage").text("To Date must be greater than From Date!");
+                $("#divDateValidate").modal('toggle');
+            }
+            else {
+                $("#frmCorporateDomInterTran").submit();
+            }
+        }
+
+        function ShowRetailReport() {
+            var url = "../RDLCReports/Aspx/DomesticInterbankTransferReport.aspx";
+
+            var myframe = document.getElementById("ifrmRetailReportViewer");
+            if (myframe !== null) {
+                if (myframe.src) {
+                    myframe.src = url;
+                }
+                else if (myframe.contentWindow !== null && myframe.contentWindow.location !== null) {
+                    myframe.contentWindow.location = url;
+                }
+                else { myframe.setAttribute('src', url); }
+            }
+
+            return false;
+        }
+
+        function ShowCorporateReport() {
+            var url = "../RDLCReports/Aspx/C_DomesticInterbankTransferReport.aspx";
+
+            var myframe = document.getElementById("ifrmCorporateReportViewer");
+            if (myframe !== null) {
+                if (myframe.src) {
+                    myframe.src = url;
+                }
+                else if (myframe.contentWindow !== null && myframe.contentWindow.location !== null) {
+                    myframe.contentWindow.location = url;
+                }
+                else { myframe.setAttribute('src', url); }
+            }
+
+            return false;
+        }
+
+
+        //For Corporate
+        $(document).ready(function () {
+            //to bind Branch ddl
+
+            $("#RetailSearch_BankName").change(function () {
+                $("#RetailSearch_BranchName").empty();
+                if ($("#RetailSearch_BankName").val() != "") {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("getOtherBranch")',
+                        dataType: 'json',
+                        data: { bankid: $("#RetailSearch_BankName").val() },
+                        success: function (branch) {
+
+                            $.each(branch, function (i, branch) {
+                                $("#RetailSearch_BranchName").append('<option value="'
+                                    + branch.Value + '">'
+                                    + branch.Text + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed.' + ex);
+                        }
+                    });
+                    return false;
+                }
+                else {
+                    $("#RetailSearch_BranchName").append('<option value="'
+                        + "" + '">'
+                        + "---Select Branch---" + '</option>');
+                }
+            });
+
+
+           $("#CorporateSearchBankName").change(function () {
+               $("#CorporateSearchBranchName").empty();
+               if ($("#CorporateSearchBankName option:selected").val() != "") {
+                   $.ajax({
+                       type: 'POST',
+                       url: '@Url.Action("getOtherBranch")',
+                       dataType: 'json',
+                       data: { bankid: $("#CorporateSearchBankName option:selected").val() },
+                       success: function (corbranch) {
+
+                           $.each(corbranch, function (i, corbranch) {
+                               $("#CorporateSearchBranchName").append('<option value="'
+                                   + corbranch.Value + '">'
+                                   + corbranch.Text + '</option>');
+                           });
+                       },
+                       error: function (ex) {
+                           alert('Failed.' + ex);
+                       }
+                   });
+                   return false;
+               }
+               else {
+                   $("#CorporateSearchBranchName").append('<option value="'
+                       + ""+ '">'
+                       + "---Select Branch---"+ '</option>');
+               }
+           });
+
+            var BankId = $("#RetailSearch_BankName  option:selected").val();
+            if ($("#RetailSearch_BankName  option:selected").val() != "") {
+                $("#RetailSearch_BranchName").empty();
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("getOtherBranch")',
+                        dataType: 'json',
+                        data: { bankid: $("#RetailSearch_BankName  option:selected").val() },
+                        success: function (branch) {
+
+                            $.each(branch, function (i, branch) {
+                                $("#RetailSearch_BranchName").append('<option value="'
+                                    + branch.Value + '">'
+                                    + branch.Text + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed.' + ex);
+                        }
+                    });
+                    return false;
+            }
+
+            if ($("#CorporateSearchBankName option:selected").val() != "") {
+                $("#CorporateSearchBranchName").empty();
+                   $.ajax({
+                       type: 'POST',
+                       url: '@Url.Action("getOtherBranch")',
+                       dataType: 'json',
+                       data: { bankid: $("#CorporateSearchBankName option:selected").val() },
+                       success: function (corbranch) {
+
+                           $.each(corbranch, function (i, corbranch) {
+                               $("#CorporateSearchBranchName").append('<option value="'
+                                   + corbranch.Value + '">'
+                                   + corbranch.Text + '</option>');
+                           });
+                       },
+                       error: function (ex) {
+                           alert('Failed.' + ex);
+                       }
+                   });
+                   return false;
+               }
+
+        });
+
+    </script>
+
+}
+

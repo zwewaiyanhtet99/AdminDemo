@@ -1,0 +1,336 @@
+﻿@model ABankAdmin.ViewModels.ReqUserAndAccVM
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<Style>
+    .table-wrapper {
+        position: relative;
+        max-height: 450px;
+        overflow: auto;
+    }
+
+    thead tr th {
+        text-align: center;
+    }
+    /*table {
+        width: 1025px;
+        display: block;
+        margin-left: 35px;
+    }
+
+    tbody {
+        height: 300px;
+        display: block;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    thead {
+        background-color: darkgray;
+        height: 50px;
+        line-height: 20px;
+    }
+    dt{
+        text-align:left!important;
+    }
+    tr {
+        border: solid 2px;
+        border-color: lightgray;
+    }
+
+    td {
+        border: solid 2px;
+        border-color: lightgray;
+        text-align: left;
+    }
+
+    thead, tbody tr {
+        text-align: center;
+        display: normal;
+        width: 1050px;
+        height: 50px;
+    }
+
+    h4 {
+        padding-left: 35px;
+    }*/
+</Style>
+<div>
+    <h4>User</h4>
+    <hr style="display:block" />
+    <div class="row">
+        <div>
+            <div class="col-sm-6">
+                <h3>Customer Information</h3>
+                <dl class="dl-horizontal">
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.CIFID)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.CIFID)
+                    </dd>
+
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.USERNAME)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.USERNAME)
+                    </dd>
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.MOBILENO)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.MOBILENO)
+                    </dd>
+
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.EMAIL)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.EMAIL)
+                    </dd>
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.ADDRESS)
+                    </dt>
+
+                    <dd style="text-align:justify">
+                        @Html.DisplayFor(model => model.reqUservm.ADDRESS)
+                    </dd>
+
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.FULLNAME)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.FULLNAME)
+                    </dd>
+                    <dt style="width:170px;">
+                        @if (Model.reqUservm.USER_TYPE == "Corporate")
+                        {
+                            @Html.DisplayNameFor(model => model.reqUservm.USER_TYPE)
+                        }
+                        else
+                        {
+                            @Html.DisplayNameFor(model => model.reqUservm.NRC)
+                        }
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.NRC)
+                    </dd>
+                    @if (Model.reqUservm.USER_TYPE == "Corporate")
+                    {
+                        <dt style="width:170px;">
+                            @Html.HiddenFor(model => model.reqUservm.MINOR)
+                        </dt>
+
+                        <dd>
+                            @Html.HiddenFor(model => model.reqUservm.MINOR)
+                        </dd>
+
+                        <dt style="width:170px;">
+                            @Html.HiddenFor(model => model.reqUservm.GENDER)
+                        </dt>
+
+                        <dd>
+                            @Html.HiddenFor(model => model.reqUservm.GENDER)
+                        </dd>
+                    }
+                    else
+                    {
+                        <dt style="width:170px;">
+                            @Html.DisplayNameFor(model => model.reqUservm.MINOR)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.reqUservm.MINOR)
+                        </dd>
+
+                        <dt style="width:170px;">
+                            @Html.DisplayNameFor(model => model.reqUservm.GENDER)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.reqUservm.GENDER)
+                        </dd>
+                    }
+
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.CREATEDDATE)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.CREATEDDATE)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-sm-6">
+                <h3>Transaction Information</h3>
+
+                <dl class="dl-horizontal">
+
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.IsVIP)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.IsVIP)
+                    </dd>
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.ALLOW_TRAN_COUNT)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.ALLOW_TRAN_COUNT)
+                    </dd>
+
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.DAILY_MAX_AMT)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.DAILY_MAX_AMT).ToString()
+                        <text>MMK</text>
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-sm-6">
+                <h3>Maker and Checker</h3>
+                <dl class="dl-horizontal">
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.ISNEW)
+                    </dt>
+
+                    <dd>
+                        @if (Model.reqUservm.ISNEW)
+                        {<text>Register</text>}
+                    else
+                    { <text>Update</text>}
+                    </dd>
+
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.STATUS)
+                    </dt>
+
+                    <dd>
+                        @if (Model.reqUservm.STATUS == 0)
+                        {<text>Requested</text>}
+                    else if (Model.reqUservm.STATUS == 1)
+                    { <text>Approved</text>}
+                else if (Model.reqUservm.STATUS == 2)
+                { <text>Rejected</text>}
+                    </dd>
+
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.MAKER)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.MAKER)
+                    </dd>
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.REQUESTEDDATE)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.REQUESTEDDATE)
+                    </dd>
+
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.CHECKER)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.CHECKER)
+                    </dd>
+
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.CHECKEDDATE)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.CHECKEDDATE)
+                    </dd>
+
+                    <dt style="width:170px;">
+                        @Html.DisplayNameFor(model => model.reqUservm.CHECKERREASON)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.reqUservm.CHECKERREASON)
+                    </dd>
+                </dl>
+
+            </div>
+        </div>
+    </div>
+
+
+    <hr style="display:block" />
+    <div id="acc" class="row">
+        @*<div class="form-group col-md-12 well">*@
+        <div style="width:auto" class="container">
+            <h4><b>Accounts</b></h4>
+            <div class="table-responsive table-wrapper">
+                <table class="table table-bordered">
+                    @*table with-border*@
+                    <thead class="bg-gray">
+                        <tr>
+                            <th>No.</th>
+                            <th>Account No</th>  @*style="width:250px;"*@
+                            <th>Account Type</th>
+                            <th>Schema Code</th>
+                            <th>Branch</th>
+                            <th>Currency</th> @*style="width:150px;"*@
+                            <th>Allowed Account</th>
+                            <th>QR allow</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.accountvms != null && Model.accountvms.Count > 0)
+                        {
+                            for (int i = 0; i < Model.accountvms.Count(); i++)
+                            {
+                                <tr>
+                                    <td style="text-align:center;">@(i + 1)</td>
+                                    <td>
+                                        @Model.accountvms[i].ACCOUNTNO
+                                    </td>
+                                    <td>
+                                        @Model.accountvms[i].ACC_TYPE
+                                    </td>
+                                    <td>
+                                        @Model.accountvms[i].SCHM_CODE
+                                    </td>
+                                    <td>
+                                        @Model.accountvms[i].BRANCHCODE
+                                    </td>
+                                    <td>
+                                        @Model.accountvms[i].CURRENCY
+                                    </td>
+                                    <td width="90" style="text-align:center;">
+                                        @Html.CheckBox("a", Model.accountvms[i].Active, new { disabled = "disabled" })
+                                    </td>
+                                    <td width="90" style="text-align:center;">
+                                        @Html.CheckBox("a", Model.accountvms[i].QR_ALLOW, new { disabled = "disabled" })
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.reqUservm.ID },new {@class="btn btn-success"}) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,170 @@
+﻿@model ABankAdmin.ViewModels.BulkPaymentDetailSearchViewModel
+@{
+    ViewBag.Title = "BulkPaymentDetail";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>Bulk Payment Detail Report</h3>
+    </div>
+</div>
+
+<form id="frmBulkPaymentDetail" action="/Report/BulkPaymentDetail" method="post">
+    @if (!ViewContext.ViewData.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    }
+    <div class="row">
+        @*<div class="form-group col-md-2">
+                @Html.TextBoxFor(m => m.Company_Name, new { @class = "form-control", placeholder = "Company Name" })
+            </div>*@
+        <div class="form-group col-md-2">
+            @Html.TextBoxFor(m => m.Corporate_ID, new { @class = "form-control", placeholder = "CorporateID" })
+        </div>
+        <div class="form-group col-md-2">
+            @Html.TextBoxFor(m => m.Debit_Acct, new { @class = "form-control", placeholder = "From Account" })
+        </div>
+        @*<div class="form-group col-md-2">
+                @Html.TextBoxFor(m => m.Debit_Amt, new { @class = "form-control", placeholder = "Debit Amount" })
+            </div>*@
+
+        <div class="form-group col-md-2">
+            @Html.TextBoxFor(m => m.BulkFileName, new { @class = "form-control", placeholder = "Bulk File Name" })
+        </div>
+
+        @if (ViewBag.CBMStatus != null)
+        {
+            <div class="form-group col-md-2">
+                @Html.DropDownListFor(m => m.CBMStatus,
+                (IEnumerable<SelectListItem>)ViewBag.CBMStatus,
+                "Select CBM Status", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CBMStatus, "", new { @class = "text-danger" })
+            </div>
+        }
+
+        <div class="form-group col-md-2">
+                <div class='input-group date' id='fromDate'>
+                    @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control", placeholder = "From Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-2">
+                <div class="input-group date" id='toDate'>
+                    @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control", placeholder = "To Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+            </div>
+
+        @if (ViewBag.BulkDetailStatus != null)
+        {
+            <div class="form-group col-md-2">
+                @Html.DropDownListFor(m => m.Status,
+                (IEnumerable<SelectListItem>)ViewBag.BulkDetailStatus,
+                "Select Status", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        }
+
+        @if (ViewBag.BulkDetailTranType != null)
+        {
+            <div class="form-group col-md-2">
+                @Html.DropDownListFor(m => m.TranType,
+                (IEnumerable<SelectListItem>)ViewBag.BulkDetailTranType,
+                "Select Tran Type", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        }
+
+        <div class="form-group col-md-2" @*style="padding:0px 0px 10px 115px;"*@>
+            @*<input type="button" class="btn btn-default col-md-offset-0" value="View" onclick="DateValidation()">*@
+            <input type="button" class="btn btn-default col-md-offset-0" value="View" onclick="submit()">
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <iframe id="ifrmBulkPaymentDetail" frameborder="0" width="100%" height="410" style="overflow:hidden;" scrolling="no"></iframe>
+</div>
+
+<!--Date Validation Message Box-->
+<div class="modal modal-danger" id="divDateValidate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Date Validation Error</h4>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript">
+
+            $(function () {
+                $("#fromDate,#toDate").datetimepicker({
+                        format: 'DD-MM-YYYY'
+                });
+
+
+            @if(Model.bulkpaymentdetailVM != null)
+            {
+                <text>ShowReport();</text>
+            }
+        });
+
+        function submit() {
+            $("#frmBulkPaymentDetail").submit();
+        }
+
+        // function DateValidation() {
+        //    var start = $('#FromDate').val().split("-");
+        //    var from = new Date(start[2], start[1] - 1, start[0])//Date.parse(start);
+        //    var end = $('#ToDate').val().split("-");
+        //    var to = new Date(end[2], end[1] - 1, end[0])// Date.parse(end);
+        //    if (from > to) {
+        //        $("#errorMessage").text("To Date must be greater than From Date!");
+        //        $("#divDateValidate").modal('toggle');
+        //    }
+        //    else {
+        //        $("#frmBulkPaymentDetail").submit();
+        //    }
+        //}
+
+        function ShowReport() {
+            var url = "../RDLCReports/Aspx/BulkPaymentDetail.aspx";
+
+            var myframe = document.getElementById("ifrmBulkPaymentDetail");
+            if (myframe !== null) {
+                if (myframe.src) {
+                    myframe.src = url;
+                }
+                else if (myframe.contentWindow !== null && myframe.contentWindow.location !== null) {
+                    myframe.contentWindow.location = url;
+                }
+                else { myframe.setAttribute('src', url); }
+            }
+
+            return false;
+        }
+    </script>
+}
+

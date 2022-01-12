@@ -1,0 +1,116 @@
+﻿@model IEnumerable<ABankAdmin.Models.UtilitiesDetail>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+    <h2>Utility Detail List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="row">
+    <div class="form-group col-md-3">
+        Utility
+        @Html.DropDownList("ddlUtility", ViewBag.utility as List<SelectListItem>, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group col-md-3">
+        Currency
+        @Html.DropDownList("ddlCurrency", ViewBag.Currency as List<SelectListItem>, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group col-md-3">
+        <br />
+        <input type="button" value="Search" class="btn btn-default" id="btnSearch" />
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    UTILITY
+                </th>
+                <th>
+                    DENO
+                </th>
+                <th>
+                   CURRENCY
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        $(function () { // Submit pageSizeForm when another pageSize value is selected
+            $("#pageSize").change(function () {
+                $("#pageSizeForm").submit();
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+
+            /*disable datatable warnings*/
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $("#myTable").dataTable(
+                {
+                    //"stateSave": true, // to save current state when going to next page
+                    //"processing": true, // for show processing bar
+                    "serverSide": true, // for process on server side
+                    "orderMulti": false, // for disable multi column order
+                    "dom": '<"top"i>rt<"bottom"lp><"clear">', // for hide default global search box // little confusion? don't worry I explained in the tutorial website
+                    "ajax": {
+                        "url": "/UtilitiesDetail/Index",
+                        "type": "POST",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "VrUID.Name", "name": "VrUID.Name", "autoWidth": true },
+                        {
+                            "data": "DENO", "name": "DENO", "autoWidth": true, "className": "text-right",
+                            render: $.fn.dataTable.render.number(',')
+                        },
+                        { "data": "CURRENCY", "name": "CURRENCY", "autoWidth": true },
+                    {// this is Actions Column
+                         mRender: function (data, type, row) {
+                         var linkEdit = '@Html.ActionLink("Edit", "Edit", new {id= -1 })';
+                         linkEdit = linkEdit.replace("-1", row.ID);
+
+                         var linkDelete = '@Html.ActionLink("Delete", "Delete", new {id= -1 })';
+                         linkDelete = linkDelete.replace("-1", row.ID);
+
+                         return  linkEdit + " | " + linkDelete ;
+                        },                         
+                         width: "70px",
+                         orderable: false
+                    }
+                ]                   
+                });
+            //Apply Custom search on jQuery DataTables here
+            oTable = $('#myTable').DataTable();
+            $('#btnSearch').click(function () {
+                //Apply search for Employee Name // DataTable column index 0
+                oTable.columns(0).search($('#ddlUtility').val().trim());
+                oTable.columns(2).search($('#ddlCurrency').val().trim());
+                //hit search on server
+                oTable.draw();
+
+                //For textChange
+                //var table = $('#myTable').DataTable();
+                //$('#ddlCode').on('change', function () {
+                //    table.columns(0).search(this.value).draw();
+                //});
+
+            });
+        })
+    </script>
+}
+
+

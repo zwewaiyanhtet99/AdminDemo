@@ -1,0 +1,336 @@
+﻿@model ABankAdmin.ViewModels.UserAndAccVM
+
+@{
+    ViewBag.Title = "retail";
+}
+
+<h2>Retail User Registration</h2>
+<Style>
+    .table-wrapper {
+        position: relative;
+        max-height: 450px;
+        overflow: auto;
+    }
+
+    thead tr th {
+        text-align: center;
+    }
+    /*table {
+        width: 1025px;
+        display: block;
+        margin-left: 35px;
+    }
+
+    tbody {
+        height: 300px;
+        display: block;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    thead {
+        background-color: darkgray;
+        height: 50px;
+        line-height: 20px;
+    }
+
+    tr {
+        border: solid 2px;
+        border-color: lightgray;
+    }
+
+    td {
+        border: solid 2px;
+        border-color: lightgray;
+        text-align: left;
+    }
+
+    thead, tbody tr {
+        text-align: center;
+        display: normal;
+        width: 1050px;
+        height: 50px;
+    }
+
+    h4 {
+        padding-left: 35px;
+    }*/
+</Style>
+@using (Html.BeginForm("retail","User",FormMethod.Post, new { autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="">
+        @*form-horizontal*@
+        @*<h4>User</h4>*@
+        <hr />
+        @if (!ViewContext.ViewData.ModelState.IsValid)
+        {
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        }
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.CIFID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.TextBoxFor(model=>model.CIFID, new { @class = "form-control" })*@
+                @Html.EditorFor(model => model.uservm.CIFID, new { htmlAttributes = new { @class = "form-control", required = "required",Id= "CUSID" } })
+                @Html.ValidationMessageFor(model => model.uservm.CIFID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" class="btn btn-default" onclick="FillData()">Fetch</button>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.USERNAME, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.uservm.USERNAME, new { htmlAttributes = new { @class = "form-control col-md-4",Id="User" } })
+                @Html.ValidationMessageFor(model => model.uservm.USERNAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.MOBILENO, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.uservm.MOBILENO, new { htmlAttributes = new { @class = "form-control",@onkeypress = "return isNumberKey(this, event);",Id="Phone" } })
+                @Html.ValidationMessageFor(model => model.uservm.MOBILENO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.EMAIL, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.uservm.EMAIL, new { htmlAttributes = new { @class = "form-control" ,Id="mail"} })
+                @Html.ValidationMessageFor(model => model.uservm.EMAIL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.ADDRESS, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.uservm.ADDRESS, new { @class = "form-control" ,Id= "Addr" })
+                @Html.ValidationMessageFor(model => model.uservm.ADDRESS, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.FULLNAME, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.uservm.FULLNAME, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" ,Id="FName"} })
+                @Html.ValidationMessageFor(model => model.uservm.FULLNAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.NRC, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.uservm.NRC, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" ,Id= "NRCNO" } })
+                @Html.ValidationMessageFor(model => model.uservm.NRC, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.MINOR, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.uservm.MINOR, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" ,Id="min"} })
+                @Html.ValidationMessageFor(model => model.uservm.MINOR, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.GENDER, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.uservm.GENDER, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" ,Id="gen"} })
+                @Html.ValidationMessageFor(model => model.uservm.GENDER, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            @Html.LabelFor(model => model.uservm.IsVIP, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBoxFor(model => model.uservm.IsVIP)
+                @Html.ValidationMessageFor(model => model.uservm.IsVIP, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12 OnlyVIP">
+            @Html.LabelFor(model => model.uservm.ALLOW_TRAN_COUNT, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.uservm.ALLOW_TRAN_COUNT, new { htmlAttributes = new { @class = "form-control Money text-align",@type="" @*, @onkeypress = "return isNumberKey(this, event);"*@, autocomplete="off"} })
+                @Html.ValidationMessageFor(model => model.uservm.ALLOW_TRAN_COUNT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group col-md-12 OnlyVIP">
+            @Html.LabelFor(model => model.uservm.DAILY_MAX_AMT, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.uservm.DAILY_MAX_AMT, new { htmlAttributes = new { @class = "form-control text-align",@type="", @onkeypress = "return isNumberKey(this, event);" } })
+                @Html.ValidationMessageFor(model => model.uservm.DAILY_MAX_AMT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <hr style="display:block" />
+        <div id="acc" class="row">
+            <div style="width:auto" class="container">
+                <div class="form-group col-md-12">
+                    <h4><b>Accounts</b></h4>
+                    <div class="table-responsive table-wrapper">
+                        <table class="table table-bordered">
+                            @*table-responsive*@
+                            <thead class="bg-gray">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Account No</th>  @*style="width:250px;"*@
+                                    <th>Account Type</th>
+                                    <th>Schema Code</th>
+                                    <th>Branch</th>
+                                    <th>Currency</th> @*style="width:150px;"*@
+                                    <th>Allowed Account</th>
+                                    <th>QR allow</th>
+                                </tr>
+                            </thead>
+                            <tbody id="accTbody">
+                                @if (Model.accountvms != null)
+                                {
+                                    for (int i = 0; i < Model.accountvms.Count(); i++)
+                                    {
+                                        <tr>
+                                            <td width="50" style="text-align:center">@(i + 1)</td>
+                                            <td width="180">
+                                                @Html.EditorFor(x => Model.accountvms[i].ACCOUNTNO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            </td>
+                                            <td width="160">
+                                                @Html.EditorFor(x => Model.accountvms[i].ACC_TYPE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            </td>
+                                            <td width="180">
+                                                @Html.EditorFor(x => Model.accountvms[i].SCHM_CODE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            </td>
+                                            <td width="180">
+                                                @Html.EditorFor(x => Model.accountvms[i].BRANCHCODE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            </td>
+                                            <td width="130">
+                                                @Html.EditorFor(x => Model.accountvms[i].CURRENCY, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                            </td>
+                                            <td width="90" style="text-align:center">
+                                                @Html.EditorFor(x => Model.accountvms[i].Active, new
+                                                {
+                                                    htmlAttributes = new
+                                                    { onclick = "checkChange(" + i + ")" }
+                                                })
+                                            </td>
+                                            <td width="95" style="text-align:center">
+                                                @Html.CheckBoxFor(x => Model.accountvms[i].QR_ALLOW, new { @disabled = "disabled" })
+                                                @*@Html.HiddenFor(x => Model.accountvms[i].QR_ALLOW)*@
+                                                @Html.HiddenFor(x => Model.accountvms[i].ACC_DESC)
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="form-group col-md-12">
+            <div style="padding-left:35px;">
+                @*class="col-md-offset-2 col-md-10"*@
+                <input type="button" id="btnSubmit" value="Register" class="btn btn-success" onclick="window.location.href = '@Url.Action("Index","User")'"/>
+                @Html.ActionLink("Cancel", null, null, null, new { href = Request.UrlReferrer, @class = "btn btn-default" })
+                <br />
+            </div>
+        </div>
+    </div>
+}
+
+<div class="modal modal-danger" id="divError">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Getting Retail User</h4>
+            </div>
+            <div class="modal-body">
+                <p id="pMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div>
+    @*@Html.ActionLink("Back to List", "Index")*@
+    <br /><br />
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/retail")
+    <script>
+           $(document).ready(function () {
+                
+               //add thousand separator
+            $("#uservm_DAILY_MAX_AMT").on("keyup", function () {
+                var val = this.value;
+                val = val.replace(/[^0-9\.]/g, '');
+
+                if (val != "") {
+                    valArr = val.split('.');
+                    valArr[0] = (BigInt(valArr[0], 10)).toLocaleString();
+                    val = valArr.join('.');
+                }
+                this.value = val;
+            });
+
+                        $("#uservm_ALLOW_TRAN_COUNT").on("keyup", function () {
+                var val = this.value;
+                val = val.replace(/[^0-9\.]/g, '');
+
+                if (val != "") {
+                    valArr = val.split('.');
+                    valArr[0] = (BigInt(valArr[0], 10)).toLocaleString();
+                    val = valArr.join('.');
+                }
+                this.value = val;
+            });
+          });
+           
+
+        //show or hide at initially and after validation error
+        if ($("#uservm_IsVIP")[0].checked) {
+            $(".OnlyVIP").show();
+        } else {
+            $(".OnlyVIP").hide();
+        }
+        //VIP check change
+        $("#uservm_IsVIP").change(function () {
+            if ($("#uservm_IsVIP")[0].checked) {
+                $(".OnlyVIP").show();
+            } else {
+                $(".OnlyVIP").hide();
+            }
+        });
+        function FillData() {
+            var CIFID = $('#CUSID').val();
+            if (CIFID == null || CIFID == '') {
+                alert("CIF Required");
+            } else {
+                $('#User').val("TestUser");
+                $('#Phone').val("09975643829");
+                $('#mail').val("testuser@gmail.com");
+                $('#Addr').val("No 25/B Landamadaw Township,Yangon");
+                $('#FName').val("U Kyaw Kyaw");
+                $('#NRCNO').val("12/AhSaNa(N)339228");
+                $('#min').val("Test");
+                $('#gen').val("Male");
+            }
+
+        }
+    </script>
+}

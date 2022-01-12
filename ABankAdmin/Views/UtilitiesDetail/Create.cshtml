@@ -1,0 +1,52 @@
+﻿@model ABankAdmin.Models.UtilitiesDetail
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create","UtilitiesDetail",FormMethod.Post,new { autocomplete="off"}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>UtilitiesDetail</h4>
+        <hr />
+        <div class="form-group">
+            @Html.Label("UTILITY", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.UTILITIES_ID, ViewBag.utility as List<SelectListItem>, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UTILITIES_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DENO, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DENO, new { htmlAttributes = new { @class = "form-control Money" } })
+                @Html.ValidationMessageFor(model => model.DENO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CURRENCY, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CURRENCY, ViewBag.Currency as List<SelectListItem>, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CURRENCY, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+                @Html.ActionLink("Cancel", "Index", null, null, new { @*href = Request.UrlReferrer,*@ @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

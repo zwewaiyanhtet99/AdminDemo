@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ayeyarwaddy Farmers Development Bank</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    @*<link rel="stylesheet" href="~/Content/bootstrap.min.css">*@
+    @Styles.Render("~/Content/css")
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="~/Content/Ionicons/css/ionicons.min.css">*@
+    <!-- Theme style -->
+    @*<link rel="stylesheet" href="~/Content/dist/css/AdminLTE.min.css">*@
+    <!-- DataTables -->
+    @*<link rel="stylesheet" href="~/Content/datatables.net-bs/css/dataTables.bootstrap.min.css">*@
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    @*<link rel="stylesheet" href="~/Content/dist/css/skins/_all-skins.min.css">*@
+    @*<link rel="stylesheet" href="~/Content/newstyle_1.0.1.css">*@
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="/" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><img src="~/Content/images/whiteLogoSmall.png" alt="Abank Logo Large"></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><img src="~/Content/images/whiteLogolarge.png" alt="Abank Logo Large"></span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+
+                <div class="navbar-custom-menu">
+                    @Html.Partial("_LoginPartial")
+                    @*<ul class="nav navbar-nav">
+                            <li><a href=""><i class="fa fa-user-circle-o"></i></a></li>
+                            <li><a href=""><i class="fa fa-sign-out"></i></a></li>
+
+                        </ul>*@
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        @*@Html.Partial("_SidebarPartial")*@
+
+        @{Html.RenderAction("Menu", "Admin", new { area = "" });}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            @*<section class="content-header">
+                    <h1>Exchange Rate</h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#">Home</a></li>
+                        <li class="active">Exchange Rate</li>
+                    </ol>
+                </section>*@
+            <!-- Main content -->
+            <section class="content">
+                @RenderBody()
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 1.1
+            </div>
+            <strong>Copyright &copy; 2020 <a href="https://www.abank.com.mm/">Ayeyarwaddy Farmers Development Bank</a>.</strong> All rights
+            reserved.
+        </footer>
+
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery 3 -->
+    @*<script src="bower_components/jquery/dist/jquery.min.js"></script>*@
+    <!-- Bootstrap 3.3.7 -->
+    @*<script src="bower_components/bootstrap/js/bootstrap.min.js"></script>*@
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    @*<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>*@
+    @*<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />*@
+
+    @*<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>*@
+    @*<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>*@
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
+    @*ForDatePicker*@
+    @*<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+        <!-- FastClick -->
+        @*<script src="~/Content/dist/js/fastclick.js"></script>*@
+    <!-- AdminLTE App -->
+    @*<script src="~/Content/dist/js/adminlte.min.js"></script>*@
+    @Scripts.Render("~/bundles/adminlte")
+    @*<script src="~/Content/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>*@
+    <!-- SlimScroll -->
+    <!-- AdminLTE for demo purposes -->
+    @*<script src="~/Content/dist/js/demo.js"></script>
+        <script>
+            $(function () {
+                //$('#example1').DataTable()
+                //$('#example2').DataTable({
+                //    'paging': true,
+                //    'lengthChange': false,
+                //    'searching': false,
+                //    'ordering': true,
+                //    'info': true,
+                //    'autoWidth': false
+                //});
+            })
+        </script>*@
+    <script src="~/Content/plugins/jquery_mask_plugin/jquery.mask.min.js"></script>
+   <script type="text/javascript">
+
+        $('.DecimalMoney').focus(function () {
+            if ($(this).val() == $(this).prop('0.00'))
+                $(this).val('');
+        }).blur(function () {
+            if ($(this).val() == '')
+                $(this).val($(this).prop('0.00'));
+        });
+
+        $(function () {
+            $('.Money').attr('placeholder', '0');
+            $('.text-align').attr('placeholder', '0');
+            $('.DecimalMoney').attr('placeholder', '0.00');
+            //add thousand separator
+            if ($('.Money').length > 0) {
+                $('.Money').mask("#,##0", { reverse: true });
+            }
+
+            if ($('.DecimalMoney').length > 0) {
+                $('.DecimalMoney').mask("#,##0.00", { reverse: true });
+            }
+        });
+
+        //function isNumberKey(txt, evt) {
+        //    var charCode = (evt.which) ? evt.which : evt.keyCode;
+        //    if (charCode == 46) {
+        //        //Check if the text already contains the . character
+        //        if (txt.value.indexOf('.') === -1) {
+        //            return true;
+        //        } else {
+        //            return false;
+        //        }
+        //    } else {
+        //        if (charCode > 31 &&
+        //            (charCode < 48 || charCode > 57))
+        //            return false;
+        //    }
+        //    return true;
+        //}
+
+        function isNumberKey(el, evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            var number = el.value.split('.');
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            //just one dot (thanks ddlab)
+            if (number.length > 1 && charCode == 46) {
+                return false;
+            }
+            //get the carat position
+            var caratPos = getSelectionStart(el);
+            var dotPos = el.value.indexOf(".");
+            if (caratPos > dotPos && dotPos > -1 && (number[1].length > 1)) {
+                return false;
+            }
+            return true;
+        }
+        function isNumberKeyForBooking(el, evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            var number = el.value.split('.');
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+
+            //just one dot (thanks ddlab)
+            if (number.length > 1 && charCode == 46) {
+                return false;
+            }
+            //get the carat position
+            var caratPos = getSelectionStart(el);
+            var dotPos = el.value.indexOf(".");
+            if (caratPos > dotPos && dotPos > -1 && (number[1].length > 1)) {
+                return false;
+            }
+            return true;
+        }
+        function getSelectionStart(o) {
+            if (o.createTextRange) {
+                var r = document.selection.createRange().duplicate()
+                r.moveEnd('character', o.value.length)
+                if (r.text == '') return o.value.length
+                return o.value.lastIndexOf(r.text)
+            } else return o.selectionStart
+        }
+
+
+        $(document).ajaxError(function (e, xhr) {
+            if (xhr.status == 401)
+                window.location.href = "/Admin/Login";
+        });
+
+        //$(function () {
+        //    $('input[name="daterange"]').daterangepicker({
+        //        opens: 'left',
+        //        startDate: moment().add(-12, 'month'),
+        //        endDate: moment(),
+        //        "autoUpdateInput": true,
+        //        "autoApply": true,
+        //        locale: {
+        //            format: 'DD-MM-YYYY',
+        //            "separator": " ~ "
+        //        }
+        //    }, function (start, end, label) {
+        //        //console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        //    });
+        //});
+        //$(function () {
+        //    $("#FromDate").datepicker({
+        //        format: "dd-mm-yyyy",
+        //        autoclose: true
+        //    });
+        //    $("#ToDate").datepicker({
+        //        format: "dd-mm-yyyy",
+        //        autoclose: true
+        //    });
+        //});
+
+        //function GetMonthYearPicker(id) {
+        //    $(id).datepicker({
+        //        format: 'yyyy-mm',
+        //        autoHide : true
+        //    });
+        //}
+        //function OpenDate(id) {
+        //    console.log(id);
+        //    $(id).datetimepicker("show");
+        //    //GetMonthYearPicker(id);
+        //}
+        
+    </script>
+</body>
+</html>
+

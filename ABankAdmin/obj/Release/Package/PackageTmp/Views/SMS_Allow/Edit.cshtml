@@ -1,0 +1,83 @@
+﻿@model ABankAdmin.Models.SMS_Allow
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>SMS Allow</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TransactionType, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.TransactionType, new { htmlAttributes = new { @class = "form-control", @readonly = "readable" } })
+            @Html.ValidationMessageFor(model => model.TransactionType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Sender_Allow, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox" style="padding-left:20px;">
+                @Html.EditorFor(model => model.Sender_Allow)
+                @Html.ValidationMessageFor(model => model.Sender_Allow, "", new { @class = "text-danger" })
+            </div>
+            @*@Html.RadioButtonFor(model => model.Sender_Allow,"Sender_Allow",Model.Sender_Allow == true ? new { Checked = true } : null)*@
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Receiver_Allow, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox" style="padding-left:20px;">
+                @*@Html.RadioButtonFor(model => model.Receiver_Allow, "Receiver_Allow", Model.Receiver_Allow == true ? new { Checked = true } : null)*@
+                @Html.EditorFor(model => model.Receiver_Allow)
+                @Html.ValidationMessageFor(model => model.Receiver_Allow, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Sender_Email_Allow, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox" style="padding-left:20px;">
+                @Html.EditorFor(model => model.Sender_Email_Allow)
+                @Html.ValidationMessageFor(model => model.Sender_Email_Allow, "", new { @class = "text-danger" })
+            </div>
+            @*@Html.RadioButtonFor(model => model.Sender_Allow,"Sender_Allow",Model.Sender_Allow == true ? new { Checked = true } : null)*@
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Receiver_Email_Allow, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox" style="padding-left:20px;">
+                @Html.EditorFor(model => model.Receiver_Email_Allow)
+                @Html.ValidationMessageFor(model => model.Receiver_Email_Allow, "", new { @class = "text-danger" })
+            </div>
+            @*@Html.RadioButtonFor(model => model.Sender_Allow,"Sender_Allow",Model.Sender_Allow == true ? new { Checked = true } : null)*@
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-success" />
+            @Html.ActionLink("Cancel", "Index", null, null, new
+            {@*href = Request.UrlReferrer,*@@class = "btn btn-default"
+})
+        </div>
+    </div>
+</div>
+}
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@

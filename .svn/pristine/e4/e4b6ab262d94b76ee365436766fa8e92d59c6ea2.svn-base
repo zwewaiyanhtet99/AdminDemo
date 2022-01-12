@@ -1,0 +1,357 @@
+﻿@model ABankAdmin.ViewModels.ReqApvTranRuleAndDetailVM
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/tokenize2.min.css" rel="stylesheet" />
+<h2>Create</h2>
+
+@using (Html.BeginForm("Register", "C_ApproveRule", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Approve Rule</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.COMPANY_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="COMPANY_NAME" multiple></select>
+                @Html.HiddenFor(model => model.CorporateId)
+                @Html.HiddenFor(model => model.COMPANY_NAME)
+                @Html.ValidationMessageFor(model => model.COMPANY_NAME, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.CorporateId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="control-label col-md-2">
+            </div>
+            <div class="col-md-10">
+                <label>@Html.RadioButtonFor(model => model.IsForBulkPayment, false) Normal Transaction </label>
+                <label>@Html.RadioButtonFor(model => model.IsForBulkPayment, true) Bulk Transaction </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FROM_AMT, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FROM_AMT, new { htmlAttributes = new { @class = "form-control text-align", @onkeypress = "return isNumberKey(this, event);", @type = "", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.FROM_AMT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TO_AMT, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TO_AMT, "0", new { htmlAttributes = new { @class = "form-control text-align",@onkeypress = "return isNumberKey(this, event);", @type = "", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.TO_AMT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.CURRENCY, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.CURRENCY,
+                    (IEnumerable<SelectListItem>)ViewBag.Currencies,
+                    "--Select Currency--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CURRENCY, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NO_OF_APPROVERS, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">                
+                @Html.DropDownListFor(m => m.NO_OF_APPROVERS,
+                   (IEnumerable<SelectListItem>)ViewBag.NoOfApprover,
+                   "--Select NoOfApprover--", new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.NO_OF_APPROVERS, new { htmlAttributes = new { @class = "form-control no_of_apv", @type = "number", @min = 0 } })*@
+                @Html.ValidationMessageFor(model => model.NO_OF_APPROVERS, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.APPROVERS, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="APPROVERS" multiple></select>
+                @Html.HiddenFor(model => model.APPROVERS)
+                @Html.HiddenFor(model => model.APPROVERSID)
+                @Html.ValidationMessageFor(model => model.APPROVERS, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.POSITIONS, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="POSITIONS" multiple></select>
+                @Html.HiddenFor(model => model.POSITIONS)
+                @Html.HiddenFor(model => model.POSITIONSID)
+                @Html.ValidationMessageFor(model => model.POSITIONS, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Register" class="btn btn-success" />
+                @Html.ActionLink("Cancel", "ReqApproveRuleList", null, null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+
+<!--Sucess Box-->
+<div class="modal" id="divSuccess">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Register Approve Rule</h4>
+            </div>
+            <div class="modal-body">
+                <p>Requesting register successfully.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success pull-right" data-dismiss="modal" onclick="window.location = '/C_ApproveRule/ReqApproveRuleList';">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/tokenize2.min.js"></script>
+    <script>
+        $('.COMPANY_NAME').tokenize2({
+            tokensMaxItems: 1,
+            dataSource: function (search, object) {
+                $.ajax('/C_ApproveRule/GetCorporateData', {
+                    data: { term: search },
+                    dataType: 'json',
+                    type: "POST",
+                    success: function (data) {
+                        $items = [];
+                        console.log($items);
+                        $.each(data, function (k, v) {
+                            $items.push(v);
+                        });
+                        object.trigger('tokenize:dropdown:fill', [$items]);
+                    }
+                })
+            }
+        })
+
+        //When selected
+        $('.COMPANY_NAME').on("tokenize:tokens:added", function (e, value, text) {
+            e.preventDefault();
+            $('#CorporateId').val(value);
+            $('#COMPANY_NAME').val(text);//for selected name
+        });
+
+        //Clear Data if Company Name Change
+        $('.COMPANY_NAME').on("tokenize:tokens:remove", function (e) {
+            e.preventDefault();
+            $('.APPROVERS').tokenize2().trigger('tokenize:clear');
+            arrUserID = [];
+            $('#APPROVERSID').val(arrUserID.toString());
+            //for approver names
+            arrUserName = [];
+            $('#APPROVERS').val(arrUserName.toString());
+        });
+
+        $('.APPROVERS').tokenize2({
+            dataSource: function (search, object) {
+                $.ajax('/C_ApproveRule/GetCorporateApprover', {
+                    data: { term: search, corporateID: $(".COMPANY_NAME").select().val() },
+                    dataType: 'json',
+                    type: "POST",
+                    success: function (data) {
+                        $items = data;
+                        object.trigger('tokenize:dropdown:fill', [$items]);
+                    }
+                });
+            }
+        });
+
+        var arrUserID = [];
+        var arrUserName = [];
+        //Add selected
+        $('.APPROVERS').on("tokenize:tokens:added", function (e, value, text) {
+            e.preventDefault();
+            if (arrUserID.indexOf(value) === -1) {
+                arrUserID.push(value);
+                $('#APPROVERSID').val(arrUserID.toString());
+            }
+            //for username
+            if (arrUserName.indexOf(text) === -1) {
+                arrUserName.push(text);
+                $('#APPROVERS').val(arrUserName.toString());
+            }
+        });
+
+        //remove from selected
+        $('.APPROVERS').on("tokenize:tokens:remove", function (e, value, text) {
+            e.preventDefault();
+            var existingIndex = arrUserID.indexOf(value);
+            if (existingIndex > -1) {
+                arrUserID.splice(existingIndex, 1);
+                $('#APPROVERSID').val(arrUserID.toString());
+            }
+            //for username
+            existingIndex = arrUserName.indexOf(text);
+            if (existingIndex > -1) {
+                arrUserName.splice(existingIndex, 1);
+                $('#APPROVERS').val(arrUserName.toString());
+            }
+        });
+
+        //auto complete textbox for Position
+        $('.POSITIONS').tokenize2({
+            dataSource: function (search, object, ui) {
+                $.ajax('/C_ApproveRule/GetPositions', {
+                    data: { term: search },
+                    dataType: 'json',
+                    type: "POST",
+                    success: function (data) {
+                        $items = data;
+                        console.log($items);
+                        object.trigger('tokenize:dropdown:fill', [$items]);
+                    }
+                });
+            }
+        });
+
+        var arrPositions = [];
+        var arrPositionNames = [];
+        //Add selected
+        $('.POSITIONS').on("tokenize:tokens:added", function (e, value, text) {
+            e.preventDefault();
+            if (arrPositions.indexOf(value) === -1) {
+                arrPositions.push(value);
+                $('#POSITIONSID').val(arrPositions.toString());
+            }
+            //for position names
+            if (arrPositionNames.indexOf(text) === -1) {
+                arrPositionNames.push(text);
+                $('#POSITIONS').val(arrPositionNames.toString());
+            }
+        });
+
+        //remove from selected
+        $('.POSITIONS').on("tokenize:tokens:remove", function (e, value, text) {
+            e.preventDefault();
+            var existingIndex = arrPositions.indexOf(value);
+            if (existingIndex > -1) {
+                arrPositions.splice(existingIndex, 1);
+                $('#POSITIONSID').val(arrPositions.toString());
+            }
+            //for username
+            existingIndex = arrPositionNames.indexOf(text);
+            if (existingIndex > -1) {
+                arrPositionNames.splice(existingIndex, 1);
+                $('#POSITIONS').val(arrPositionNames.toString());
+            }
+        });
+
+        //initial function to reselect auto-completes
+        function initial() {
+            if ($('#CorporateId').val() > 0) {
+                BindCompany();
+            }
+            //For Approvers
+            if ($('#APPROVERSID').val() != null) {
+                BindApprovers();
+            }
+            //For Positions
+            if ($('#POSITIONSID').val() != null) {
+                BindPositions();
+            }
+            //to enable/disable approvers and positions auto-complete
+            if ($("#NO_OF_APPROVERS").val() > 0) {
+                $(".APPROVERS").attr('disabled', false);
+                $(".POSITIONS").attr('disabled', false);
+            } else {
+                $(".APPROVERS").attr('disabled', true);
+                $(".POSITIONS").attr('disabled', true);
+            }
+
+            //add thousand separator
+            $("#FROM_AMT").on("keyup", function () {
+                var val = this.value;
+                val = val.replace(/[^0-9\.]/g, '');
+
+                if (val != "") {
+                    valArr = val.split('.');
+                    valArr[0] = (BigInt(valArr[0], 10)).toLocaleString();
+                    val = valArr.join('.');
+                }
+                this.value = val;
+            });
+
+            //add thousand separator
+            $("#TO_AMT").on("keyup", function () {
+                var val = this.value;
+                val = val.replace(/[^0-9\.]/g, '');
+
+                if (val != "") {
+                    valArr = val.split('.');
+                    valArr[0] = (BigInt(valArr[0], 10)).toLocaleString();
+                    val = valArr.join('.');
+                }
+                this.value = val;
+            });
+        }
+
+        //bind Company
+        function BindCompany() {
+            var companyID = $('#CorporateId').val();
+            var CompanyName = $('#COMPANY_NAME').val();
+            $('.COMPANY_NAME').tokenize2().trigger('tokenize:tokens:add', [companyID, CompanyName, true]);
+        }
+
+        //bind Approvers
+        function BindApprovers() {
+            var arrID = $('#APPROVERSID').val();
+            var arrName = $('#APPROVERS').val().split(',');
+            $.each(arrID.split(','), function (k, v) {
+                $('.APPROVERS').tokenize2().trigger('tokenize:tokens:add', [v, arrName[k], true]);
+            })
+        }
+
+        //bind Approvers
+        function BindPositions() {
+            var arrPosID = $('#POSITIONSID').val().split(',');
+            var arrPosName = $('#POSITIONS').val().split(',');
+            $.each(arrPosID, function (k, v) {
+                $('.POSITIONS').tokenize2().trigger('tokenize:tokens:add', [v, arrPosName[k], true]);
+            })
+        }
+
+        initial();
+
+        $("#NO_OF_APPROVERS").change(function () {
+            if ($("#NO_OF_APPROVERS").val() > 0) {
+                $(".APPROVERS").attr('disabled', false);
+                $(".POSITIONS").attr('disabled', false);
+            } else {
+                $(".APPROVERS").attr('disabled', true);
+                $(".POSITIONS").attr('disabled', true);
+            }
+        });
+
+    </script>
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                var $confirm = $("#divSuccess");
+                $confirm.show();
+            }
+        </script>
+    }
+}

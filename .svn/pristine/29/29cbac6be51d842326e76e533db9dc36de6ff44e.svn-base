@@ -1,0 +1,140 @@
+﻿@model ABankAdmin.ViewModels.CorporateSearchViewModel
+@{
+    ViewBag.Title = "Corporate";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>Corporate Report</h3>
+    </div>
+</div>
+
+<form id="frmCorporate" action="/Report/Corporate" method="post">
+    @if (!ViewContext.ViewData.ModelState.IsValid)
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    }
+    <div class="row">
+        <div class="form-group col-md-2">
+            @Html.TextBoxFor(m => m.CIFID, new { @class = "form-control", autocomplete = "off", placeholder = "CIFID" })
+        </div>
+        <div class="form-group col-md-2">
+            @Html.TextBoxFor(m => m.Corporate_Id, new { @class = "form-control", autocomplete = "off", placeholder = "CorporateID" })
+        </div>
+        <div class="form-group col-md-2">
+            @Html.TextBoxFor(m => m.Company_Name, new { @class = "form-control", autocomplete = "off", placeholder = "Company Name" })
+        </div>
+        @if (ViewBag.CorporateType != null)
+        {
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.Corporate_Type,
+                (IEnumerable<SelectListItem>)ViewBag.CorporateType,
+                "Select Type", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Corporate_Type, "", new { @class = "text-danger" })
+            </div>
+        }
+        <div class="form-group col-md-2">
+            <div class='input-group date' id='fromDate'>
+                @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control", placeholder = "From Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-md-2">
+            <div class="input-group date" id='toDate'>
+                @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control", placeholder = "To Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-2" @*style="padding:0px 0px 10px 115px;"*@>
+            <input type="button" class="btn btn-default col-md-offset-0" value="View" onclick="DateValidation()">
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <iframe id="ifrmReportViewer" frameborder="0" width="100%" height="410" style="overflow:hidden;" scrolling="no"></iframe>
+</div>
+
+<!--Date Validation Message Box-->
+<div class="modal modal-danger" id="divDateValidate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Date Validation Error</h4>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript">
+
+            $(function () {
+                $("#fromDate,#toDate").datetimepicker({
+                        format: 'DD-MM-YYYY'
+                });
+
+
+            @if(Model.corporateVM != null)
+            {
+                <text>ShowReport();</text>
+            }
+        });
+
+        //function submit() {
+        //    $("#frmCorporate").submit();
+        //}
+
+        function DateValidation() {
+            var start = $('#FromDate').val().split("-");
+            var from = new Date(start[2], start[1] - 1, start[0])//Date.parse(start);
+            var end = $('#ToDate').val().split("-");
+            var to = new Date(end[2], end[1] - 1, end[0])// Date.parse(end);
+            if (from > to) {
+                $("#errorMessage").text("To Date must be greater than From Date!");
+                $("#divDateValidate").modal('toggle');
+            }
+            else {
+                $("#frmCorporate").submit();
+            }
+        }
+
+        function ShowReport() {
+            var url = "../RDLCReports/Aspx/CorporateReport.aspx";
+
+            var myframe = document.getElementById("ifrmReportViewer");
+            if (myframe !== null) {
+                if (myframe.src) {
+                    myframe.src = url;
+                }
+                else if (myframe.contentWindow !== null && myframe.contentWindow.location !== null) {
+                    myframe.contentWindow.location = url;
+                }
+                else { myframe.setAttribute('src', url); }
+            }
+
+            return false;
+        }
+    </script>
+}
+

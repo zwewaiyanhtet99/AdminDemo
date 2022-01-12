@@ -1,0 +1,338 @@
+﻿@model ABankAdmin.ViewModels.TransactionSearchViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<link rel="stylesheet" href="~/Content/TabStyle.css">
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>Transfer Detail Report</h3>
+    </div>
+</div>
+
+@*Tab*@
+<div class="panel with-nav-tabs panel-default">
+    <div class="panel-heading">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tabRetail" data-toggle="tab">Retail</a></li>
+            <li><a href="#tabCorporate" data-toggle="tab">Corporate</a></li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tabRetail">
+                Retail content
+                <form id="frmTransaction" action="/Report/Transaction" method="post">
+                    <div class="row">
+                        @*@Html.HiddenFor(m => m.IsCorporate, new { value = false })*@
+                        <input data-val="true" id="R_IsCorporate" name="IsCorporate" type="hidden" value="false" />
+
+                        @*corporate search data*@
+                        @Html.HiddenFor(m => m.CorporateSearch.BranchCode)
+                        @Html.HiddenFor(m => m.CorporateSearch.TranType)
+                        @Html.HiddenFor(m => m.CorporateSearch.DebitOrCredit)
+                        @Html.HiddenFor(m => m.CorporateSearch.Currency)
+                        @Html.HiddenFor(m => m.CorporateSearch.FromDate)
+                        @Html.HiddenFor(m => m.CorporateSearch.ToDate)
+                        @Html.HiddenFor(m => m.CorporateSearch.CompanyName)
+                        @if (ViewBag.BranchList != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.RetailSearch.BranchCode,
+                                (IEnumerable<SelectListItem>)ViewBag.BranchList,
+                                "All", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RetailSearch.BranchCode, "", new { @class = "text-danger" })
+                                @*<div class="col-md-12">
+
+                                    </div>*@
+                            </div>
+                        }
+                        @if (ViewBag.TranType != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.RetailSearch.TranType,
+                                        (IEnumerable<SelectListItem>)ViewBag.TranType,
+                                        /*"Select Transaction Type"*/null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RetailSearch.TranType, "", new { @class = "text-danger" })
+                                @*<div class="col-md-12">
+
+                                    </div>*@
+                            </div>
+                        }
+                        @if (ViewBag.DebitOrCredit != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.RetailSearch.DebitOrCredit,
+                                        (IEnumerable<SelectListItem>)ViewBag.DebitOrCredit,
+                                        /*"Select Debit/Credit"*/null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RetailSearch.DebitOrCredit, "", new { @class = "text-danger" })
+
+                                @*@Html.LabelFor(m => m.Branch, new { @class = "col-md-2 control-label" })*@
+                                @*<div class="col-md-12">
+                                    </div>*@
+                            </div>
+                        }
+
+                        @if (ViewBag.CurrencyList != null)
+                        {
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.RetailSearch.Currency,
+                                        (IEnumerable<SelectListItem>)ViewBag.CurrencyList,
+                                        "Select Currency Code", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RetailSearch.Currency, "", new { @class = "text-danger" })
+                            </div>
+                        }
+                        <div class="form-group col-md-2">
+                            <div class='input-group date' id='fromDate'>
+                                @Html.TextBoxFor(m => m.RetailSearch.FromDate, new { @class = "form-control", placeholder = "From Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.RetailSearch.FromDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-2">
+                            <div class='input-group date' id='toDate'>
+                                @Html.TextBoxFor(m => m.RetailSearch.ToDate, new { @class = "form-control", placeholder = "From Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.RetailSearch.ToDate, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-md-2" @*style="padding:0px 0px 10px 115px"*@>
+                            @*<button type="button" id="btnSearch" class="btn btn-raised btn-primary btn-block">Get Report</button>*@
+                            <input type="button" class="btn btn-default col-md-offset-0" value="View" onclick="retailDateValidation()" id="btnRetail">
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <iframe id="ifrmReportViewer" frameborder="0" width="100%" height="410" style="overflow:hidden;" scrolling="no"></iframe>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tabCorporate">
+                Corporate content
+                <form id="frmCorporateTrans" action="/Report/Transaction" method="post">
+                    <div class="row">
+                        @*@Html.HiddenFor(m => m.IsCorporate, new { value = true })*@
+                        <input data-val="true" id="C_IsCorporate" name="IsCorporate" type="hidden" value="true" />
+                        @*retail search data*@
+                        @Html.HiddenFor(m => m.RetailSearch.BranchCode)
+                        @Html.HiddenFor(m => m.RetailSearch.TranType)
+                        @Html.HiddenFor(m => m.RetailSearch.DebitOrCredit)
+                        @Html.HiddenFor(m => m.RetailSearch.Currency)
+                        @Html.HiddenFor(m => m.RetailSearch.FromDate)
+                        @Html.HiddenFor(m => m.RetailSearch.ToDate)
+                        @if (ViewBag.BranchList != null)
+                        {
+                            <div class="form-group col-md-2">
+                                @Html.DropDownListFor(m => m.CorporateSearch.BranchCode,
+                                (IEnumerable<SelectListItem>)ViewBag.BranchList,
+                                "All", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CorporateSearch.BranchCode, "", new { @class = "text-danger" })
+                                @*<div class="col-md-12">
+
+                                    </div>*@
+                            </div>
+                        }
+                        @if (ViewBag.TranType != null)
+                        {
+                            <div class="form-group col-md-2">
+                                @Html.DropDownListFor(m => m.CorporateSearch.TranType,
+                                        (IEnumerable<SelectListItem>)ViewBag.TranType,
+                                        /*"Select Transaction Type"*/null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CorporateSearch.TranType, "", new { @class = "text-danger" })
+                                @*<div class="col-md-12">
+
+                                    </div>*@
+                            </div>
+                        }
+                        @if (ViewBag.DebitOrCredit != null)
+                        {
+                            <div class="form-group col-md-2">
+                                @Html.DropDownListFor(m => m.CorporateSearch.DebitOrCredit,
+                                        (IEnumerable<SelectListItem>)ViewBag.DebitOrCredit,
+                                        /*"Select Debit/Credit"*/null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CorporateSearch.DebitOrCredit, "", new { @class = "text-danger" })
+
+                                @*@Html.LabelFor(m => m.Branch, new { @class = "col-md-2 control-label" })*@
+                                @*<div class="col-md-12">
+                                    </div>*@
+                            </div>
+                        }
+                        @if (ViewBag.CurrencyList != null)
+                        {
+                            <div class="form-group col-md-2">
+                                @Html.DropDownListFor(m => m.CorporateSearch.Currency,
+                                        (IEnumerable<SelectListItem>)ViewBag.CurrencyList,
+                                        "Select Currency Code", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.CorporateSearch.Currency, "", new { @class = "text-danger" })
+                            </div>
+                        }
+                        <div class="form-group col-md-2">
+                            <div class='input-group date' id='fromDate'>
+                                @Html.TextBoxFor(m => m.CorporateSearch.FromDate, new { @class = "form-control", placeholder = "From Date", autocomplete = "off",@id="CorporateSearchFromDate", onkeydown = "event.preventDefault()" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CorporateSearch.FromDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-2">
+                            <div class='input-group date' id='toDate'>
+                                @Html.TextBoxFor(m => m.CorporateSearch.ToDate, new { @class = "form-control", placeholder = "From Date", autocomplete = "off",@id="CorporateSearchToDate", onkeydown = "event.preventDefault()" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CorporateSearch.ToDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-2">
+                            @Html.TextBoxFor(model => model.CorporateSearch.CompanyName, new { @class = "form-control", autocomplete = "off", placeholder = "Company Name" })
+                        </div>
+                        <div class="form-group col-md-2 " @*style="padding:0px 0px 10px 115px"*@>
+                            @*<button type="button" id="btnSearch" class="btn btn-raised btn-primary btn-block">Get Report</button>*@
+                            <input type="button" class="btn btn-default col-md-offset-0" value="View" onclick="corporateDateValidation()" id="btnCorporate">
+                        </div>
+                    </div>
+                    @*<div class="row">*@
+
+                    @*</div>*@
+                </form>
+                <div class="row">
+                    <iframe id="ifrmCorporateReportViewer" frameborder="0" width="100%" height="410" style="overflow:hidden;" scrolling="no"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Date Validation Message Box-->
+<div class="modal modal-danger" id="divDateValidate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Date Validation Error</h4>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@*<div class="row">
+        <iframe id="ifrmReportViewer" frameborder="0" width="100%" height="410" style="overflow:hidden;" scrolling="no"></iframe>
+    </div>*@
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @*@Scripts.Render("~/bundles/report")*@
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script>
+           $(function () {
+             $("#fromDate,#toDate").datetimepicker({
+
+                 format: 'DD-MM-YYYY'
+             });
+
+               //to show selected tab (corporate tab)
+               @if(Model.IsCorporate & Model.TransactionsVM != null)
+               {
+                   <text>$('.nav-tabs a[href="#tabCorporate"]').tab('show');</text>
+
+                   <text>ShowCorporateReport();</text>
+                }
+
+               @if(!Model.IsCorporate & Model.TransactionsVM != null)
+               {
+                   <text>ShowReport();</text>
+               }
+
+                    @*@if(Model.TransactionsVM != null)
+                    {
+                        <text>ShowReport();</text>
+                    }*@
+
+            });
+
+        function submit() {
+                //$("#frmTransaction").submit();
+                $("#frmCorporateTran").submit();
+        }
+
+        function retailDateValidation() {
+            var start = $('#RetailSearch_FromDate').val().split("-");
+            var from = new Date(start[2], start[1] - 1, start[0])//Date.parse(start);
+            var end = $('#RetailSearch_ToDate').val().split("-");
+            var to = new Date(end[2], end[1] - 1, end[0])// Date.parse(end);
+            if (from > to) {
+                $("#errorMessage").text("To Date must be greater than From Date!");
+                $("#divDateValidate").modal('toggle');
+            }
+            else {
+                $("#frmTransaction").submit();
+            }
+        }
+
+        function corporateDateValidation() {
+            //for corporate date validation
+            var c_start = $('#CorporateSearchFromDate').val().split("-");
+            var c_from = new Date(c_start[2], c_start[1] - 1, c_start[0])//Date.parse(start);
+            var c_end = $('#CorporateSearchToDate').val().split("-");
+            var c_to = new Date(c_end[2], c_end[1] - 1, c_end[0])// Date.parse(end);
+            if (c_from > c_to) {
+                $("#errorMessage").text("To Date must be greater than From Date!");
+                $("#divDateValidate").modal('toggle');
+            }
+            else {
+                $("#frmCorporateTrans").submit();
+            }
+        }
+
+        //for retail report
+        function ShowReport() {
+            var url = "../RDLCReports/Aspx/TransactionReport.aspx";
+
+            var myframe = document.getElementById("ifrmReportViewer");
+            if (myframe !== null) {
+                if (myframe.src) {
+                    myframe.src = url;
+                }
+                else if (myframe.contentWindow !== null && myframe.contentWindow.location !== null) {
+                    myframe.contentWindow.location = url;
+                }
+                else { myframe.setAttribute('src', url); }
+            }
+
+            return false;
+        }
+        function ShowCorporateReport() {
+            var url = "../RDLCReports/Aspx/C_TransactionReport.aspx";
+
+            var myframe = document.getElementById("ifrmCorporateReportViewer");
+            if (myframe !== null) {
+                if (myframe.src) {
+                    myframe.src = url;
+                }
+                else if (myframe.contentWindow !== null && myframe.contentWindow.location !== null) {
+                    myframe.contentWindow.location = url;
+                }
+                else { myframe.setAttribute('src', url); }
+            }
+
+            return false;
+        }
+    </script>
+}

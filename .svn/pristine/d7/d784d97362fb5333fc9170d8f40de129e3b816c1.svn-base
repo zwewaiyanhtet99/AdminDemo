@@ -1,0 +1,272 @@
+﻿@model ABankAdmin.ViewModels.ScheduleTransferSearchViewModel
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Schedule Transfer Report</h3>
+    </div>
+</div>
+
+<div class="panel with-nav-tabs panel-default">
+    <div class="panel-heading">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tabRetail" data-toggle="tab">Retail</a></li>
+            <li><a href="#tabCorporate" data-toggle="tab">Corporate</a></li>
+        </ul>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tabRetail">
+                Retail content
+                <form id="frmRetailScheduleTransfer" action="/Report/ScheduleTransfer" method="post">
+                    @if (!ViewContext.ViewData.ModelState.IsValid)
+                    {
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    }
+                    <div class="row">
+                        <input data-val="true" id="R_IsCorporate" name="IsCorporate" type="hidden" value="false" />
+
+                        @*corporate search data*@
+                        @Html.HiddenFor(m => m.CorporateSearch.Username)
+                        @Html.HiddenFor(m => m.CorporateSearch.FromDate)
+                        @Html.HiddenFor(m => m.CorporateSearch.ToDate)
+                        @Html.HiddenFor(m => m.CorporateSearch.CompanyName)
+
+                        <div class="form-group col-md-2">
+                            @Html.TextBoxFor(m => m.RetailSearch.Username, new { @class = "form-control", placeholder = "Username" })
+                        </div>
+                        <div class="form-group col-md-2">
+                            <div class='input-group date' id='fromDate'>
+                                @Html.TextBoxFor(model => model.RetailSearch.FromDate, new { @class = "form-control", placeholder = "From Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.RetailSearch.FromDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-2">
+                            <div class="input-group date" id='toDate'>
+                                @Html.TextBoxFor(model => model.RetailSearch.ToDate, new { @class = "form-control", placeholder = "To Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.RetailSearch.ToDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button" class="btn btn-default col-md-offset-0" value="View" onclick="retailDateValidation()">
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <iframe id="ifrmRetailReportViewer" frameborder="0" width="100%" height="410" style="overflow:hidden;" scrolling="no"></iframe>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tabCorporate">
+                Corporate content
+                <form id="frmCorporateScheduleTransfer" action="/Report/ScheduleTransfer" method="post">
+                    @if (!ViewContext.ViewData.ModelState.IsValid)
+                    {
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    }
+                    <div class="row">
+                        <input data-val="true" id="C_IsCorporate" name="IsCorporate" type="hidden" value="true" />
+
+                        @*corporate search data*@
+                        @Html.HiddenFor(m => m.RetailSearch.Username)
+                        @Html.HiddenFor(m => m.RetailSearch.FromDate)
+                        @Html.HiddenFor(m => m.RetailSearch.ToDate)
+
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.CorporateSearch.CompanyName, new { @class = "form-control", placeholder = "Company Name" })
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            @Html.TextBoxFor(m => m.CorporateSearch.Username, new { @class = "form-control", placeholder = "Username" })
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <div class='input-group date' id='fromDate'>
+                                @Html.TextBoxFor(model => model.CorporateSearch.FromDate, new { @class = "form-control", placeholder = "From Date", @id = "CorporateSearchFromDate", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CorporateSearch.FromDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-2">
+                            <div class="input-group date" id='toDate'>
+                                @Html.TextBoxFor(model => model.CorporateSearch.ToDate, new { @class = "form-control", placeholder = "To Date", @id = "CorporateSearchToDate", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CorporateSearch.ToDate, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button" class="btn btn-default col-md-offset-0" value="View" onclick="corporateDateValidation()">
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <iframe id="ifrmCorporateReportViewer" frameborder="0" width="100%" height="410" style="overflow:hidden;" scrolling="no"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<form id="frmSchTransfer" action="/Report/ScheduleTransfer" method="post">
+        <div class="row">
+            <div class="form-group col-md-2">
+                @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Username" })
+            </div>
+            <div class="form-group col-md-2">
+                <div class='input-group date' id='fromDate'>
+                    @Html.TextBoxFor(m => m.FromDate, new { @class = "form-control", placeholder = "From Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-2">
+                <div class='input-group date' id='toDate'>
+                    @Html.TextBoxFor(m => m.ToDate, new { @class = "form-control", placeholder = "To Date", autocomplete = "off", onkeydown = "event.preventDefault()" })
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-3">
+                <input type="button" class="btn btn-default col-md-offset-0" value="View" onclick="submit()">
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <iframe id="ifrmReportViewer" frameborder="0" width="100%" height="410" style="overflow:hidden;" scrolling="no"></iframe>
+    </div>*@
+
+<!--Date Validation Message Box-->
+<div class="modal modal-danger" id="divDateValidate">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Date Validation Error</h4>
+            </div>
+            <div class="modal-body">
+                <p id="errorMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+         $(function () {
+             $("#fromDate,#toDate").datetimepicker({
+
+                 format: 'DD-MM-YYYY'
+             });
+
+             //to show selected tab (corporate tab)
+           @if(Model.IsCorporate & Model.schtranfVM != null)
+            {
+               <text>$('.nav-tabs a[href="#tabCorporate"]').tab('show');</text>
+               <text>ShowCorporateReport();</text>
+            }
+
+
+            @if(!Model.IsCorporate & Model.schtranfVM != null)
+            {
+                <text>ShowRetailReport();</text>
+            }
+        });
+
+                @*@if(Model.schtranfVM != null)
+                {
+                    <text>ShowReport();</text>
+                }*@
+
+        //    function submit() {
+        //        $("#ifrmRetailReportViewer").submit();
+        //        $("#ifrmCorporateReportViewer").submit();
+        //}
+
+        function retailDateValidation() {
+            var start = $('#RetailSearch_FromDate').val().split("-");
+            var from = new Date(start[2], start[1] - 1, start[0])//Date.parse(start);
+            var end = $('#RetailSearch_ToDate').val().split("-");
+            var to = new Date(end[2], end[1] - 1, end[0])// Date.parse(end);
+            if (from > to) {
+                $("#errorMessage").text("To Date must be greater than From Date!");
+                $("#divDateValidate").modal('toggle');
+            }
+            else {
+                $("#frmRetailScheduleTransfer").submit();
+            }
+        }
+
+        function corporateDateValidation() {
+            //for corporate date validation
+            var c_start = $('#CorporateSearchFromDate').val().split("-");
+            var c_from = new Date(c_start[2], c_start[1] - 1, c_start[0])//Date.parse(start);
+            var c_end = $('#CorporateSearchToDate').val().split("-");
+            var c_to = new Date(c_end[2], c_end[1] - 1, c_end[0])// Date.parse(end);
+            if (c_from > c_to) {
+                $("#errorMessage").text("To Date must be greater than From Date!");
+                $("#divDateValidate").modal('toggle');
+            }
+            else {
+                $("#frmCorporateScheduleTransfer").submit();
+            }
+        }
+
+        function ShowRetailReport() {
+            var url = "../RDLCReports/Aspx/ScheduleTransferReport.aspx";
+
+            var myframe = document.getElementById("ifrmRetailReportViewer");
+            if (myframe !== null) {
+                if (myframe.src) {
+                    myframe.src = url;
+                }
+                else if (myframe.contentWindow !== null && myframe.contentWindow.location !== null) {
+                    myframe.contentWindow.location = url;
+                }
+                else { myframe.setAttribute('src', url); }
+            }
+
+            return false;
+        }
+
+        function ShowCorporateReport() {
+            var url = "../RDLCReports/Aspx/C_ScheduleTransferReport.aspx";
+
+            var myframe = document.getElementById("ifrmCorporateReportViewer");
+            if (myframe !== null) {
+                if (myframe.src) {
+                    myframe.src = url;
+                }
+                else if (myframe.contentWindow !== null && myframe.contentWindow.location !== null) {
+                    myframe.contentWindow.location = url;
+                }
+                else { myframe.setAttribute('src', url); }
+            }
+
+            return false;
+        }
+
+    </script>
+}
+

@@ -1,0 +1,238 @@
+﻿@model ABankAdmin.Models.C_Req_Corporate
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Corporate</h4>
+    <hr style="display:block" />
+    <div class="row">
+        <div>
+            <div class="col-sm-6">
+                <h3>Corporate Information</h3>
+                <dl class="dl-horizontal">                 
+                    <dt style="width:170px;text-align:left">
+                        @Html.DisplayNameFor(model => model.CIFID)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.CIFID)
+                    </dd>
+                    <dt style="width:170px;text-align:left">
+                        @Html.DisplayNameFor(model => model.CORPORATEID)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CORPORATEID)
+                    </dd>
+
+                    <dt style="width:170px;text-align:left">
+                        @Html.DisplayNameFor(model => model.COMPANY_NAME)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.COMPANY_NAME)
+                    </dd>
+
+                    <dt style="width:170px;text-align:left">
+                        @Html.DisplayNameFor(model => model.COMPANY_EMAIL)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.COMPANY_EMAIL)
+                    </dd>
+
+                    <dt style="width:170px;text-align:left">
+                        @Html.DisplayNameFor(model => model.COMPANY_ADDRESS)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.COMPANY_ADDRESS)
+                    </dd>
+
+                    <dt style="width:170px;text-align:left">
+                        @Html.DisplayNameFor(model => model.BRANCH)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.VrBranch.name)
+                    </dd>
+
+                    <dt style="width:170px;text-align:left">
+                        @Html.DisplayNameFor(model => model.COMPANY_PHONE)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.COMPANY_PHONE)
+                    </dd>
+
+                    <dt style="width:170px;text-align:left">
+                        @Html.DisplayNameFor(model => model.COUNTRY_ID)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.VrCountry.NAME)
+                    </dd>
+
+                    <dt style="width:170px;text-align:left">
+                        @Html.DisplayNameFor(model => model.STATE_ID)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.VrState.NAME)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-sm-6">
+                <h3>Transaction Information</h3>
+                <dl class="dl-horizontal">
+                    @if (ViewBag.IsVIP)
+                    {
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model => model.ISVIP)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.ISVIP)
+                        </dd>
+
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model => model.T_CHARGES_CODE)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.T_CHARGES_CODE)
+                        </dd>
+
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model => model.R_CHARGES_CODE)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.R_CHARGES_CODE)
+                        </dd>
+                    }
+                    <dt style="width:300px;text-align:left">
+                        @Html.DisplayNameFor(model => model.TRAN_LIMIT)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.TRAN_LIMIT) MMK
+                    </dd>
+
+                    <dt style="width:300px;text-align:left">
+                        @Html.DisplayNameFor(model=>model.BULK_CHARGES_FIX_RATE_N_PERCENT)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.BULK_CHARGES_FIX_RATE_N_PERCENT)
+                        @if (Model.IS_FIXRATE_BULK_CHARGES)
+                        {
+                            <text> MMK</text> }
+                        else
+                        {
+                            <text> %</text>
+                        }
+                    </dd>
+                    <dt style="width:300px;text-align:left">
+                        OTHER BANK BULK CHARGES FIXED RATE
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CCT_BULK_CHARGES_FIX_RATE_N_PERCENT)
+                        @if (Model.CCT_IS_FIXRATE_BULK_CHARGES)
+                        {
+                            <text> MMK</text> }
+                        else
+                        {
+                            <text> %</text>
+                        }
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <h3>Maker and Checker</h3>
+            <dl class="dl-horizontal">
+                <dt style="width:300px;text-align:left">
+                    @Html.DisplayNameFor(model => model.ISNEW)
+                </dt>
+
+                <dd>
+                    @if (Model.ISNEW == 0)
+                    {<text>Register</text>}
+                else if (Model.ISNEW == 1)
+                { <text>Update</text>}
+            else if (Model.ISNEW == 2)
+            { <text>Delete</text>}
+                </dd>
+
+                <dt style="width: 300px;text-align:left">
+                    @Html.DisplayNameFor(model => model.STATUS)
+                </dt>
+
+                <dd>
+                    @if (Model.STATUS == 0)
+                    {<text>Requested</text>}
+                else if (Model.STATUS == 1)
+                { <text>Approved</text>}
+            else if (Model.STATUS == 2)
+            { <text>Rejected</text>}
+                </dd>
+                <dt style="width:300px;text-align:left">
+                    @Html.DisplayNameFor(model => model.MAKER)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.VrMaker.UserName)
+                </dd>
+
+                <dt style="width:300px;text-align:left">
+                    @Html.DisplayNameFor(model => model.RequestedDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.RequestedDate)
+                </dd>
+
+                <dt style="width:300px;text-align:left">
+                    @Html.DisplayNameFor(model => model.CHECKER)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.VrChecker.UserName)
+                </dd>
+
+                <dt style="width:300px;text-align:left">
+                    @Html.DisplayNameFor(model => model.CheckedDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CheckedDate)
+                </dd>
+
+                <dt style="width:300px;text-align:left">
+                    @Html.DisplayNameFor(model => model.CheckedReason)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CheckedReason)
+                </dd>
+            </dl>
+        </div>
+    </div>  
+</div>
+<p>
+    @if (Model.STATUS == 0)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-success " })
+    }
+    else
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-success ", disabled = "disabled" })
+    } |
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>

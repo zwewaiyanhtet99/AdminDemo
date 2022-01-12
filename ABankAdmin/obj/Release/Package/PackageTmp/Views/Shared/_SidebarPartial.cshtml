@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-user"></i> <span><span>User</span></span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                    <ul class="treeview-menu">
+                        <li><a href="/user/retail"><i class="fa fa-circle-o"></i> <span>Register Retail User</span></a></li>
+                        <li><a href="/user"><i class="fa fa-users"></i> <span>User List</span></a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-user-o"></i> <span><span>Admin</span></span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                    <ul class="treeview-menu">
+                        <li><a href="/admin/register"><i class="fa fa-circle-o"></i> <span>Create Admin User</span></a></li>
+                        <li><a href="/admin"><i class="fa fa-users"></i> <span>Admin List</span></a></li>
+                        @*<li><a href="/admin/changepassword"><i class="fa fa-key"></i> <span>Change Password</span></a></li>*@
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-user-o"></i> <span><span>Request</span></span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                    <ul class="treeview-menu">
+                        <li><a href="/request/index"><i class="fa fa-key"></i> <span>Requested Retail User List</span></a></li>
+                        <li><a href="/request/changes"><i class="fa fa-key"></i> <span>Requested Changes List</span></a></li>
+                        <li><a href="/request/register"><i class="fa fa-circle-o"></i> <span>Request Retail User</span></a></li>
+                        <li><a href="/request/update"><i class="fa fa-users"></i> <span>Request Changes</span></a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-bars"></i> <span><span>General Setup</span></span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                    <ul class="treeview-menu">
+                        <li><a href="/currency"><i class="fa fa-money"></i><span>Currency</span></a></li>
+                        <li><a href="/branch"><i class="fa fa-home"></i><span>Branch</span></a></li>
+                        <li><a href="/city"><i class="fa fa-home"></i><span>City</span></a></li>
+                        <li><a href="/township"><i class="fa fa-home"></i><span>Township</span></a></li>
+                        <li><a href="/finaclelogin"><i class="fa fa-circle-o"></i><span>Finacle Login</span></a></li>
+                        <li><a href="/remittancerate"><i class="fa fa-circle-o"></i><span>Remittance Rate</span></a></li>
+                        <li><a href="/ver_sion"><i class="fa fa-circle-o"></i><span>Version</span></a></li>
+                        <li><a href="/rule"><i class="fa fa-circle-o"></i> <span>Rule</span></a></li>
+                    </ul>
+                </li>
+                @*<li><a href="#"><i class="fa fa-phone"></i><span>Contact us</span></a></li>
+        <li><a href="#"><i class="fa fa-address-book"></i> <span>About us</span></a></li>*@
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+}

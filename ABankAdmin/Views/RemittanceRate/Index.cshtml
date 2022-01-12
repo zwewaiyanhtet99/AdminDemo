@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ABankAdmin.Models.RemittanceRate>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Remittance Rate List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CODE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FROM_AMT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TO_AMT)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CODE)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FROM_AMT)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TO_AMT)
+                </td>
+                <td style="width:150px">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

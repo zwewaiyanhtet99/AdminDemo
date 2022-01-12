@@ -1,0 +1,86 @@
+﻿@model IEnumerable<ABankAdmin.Models.SMS_Body>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>SMS BODY</h2>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<div class="table-responsive">
+    <table class="table table-striped table-bordered nowrap" cellspacing="0" width="100%" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    TRANSACTION TYPE
+                </th>
+                <th>
+                    DEBIT MESSAGE
+                </th>
+                <th>
+                    CREDIT MESSAGE
+                </th>
+                <th>
+                    ACTION
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+@section Scripts {
+<script src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>
+    <script>
+        $(function () {
+
+            /*disable datatable warnings*/
+            $.fn.dataTable.ext.errMode = 'none';
+
+            $("#myTable").dataTable(
+                {
+                    //"stateSave": true, // to save current state when going to next page
+                   //processing": true, // for show processing bar
+                    "serverSide": true, // for process on server side
+                    "orderMulti": false, // for disable multi column order
+                    "dom": '<"top"i>rt<"bottom"lp><"clear">', // for hide default global search box // little confusion? don't worry I explained in the tutorial website
+                    "ajax": {
+                        "url": "/SMS_Body/Index",
+                        "type": "POST",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "TransactionType", "name": "TransactionType","autoWidth": false,"width":"150px"},
+                        {
+                            "data": "DebitMessage", "name": "DebitMessage", "autoWidth": false, "width": "300px",
+                            render: function ( data, type, row ) {
+                            return data.length > 50 ?
+                            data.substr( 0, 50 ) +'……' :data;
+                            }
+                        },
+                        {
+                            "data": "CreditMessage", "name": "CreditMessage", "autoWidth": false, "width": "300px",
+                            render: function ( data, type, row ) {
+                            return data.length > 50 ?
+                            data.substr( 0, 50 ) +'……' :data;
+                            }
+                        },
+                        {// this is Actions Column
+                            'width':'100px','targets': [3],
+                            'orderable': false, 'targets': 3,
+                            "mRender": function (data, type, row) {
+                                var linkEdit = '@Html.ActionLink("Edit", "Edit", new {id= -1 })';
+                                linkEdit = linkEdit.replace("-1", row.ID);
+
+                                var linkDetails = '@Html.ActionLink("Details", "Details", new {id= -1 })';
+                                linkDetails = linkDetails.replace("-1", row.ID);
+
+                                return linkEdit+ " | " +linkDetails ;
+                            }
+                        }
+                    ],
+                });
+        })
+    </script>
+}

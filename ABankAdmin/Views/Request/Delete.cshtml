@@ -1,0 +1,255 @@
+﻿@model ABankAdmin.ViewModels.UserAndAccVM
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+<Style>
+    .table-wrapper {
+        position: relative;
+        max-height: 450px;
+        overflow: auto;
+    }
+    thead tr th {
+        text-align: center;
+    }
+    /*table {
+        width: 1025px;
+        display: block;
+        margin-left: 35px;
+    }
+
+    tbody {
+        height: 300px;
+        display: block;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    thead {
+        background-color: darkgray;
+        height: 50px;
+        line-height: 20px;
+    }
+
+    tr {
+        border: solid 2px;
+        border-color: lightgray;
+    }
+
+    td {
+        border: solid 2px;
+        border-color: lightgray;
+        text-align: left;
+    }
+
+    thead, tbody tr {
+        text-align: center;
+        display: normal;
+        width: 1050px;
+        height: 50px;
+    }
+
+    h4 {
+        padding-left: 35px;
+    }*/
+</Style>
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt style="width:200px;text-align:left;">
+            @Html.DisplayNameFor(model => model.uservm.CIFID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uservm.CIFID)
+        </dd>
+
+        <dt style="width:200px;text-align:left;">
+            @Html.DisplayNameFor(model => model.uservm.USERNAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uservm.USERNAME)
+        </dd>
+        <dt style="width:200px;text-align:left;">
+            @Html.DisplayNameFor(model => model.uservm.MOBILENO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uservm.MOBILENO)
+        </dd>
+
+        <dt style="width:200px;text-align:left;">
+            @Html.DisplayNameFor(model => model.uservm.EMAIL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uservm.EMAIL)
+        </dd>
+        <dt style="        width: 200px;
+        text-align: left;">
+            @Html.DisplayNameFor(model => model.uservm.ADDRESS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uservm.ADDRESS)
+        </dd>
+
+        <dt style="width:200px;text-align:left;">
+            @Html.DisplayNameFor(model => model.uservm.FULLNAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uservm.FULLNAME)
+        </dd>
+        <dt style="width:200px;text-align:left;">
+            @if (Model.uservm.USER_TYPE == "Corporate")
+            {
+                @Html.DisplayNameFor(model => model.uservm.USER_TYPE)
+            }
+            else
+            {
+                @Html.DisplayNameFor(model => model.uservm.NRC)
+            }
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uservm.NRC)
+        </dd>
+        @if (Model.uservm.USER_TYPE == "Corporate")
+        {
+            <dt style="width:200px;text-align:left;">
+                @Html.HiddenFor(model => model.uservm.MINOR)
+            </dt>
+
+            <dd>
+                @Html.HiddenFor(model => model.uservm.MINOR)
+            </dd>
+
+            <dt style="width:200px;text-align:left;">
+                @Html.HiddenFor(model => model.uservm.GENDER)
+            </dt>
+
+            <dd>
+                @Html.HiddenFor(model => model.uservm.GENDER)
+            </dd>
+        }
+        else
+        {
+            <dt style="width:200px;text-align:left;">
+                @Html.DisplayNameFor(model => model.uservm.MINOR)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.uservm.MINOR)
+            </dd>
+
+            <dt style="width:200px;text-align:left;">
+                @Html.DisplayNameFor(model => model.uservm.GENDER)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.uservm.GENDER)
+            </dd>
+        }
+
+        <dt style="width: 200px;text-align: left;">
+            @Html.DisplayNameFor(model => model.uservm.IsVIP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uservm.IsVIP)
+        </dd>
+
+        <dt style="width:200px;text-align:left;">
+            @Html.DisplayNameFor(model => model.uservm.ALLOW_TRAN_COUNT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uservm.ALLOW_TRAN_COUNT)
+        </dd>
+
+        <dt style="width:200px;text-align:left;">
+            @Html.DisplayNameFor(model => model.uservm.DAILY_MAX_AMT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.uservm.DAILY_MAX_AMT).ToString()
+            <text>MMK</text>
+        </dd>
+
+    </dl>
+
+    <hr style="display:block" />
+    <div class="row">
+        <div class="form-group col-md-12 well">
+            <h4><b>Accounts</b></h4>
+            <div class="table-responsive table-wrapper">
+            <table class="table table-bordered">
+                <thead class="bg-gray text-center">
+                    <tr>
+                        <th>No.</th>
+                        <th>Account No</th>
+                        <th>Account Type</th>
+                        <th>Schema Code</th>
+                        <th>Branch</th>
+                        <th>Currency</th>
+                        <th>Allowed Account</th>
+                        <th>QR allow</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*id="accTbody"*@
+                    @if (Model.accountvms != null)
+                    {
+                        for (int i = 0; i < Model.accountvms.Count(); i++)
+                        {
+                    <tr>
+                        <td width="50" style="text-align: center;">@(i + 1)</td> @*style="text-align:center;width:50px;"*@
+                        <td>
+                            @Model.accountvms[i].ACCOUNTNO
+                        </td>
+                        <td>
+                            @Model.accountvms[i].ACC_TYPE
+                        </td>
+                        <td>
+                            @Model.accountvms[i].SCHM_CODE
+                        </td>
+                        <td>
+                            @Model.accountvms[i].BRANCHCODE
+                        </td>
+                        <td>
+                            @*width="150"*@
+                            @Model.accountvms[i].CURRENCY
+                        </td>
+                        <td width="90" style="text-align:center;">
+                            @*width="70" style="text-align:center"*@
+                            @Html.CheckBoxFor(x => Model.accountvms[i].Active, new { disabled = "disabled" })
+                        </td>
+                        <td width="90" style="text-align:center;">
+                            @*width="70" style="text-align:center"*@
+                            @Html.CheckBoxFor(x => Model.accountvms[i].QR_ALLOW, new { disabled = "disabled" })
+                        </td>
+                    </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+<div class="form-actions no-color" style="padding-left:35px;">
+    <input type="submit" value="Delete" class="btn btn-danger" /> |
+    @Html.ActionLink("Back to List", "Index")
+    @*@Html.ActionLink("Back to List", "Index")*@
+</div>
+    }
+</div>

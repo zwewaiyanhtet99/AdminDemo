@@ -1,0 +1,70 @@
+﻿@model ABankAdmin.ViewModels.CIFAccountInfoSearchViewModel
+@{
+    ViewBag.Title = "CIF Account Information";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>THE ICONIC Detail Report</h3>
+    </div>
+</div>
+
+<form id="frmCIFAccInfo" action="/Report/CIFAccountInformation" method="post">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.TextBoxFor(m => m.CIFID, new {@class = "form-control", placeholder = "CIFID"})
+            @Html.ValidationMessageFor(m => m.CIFID, "", new { @class = "text-danger" })
+
+
+        </div>
+        <div class="col-md-2">
+            @Html.TextBoxFor(m => m.ICONICNUMBER, new { @class = "form-control", placeholder = "ICONIC NUMBER" })
+            @Html.ValidationMessageFor(m => m.ICONICNUMBER, "", new { @class = "text-danger" })
+
+
+        </div>
+        <div class="col-md-2" @*style="padding:0px 0px 10px 115px;"*@>
+            <input type="button" class="btn btn-default col-md-offset-0" value="View" onclick="submit()">
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <iframe id="ifrmReportViewer" frameborder="0" width="100%" height="410" style="overflow:hidden;" scrolling="no"></iframe>
+</div>
+
+@section Scripts{
+    <script>
+       var fun=$(function () {
+
+                @if(Model.CIFIDInfoRPVM != null)
+                {
+                  
+                    <text>ShowReport();</text>
+                }
+            });
+
+            function submit() {
+                $("#frmCIFAccInfo").submit();
+            }
+
+        function ShowReport() {
+            var url = "../RDLCReports/Aspx/CIFIDAccountInfoReport.aspx";
+
+            var myframe = document.getElementById("ifrmReportViewer");
+            if (myframe !== null) {
+                if (myframe.src) {
+                    myframe.src = url;
+                }
+                else if (myframe.contentWindow !== null && myframe.contentWindow.location !== null) {
+                    myframe.contentWindow.location = url;
+                }
+                else { myframe.setAttribute('src', url); }
+            }
+
+            return false;
+        }
+
+    </script>
+}
+

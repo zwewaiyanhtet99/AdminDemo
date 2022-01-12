@@ -1,0 +1,111 @@
+﻿@model ABankAdmin.Models.ReqChange
+
+@{
+    ViewBag.Title = "ChangesDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ChangesDetails</h2>
+
+<div>
+    <h4>Request Changes</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            USERNAME
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.USERID)*@
+            @{
+                string name = ViewBag.Name;
+            }
+            @name
+        </dd>
+
+        <dt style="margin-top:15px;">
+            @Html.DisplayNameFor(model => model.TYPE)
+        </dt>
+
+        <dd style="margin-top:15px;">
+            @*@Html.DisplayFor(model => model.TYPE)*@
+            @{
+                string TYPE = ViewBag.Type;
+            }
+            @TYPE
+        </dd>
+
+        <dt style="margin-top:15px;">
+            @Html.DisplayNameFor(model => model.STATUS)
+        </dt>
+
+        <dd style="margin-top:15px;">
+            @{
+                string status = ViewBag.StatusName;
+            }
+            @status
+        </dd>
+
+        <dt style="margin-top:15px;">
+            @Html.DisplayNameFor(model => model.MAKER)
+        </dt>
+
+        <dd style="margin-top:15px;">
+            @Html.DisplayFor(model => model.VrReqMaker.UserName)
+        </dd>
+
+        <dt style="margin-top:15px;">
+            @Html.DisplayNameFor(model => model.REQUESTEDDATE)
+        </dt>
+
+        <dd style="margin-top:15px;">
+            @Html.DisplayFor(model => model.REQUESTEDDATE)
+        </dd>
+
+        <dt style="margin-top:15px;">
+            Branch Name
+        </dt>
+
+        <dd style="margin-top:15px;">
+            @*@Html.DisplayFor(model => model.BranchID)*@
+            @{
+                string bname = ViewBag.BranchName;
+            }
+            @bname
+        </dd>
+
+        <dt style="margin-top:15px;">
+            @Html.DisplayNameFor(model => model.CHECKER)
+        </dt>
+
+        <dd style="margin-top:15px;">
+            @Html.DisplayFor(model => model.VrReqChecker.UserName)
+        </dd>
+
+        <dt style="margin-top:15px;">
+            @Html.DisplayNameFor(model => model.CHECKEDDATE)
+        </dt>
+
+        <dd style="margin-top:15px;">
+            @Html.DisplayFor(model => model.CHECKEDDATE)
+        </dd>
+        @*<dt style="margin-top:15px;">
+            @Html.DisplayNameFor(model => model.REQUESTINFO)
+        </dt>
+
+        <dd style="margin-top:15px;">
+            @Html.DisplayFor(model => model.REQUESTINFO)
+        </dd>*@
+        <dt style="margin-top:15px;">
+            @Html.DisplayNameFor(model => model.CHECKERREASON)
+        </dt>
+
+        <dd style="margin-top:15px;">
+            @Html.DisplayFor(model => model.CHECKERREASON)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Changes")
+</p>

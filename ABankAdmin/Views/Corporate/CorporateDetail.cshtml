@@ -1,0 +1,164 @@
+﻿@model ABankAdmin.ViewModels.CorporateVM
+@{
+    ViewBag.Title = "CorporateDetail";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Corporate</h4>
+    <hr />
+    <div class="row">
+        <div>
+            <div class="col-sm-6">
+                <h3>Corporate Information</h3>
+                <dl class="dl-horizontal">
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.CIFID)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CIFID)
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.CorporateID)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CorporateID)
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.Company_Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Company_Name)
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.Company_Email)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Company_Email)
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.Company_Address)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Company_Address)
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.Branch)
+                    </dt>
+
+                    <dd>
+                        @ViewBag.Branch
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.Company_Phone)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Company_Phone)
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.COUNTRY_ID)
+                    </dt>
+
+                    <dd>
+                        @ViewBag.Country
+                    </dd>
+
+                    <dt style="text-align:left">
+                        @Html.DisplayNameFor(model => model.STATE_ID)
+                    </dt>
+
+                    <dd>
+                        @ViewBag.State
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-sm-6">
+                <h3>Transaction Information</h3>
+                <dl class="dl-horizontal">
+                    @if (ViewBag.IsVIP)
+                    {
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model => model.ISVIP)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.ISVIP)
+                        </dd>
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model => model.T_CHARGES_CODE)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.T_CHARGES_CODE)
+                        </dd>
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model => model.R_CHARGES_CODE)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.R_CHARGES_CODE)
+                        </dd>
+                    }
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model => model.Tran_Limit)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Tran_Limit) MMK
+                        </dd>
+
+                        <dt style="width:300px;text-align:left">
+                            @Html.DisplayNameFor(model=>model.Bulk_Charges_Fix_Rate)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Bulk_Charges_Fix_Rate)
+                            @if (Model.IS_FIXRATE_BULK_CHARGES)
+                            {
+                                <text> MMK</text> }
+                            else
+                            {
+                                <text> %</text>
+                            }
+                        </dd>
+                        <dt style="width:300px;text-align:left">
+                            OTHER BANK BULK CHARGES FIXED RATE
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CCT_BULK_CHARGES_FIX_RATE_N_PERCENT)
+                            @if (Model.CCT_IS_FIXRATE_BULK_CHARGES)
+                            {
+                                <text> MMK</text> }
+                            else
+                            {
+                                <text> %</text>
+                            }
+                        </dd>
+                    </dl>
+            </div>
+        </div>        
+    </div>    
+</div>
+<p>
+    @Html.ActionLink("Edit", "CorporateEdit", new { id = Model.ID }, new { @class = "btn btn-success" }) |
+    @*@Html.ActionLink("Edit", "CorporateEdit", new { id = Model.ID }) |*@
+    @Html.ActionLink("Back to List", "CorporateLists")
+</p>
+
+
+
