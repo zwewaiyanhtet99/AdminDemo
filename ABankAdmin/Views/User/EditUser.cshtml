@@ -1,0 +1,91 @@
+﻿@model ABankAdmin.ViewModels.AdminViewModel
+@using ABankAdmin.ViewModels
+@{
+    ViewBag.Title = "Edit User";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Edit</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @*@Html.TextBoxFor(m => m.UserName, new { @class = "form-control" , @readonly="readonly"})*@
+            <input type="text" name="UserName" class="form-control" value="User001" readonly/>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.FullName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @*@Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })*@
+            <input type="text" name="UserName" class="form-control" value="User001" readonly />
+
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.BranchID, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select class="form-control" id="transactionType">
+                <option selected>Select Branch</option>
+                <option>RC-001</option>
+                <option>RC-002</option>
+                <option>RC-003</option>
+                <option>RC-004</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Role, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select class="form-control" id="transactionType">
+                <option selected>Select Rolee</option>
+                <option>RC-001</option>
+                <option>RC-002</option>
+                <option>RC-003</option>
+                <option>RC-004</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.StaffID, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @*@Html.TextBoxFor(m => m.StaffID, new { @class = "form-control" })*@
+            <input type="text" name="UserName" class="form-control" value="STF-001" readonly />
+            @Html.ValidationMessageFor(model => model.StaffID, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Phone, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @*@Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })*@
+            <input type="text" name="UserName" class="form-control" value="099756463338" readonly />
+            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @*@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })*@
+            <input type="text" name="UserName" class="form-control" value="testuser@gmail.com" readonly />
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" class="btn btn-success" value="Save" onclick="window.location.href = '@Url.Action("Index","User")'"/>
+            @Html.ActionLink("Cancel", "Index", null, null, new { href = Request.UrlReferrer, @class = "btn btn-default" })
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

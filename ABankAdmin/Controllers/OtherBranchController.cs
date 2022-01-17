@@ -129,19 +129,19 @@ namespace ABankAdmin.Controllers
                 {
                     return null;
                 }
-                OtherBranchInfoList branchlst = bankinfo.OtherBranchInfoInquiry(otherbank.BANK_CODE);
+                //OtherBranchInfoList branchlst = bankinfo.OtherBranchInfoInquiry(otherbank.BANK_CODE);
                 List<SelectListItem> items = new List<SelectListItem>();
                 items.Add(new SelectListItem { Text = "--Select Branch--", Value = "" });
                 items.Add(new SelectListItem { Text = "Branch 01", Value = "1" });
                 items.Add(new SelectListItem { Text = "Branch 02", Value = "1" });
                 items.Add(new SelectListItem { Text = "Branch 03", Value = "1" });
-                if (branchlst.OtherBranchList != null && branchlst.OtherBranchList.Count > 0)
-                {
-                    foreach (var m in branchlst.OtherBranchList)
-                    {
-                        items.Add(new SelectListItem {Text = m.BR_Name, Value = m.BR_Name });
-                    }
-                }
+                //if (branchlst.OtherBranchList != null && branchlst.OtherBranchList.Count > 0)
+                //{
+                //    foreach (var m in branchlst.OtherBranchList)
+                //    {
+                //        items.Add(new SelectListItem {Text = m.BR_Name, Value = m.BR_Name });
+                //    }
+                //}
                 return Json(new SelectList(items, "Value", "Text", JsonRequestBehavior.AllowGet));
             }
             catch (Exception ex)

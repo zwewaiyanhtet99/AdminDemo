@@ -785,6 +785,11 @@ namespace ABankAdmin.Controllers
             }
         }
 
+        public ActionResult EditUser()
+        {
+            return View();
+        }
+
         // POST: User/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]

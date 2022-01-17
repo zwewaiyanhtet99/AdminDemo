@@ -18,8 +18,8 @@ namespace ABankAdmin.Controllers
         {
             try
             {
-                List<Role> roles = db._Roles.Where(rt => rt.Name != "Administrator").ToList();
-                var roleid = db._Roles.Where(rt => rt.Name != "Administrator").FirstOrDefault().ID;
+                List<Role> roles = db._Roles.Where(rt => rt.Name != "Administrators").ToList();
+                var roleid = db._Roles.Where(rt => rt.Name != "Administrators").FirstOrDefault().ID;
                 if (id == null) { id = roleid; }
 
                 List<TreeViewNode> nodes = new List<TreeViewNode>();
