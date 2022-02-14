@@ -835,7 +835,7 @@
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
-        <Image Name="Image1">
+        <!--<Image Name="Image1">
           <Source>Embedded</Source>
           <Value>logopngonly</Value>
           <Sizing>FitProportional</Sizing>
@@ -847,7 +847,7 @@
               <Style>None</Style>
             </Border>
           </Style>
-        </Image>
+        </Image>-->
         <Textbox Name="Textbox1">
           <CanGrow>true</CanGrow>
           <KeepTogether>true</KeepTogether>

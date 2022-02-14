@@ -38,7 +38,7 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Image Name="Image1">
+      <!--<Image Name="Image1">
         <Source>Embedded</Source>
         <Value>logopngonly</Value>
         <Sizing>FitProportional</Sizing>
@@ -51,7 +51,7 @@
             <Style>None</Style>
           </Border>
         </Style>
-      </Image>
+      </Image>-->
       <Tablix Name="Tablix2">
         <TablixBody>
           <TablixColumns>
